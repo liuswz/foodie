@@ -6,7 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="foodie" />
+        <module name="foodie-api" />
+        <module name="foodie-shop-detail-consumer" />
+        <module name="foodie-shop-detail-provider" />
+        <module name="foodie-shop-dishes-consumer" />
+        <module name="foodie-shop-dishes-provider" />
+        <module name="foodie-shop-order-consumer" />
+        <module name="foodie-shop-order-provider" />
       </profile>
     </annotationProcessing>
   </component>

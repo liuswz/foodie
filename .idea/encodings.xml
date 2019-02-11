@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="Encoding" addBOMForNewFiles="with NO BOM" />
+  <component name="Encoding" addBOMForNewFiles="with NO BOM">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/foodie-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/foodie-shop-detail-consumer" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/foodie-shop-detail-provider" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/foodie-shop-dishes-consumer" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/foodie-shop-dishes-provider" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/foodie-shop-order-consumer" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/foodie-shop-order-provider" charset="UTF-8" />
+  </component>
 </project>
