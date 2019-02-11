@@ -15,7 +15,7 @@ public class DetailController {
     @Autowired
     private DetailService detailService;
 
-    @RequestMapping(value = "/shop-detail/regist",method = RequestMethod.GET)
+    @RequestMapping(value = "/shop-detail/register",method = RequestMethod.POST)
     public BaseJson regist(RegistDto registDto){
         BaseJson baseJson = new BaseJson();
         int flag = detailService.regist(registDto);
