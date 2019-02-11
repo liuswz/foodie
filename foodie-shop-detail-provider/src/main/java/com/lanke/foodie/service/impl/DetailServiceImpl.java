@@ -26,7 +26,7 @@ public class DetailServiceImpl implements DetailService {
         //从前端或者自己模拟一个日期格式，转为String即可
         String dateStr = format.format(now);
 
-        registDto.setCreateTime(now);
+        registDto.setCreateTime(dateStr);
 
         int flag1 = detailDao.addShop(registDto);
         int flag2 = detailDao.addPay(registDto);

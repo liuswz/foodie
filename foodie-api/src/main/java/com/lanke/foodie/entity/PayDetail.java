@@ -16,5 +16,5 @@ public class PayDetail implements Serializable {
     private Integer id;
     private String mchId;
     private String apiKey;
-    private Date createTime;
+    private String createTime;
 }

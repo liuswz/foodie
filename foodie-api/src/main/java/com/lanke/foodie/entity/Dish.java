@@ -20,5 +20,5 @@ public class Dish implements Serializable {
     private String remark;
     private String photo_url;
     private Integer type_id;
-    private Date create_time;
+    private String create_time;
 }

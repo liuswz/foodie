@@ -18,5 +18,5 @@ public class OrderItem implements Serializable {
     private Integer dishNum;
     private double totalCost;
     private Integer orderId;
-    private Date createTime;
+    private String createTime;
 }

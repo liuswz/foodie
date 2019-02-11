@@ -20,7 +20,7 @@ public class RegistDto {
     private String shopPhone;
     private Integer payDetailId;
     private Integer shopStatus;
-    private Date createTime;
+    private String createTime;
 
     private String mchId;
     private String apiKey;
