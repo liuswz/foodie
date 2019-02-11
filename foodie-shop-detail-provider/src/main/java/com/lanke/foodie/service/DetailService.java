@@ -1,4 +1,7 @@
 package com.lanke.foodie.service;
 
-public class DetailService {
+import com.lanke.foodie.dto.RegistDto;
+
+public interface DetailService {
+    public int regist(RegistDto registDto);
 }

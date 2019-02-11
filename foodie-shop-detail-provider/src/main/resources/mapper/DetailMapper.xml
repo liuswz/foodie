@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lanke.foodie.dao.DetailDao">
+
+    <insert id="addShop">
+        insert
+        into
+        shop
+        (
+        username,
+        password,
+        shop_name,
+        shop_address,
+        shop_email,
+        shop_phone,
+        shop_status,
+        pay_detail_id,
+        create_time
+        )
+        values
+        (
+        #{username},
+        #{password},
+        #{shopName},
+        #{shopAddress},
+        #{shopEmail},
+        #{shopPhone},
+        #{shopStatus},
+        #{payDetailId},
+        #{createTime}
+        )
+    </insert>
+    <insert id="addPay">
+        insert
+        into
+        pay_detail
+        (
+        mch_id,
+        api_key,
+        create_time
+        )
+        values
+        (
+        #{mchId},
+        #{apiKey},
+        #{createTime}
+        )
+
+    </insert>
+
+
+</mapper>
