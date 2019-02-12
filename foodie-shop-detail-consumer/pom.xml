@@ -11,7 +11,15 @@
     <packaging>war</packaging>
     <artifactId>foodie-shop-detail-consumer</artifactId>
     <dependencies>
-
+        <!-- Swagger相关 -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+        </dependency>
         <!-- Ribbon相关 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

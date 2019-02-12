@@ -4,12 +4,17 @@ import com.fasterxml.jackson.databind.ser.Serializers;
 import com.lanke.foodie.dto.RegistDto;
 import com.lanke.foodie.dto.ShopUpdateDto;
 import com.lanke.foodie.json.BaseJson;
+
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+
 @Slf4j
 @RestController
 public class DetailController {
@@ -20,8 +25,18 @@ public class DetailController {
     @Autowired
     private RestTemplate restTemplate;
 
-
-    @RequestMapping(value = "/consumer/shopdetail/register")
+    @ApiOperation(value = "商家入驻", notes = "商家管理")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "username", dataType = "String", value = "用户名", defaultValue = ""),
+            @ApiImplicitParam(paramType = "query", name = "password", dataType = "String", value = "密码", defaultValue = ""),
+            @ApiImplicitParam(paramType = "query", name = "shopName", dataType = "String", value = "店名", defaultValue = ""),
+            @ApiImplicitParam(paramType = "query", name = "shopAddress", dataType = "String", value = "店家地址", defaultValue = ""),
+            @ApiImplicitParam(paramType = "query", name = "shopEmail", dataType = "String", value = "店家邮箱", defaultValue = ""),
+            @ApiImplicitParam(paramType = "query", name = "shopPhone", dataType = "String", value = "店家电话", defaultValue = ""),
+            @ApiImplicitParam(paramType = "query", name = "mchId", dataType = "String", value = "支付id", defaultValue = ""),
+            @ApiImplicitParam(paramType = "query", name = "apiKey", dataType = "String", value = "支付key", defaultValue = "")
+    })
+    @RequestMapping(value = "/consumer/shopdetail/register",method = RequestMethod.POST)
     public BaseJson regist(RegistDto registDto){
         //  log.info("测试{}，日志级别{}，输出{}", "demo1aaaaaaaaaaaaaaaaaaaaaa", "info", "info level log");
         BaseJson baseJson = new BaseJson();
