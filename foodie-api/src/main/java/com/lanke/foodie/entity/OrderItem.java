@@ -14,9 +14,9 @@ import java.util.Date;
 public class OrderItem implements Serializable {
 
     private Integer id;
-    private Integer dishId;
-    private Integer dishNum;
-    private double totalCost;
-    private Integer orderId;
-    private String createTime;
+    private Integer dish_id;
+    private Integer dish_num;
+    private double total_cost;
+    private Integer order_id;
+    private String create_time;
 }

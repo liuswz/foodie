@@ -4,14 +4,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-import java.util.Date;
-
 @NoArgsConstructor
 //@AllArgsConstructor
 @Data
 @Accessors(chain=true)
-public class RegistDto {
+public class ShopInfoDto {
 
+    private Integer id;
     private String username;
     private String password;
     private String shop_name;
@@ -22,7 +21,6 @@ public class RegistDto {
     private Integer shop_status;
     private String create_time;
 
-    private Integer id;
     private String mch_id;
     private String api_key;
 }
