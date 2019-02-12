@@ -22,6 +22,7 @@ public class RegistDto {
     private Integer shopStatus;
     private String createTime;
 
+    private Integer id;
     private String mchId;
     private String apiKey;
 }

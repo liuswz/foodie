@@ -44,8 +44,8 @@ public class DetailServiceImpl implements DetailService {
             return 4;
         }
 
-        int flag1 = detailDao.addShop(registDto);
         int flag2 = detailDao.addPay(registDto);
+        int flag1 = detailDao.addShop(registDto);
         int flag = flag1 + flag2;
         return flag;
     }

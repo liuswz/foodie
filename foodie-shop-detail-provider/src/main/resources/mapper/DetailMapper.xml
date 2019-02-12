@@ -29,11 +29,11 @@
         #{shopEmail},
         #{shopPhone},
         #{shopStatus},
-        #{payDetailId},
+        #{id},
         #{createTime}
         )
     </insert>
-    <insert id="addPay">
+    <insert id="addPay" useGeneratedKeys="true" keyProperty="id">
         insert
         into
         pay_detail
