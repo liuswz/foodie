@@ -18,6 +18,7 @@
         <module>foodie-shop-order-consumer</module>
         <module>foodie-api</module>
         <module>foodie-eureka-sever</module>
+        <module>foodie-config</module>
     </modules>
 
     <properties>
