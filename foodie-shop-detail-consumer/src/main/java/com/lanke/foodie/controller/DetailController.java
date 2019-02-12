@@ -20,7 +20,7 @@ public class DetailController {
 
 
     @RequestMapping(value = "/consumer/shopdetail/register")
-    public BaseJson regist(RegistDto registDto  ){
+    public BaseJson regist(RegistDto registDto){
       //  log.info("测试{}，日志级别{}，输出{}", "demo1aaaaaaaaaaaaaaaaaaaaaa", "info", "info level log");
         BaseJson baseJson = new BaseJson();
        // log.info("测试{}，日志级别{}，输出{}", registDto.getMchId(), "info", "info level log");
