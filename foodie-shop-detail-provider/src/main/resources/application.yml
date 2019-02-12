@@ -13,7 +13,7 @@ spring:
    datasource:
     type: com.alibaba.druid.pool.DruidDataSource            # 当前数据源操作类型
     driver-class-name: org.gjt.mm.mysql.Driver              # mysql驱动包
-    url: jdbc:mysql://39.96.169.46:3306/foodie_shop              # 数据库名称
+    url: jdbc:mysql://39.96.169.46:3306/foodie_shop?useUnicode=true&characterEncoding=utf-8            # 数据库名称
     username: root
     password: 123456
     dbcp2:

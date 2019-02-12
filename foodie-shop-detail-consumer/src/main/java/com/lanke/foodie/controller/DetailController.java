@@ -27,12 +27,17 @@ public class DetailController {
        // int flag =detailService.regist(registDto);
 
         int flag = restTemplate.postForObject(REST_URL_PREFIX + "/shopdetail/register", registDto, Integer.class);
-        if(flag > 0){
+        if(flag == 2){
             baseJson.setCode(0);
             baseJson.setResult("注册成功");
-        }else {
+        }else if(flag == 3){
             baseJson.setCode(1);
-            baseJson.setResult("注册失败");
+            baseJson.setMessage("失败");
+            baseJson.setResult("用户名已存在");
+        }else if(flag == 4){
+            baseJson.setCode(1);
+            baseJson.setMessage("失败");
+            baseJson.setResult("店名已存在");
         }
         return baseJson;
     }

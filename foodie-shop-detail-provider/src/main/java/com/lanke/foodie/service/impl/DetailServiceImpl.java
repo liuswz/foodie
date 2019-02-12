@@ -28,6 +28,22 @@ public class DetailServiceImpl implements DetailService {
 
         registDto.setCreateTime(dateStr);
 
+        //注册时商家设为未审核状态
+        registDto.setShopStatus(0);
+
+        int checkUsername = detailDao.checkUsername(registDto.getUsername());
+        int checkShopName = detailDao.checkShopName(registDto.getShopName());
+
+        //判断用户名是否存在
+        if(checkUsername > 0){
+            return 3;
+        }
+
+        //判断店名是否存在
+        if(checkShopName > 0){
+            return 4;
+        }
+
         int flag1 = detailDao.addShop(registDto);
         int flag2 = detailDao.addPay(registDto);
         int flag = flag1 + flag2;

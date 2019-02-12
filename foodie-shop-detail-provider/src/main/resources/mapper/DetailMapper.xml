@@ -50,6 +50,22 @@
         )
 
     </insert>
+    <select id="checkUsername" resultType="int">
+        select
+        count(*)
+        from
+        shop
+        where
+        username = #{username}
+    </select>
+    <select id="checkShopName" resultType="int">
+        select
+        count(*)
+        from
+        shop
+        where
+        shop_name = #{shopName}
+    </select>
 
 
 </mapper>
