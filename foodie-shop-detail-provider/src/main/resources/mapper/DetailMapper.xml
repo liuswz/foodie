@@ -66,6 +66,26 @@
         where
         shop_name = #{shopName}
     </select>
+    <update id="updateShop">
+        update
+        shop
+        set
+        shopName = #{shopName},
+        shopAddress = #{shopAddress},
+        shopEmail = #{shopEmail},
+        shopPhone = #{shopPhone}
+        where
+        id = {id}
+    </update>
+    <update id="updatePay">
+        update
+        pay_detail
+        set
+        mch_id = #{mchId},
+        api_key = #{apiKey}
+        where
+        id = #{payDetailId}
+    </update>
 
 
 </mapper>
