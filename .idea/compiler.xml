@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="foodie-api" />
+        <module name="foodie-eureka-sever" />
         <module name="foodie-shop-detail-consumer" />
         <module name="foodie-shop-detail-provider" />
         <module name="foodie-shop-dishes-consumer" />
