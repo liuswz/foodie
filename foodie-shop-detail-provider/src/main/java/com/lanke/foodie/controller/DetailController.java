@@ -1,6 +1,7 @@
 package com.lanke.foodie.controller;
 
 import com.lanke.foodie.dto.RegistDto;
+import com.lanke.foodie.dto.ShopUpdateDto;
 import com.lanke.foodie.json.BaseJson;
 import com.lanke.foodie.service.DetailService;
 import lombok.extern.slf4j.Slf4j;
@@ -22,14 +23,12 @@ public class DetailController {
        // log.info("测试{}，日志级别{}，输出{}", "demo1", "info", "info level log");
      /*   BaseJson baseJson = new BaseJson();
         //log.info("测试{}，日志级别{}，输出{}", registDto.getMchId(), "info", "info level log");
-        int flag =;
-        if(flag > 0){
-            baseJson.setCode(0);
-            baseJson.setResult("注册成功");
-        }else {
-            baseJson.setCode(1);
-            baseJson.setResult("注册失败");
-        }*/
+      */
         return detailService.regist(registDto);
+    }
+
+    @RequestMapping(value = "/shopdetail/update",method = RequestMethod.GET)
+    public Integer update(ShopUpdateDto shopUpdateDto){
+        return detailService.update(shopUpdateDto);
     }
 }
