@@ -14,7 +14,7 @@ import java.util.Date;
 public class PayDetail implements Serializable {
 
     private Integer id;
-    private String mch_id;
-    private String api_key;
-    private String create_time;
+    private String mchId;
+    private String apiKey;
+    private String createTime;
 }

@@ -18,7 +18,7 @@ public class Dish implements Serializable {
     private double price;
     private String introduction;
     private String remark;
-    private String photo_url;
-    private Integer type_id;
-    private String create_time;
+    private String photoUrl;
+    private Integer typeId;
+    private String createTime;
 }

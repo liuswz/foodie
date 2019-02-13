@@ -9,6 +9,7 @@ import com.lanke.foodie.entity.PayDetail;
 import com.lanke.foodie.entity.Shop;
 import com.lanke.foodie.service.DetailService;
 
+import com.lanke.foodie.utils.BaseUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,12 +27,9 @@ public class DetailServiceImpl implements DetailService {
     public int regist(RegistDto registDto) {
 
         //获取当前时间
-        Date now = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        //从前端或者自己模拟一个日期格式，转为String即可
-        String dateStr = format.format(now);
+        registDto.setCreateTime(BaseUtils.getTime());
 
-        registDto.setCreate_time(dateStr);
+     //   registDto.setCreate_time(dateStr);
 
         //注册时商家设为未审核状态
         registDto.setShop_status(0);

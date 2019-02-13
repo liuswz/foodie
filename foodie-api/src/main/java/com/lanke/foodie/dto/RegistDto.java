@@ -14,15 +14,15 @@ public class RegistDto {
 
     private String username;
     private String password;
-    private String shop_name;
-    private String shop_address;
-    private String shop_email;
-    private String shop_phone;
-    private Integer pay_detail_id;
-    private Integer shop_status;
-    private String create_time;
+    private String shopame;
+    private String shopAddress;
+    private String shopEmail;
+    private String shopPhone;
+    private Integer payDetailId;
+    private Integer shopStatus;
+    private String createTime;
 
     private Integer id;
-    private String mch_id;
-    private String api_key;
+    private String mchId;
+    private String apiKey;
 }
