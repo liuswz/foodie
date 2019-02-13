@@ -71,7 +71,7 @@ public class DetailServiceImpl implements DetailService {
         Shop shop = detailDao.getShopById(id);
         BeanUtils.copyProperties(shop,shopInfoDto);
         PayDetail payDetail = detailDao.getShopDetailById(shop.getPayDetailId());
-        shopInfoDto.setMchTd(payDetail.getMchId());
+        shopInfoDto.setMchId(payDetail.getMchId());
         return shopInfoDto;
     }
 }

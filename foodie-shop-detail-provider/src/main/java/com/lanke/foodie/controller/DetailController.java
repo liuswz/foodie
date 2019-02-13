@@ -32,7 +32,7 @@ public class DetailController {
         return detailService.update(shopUpdateDto);
     }
 
-    @RequestMapping(value = "/shopdetail/getById",method = RequestMethod.POST)
+    @RequestMapping(value = "/shopdetail/getById",method = RequestMethod.GET)
     public ShopInfoDto getById(Integer id){
         return detailService.getById(id);
     }

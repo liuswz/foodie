@@ -21,6 +21,6 @@ public class ShopInfoDto {
     private Integer shopStatus;
     private String createTime;
 
-    private String mchTd;
+    private String mchId;
     private String apiKey;
 }
