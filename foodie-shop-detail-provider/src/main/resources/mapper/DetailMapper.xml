@@ -24,13 +24,13 @@
         (
         #{username},
         #{password},
-        #{shop_name},
-        #{shop_address},
-        #{shop_email},
-        #{shop_phone},
-        #{shop_status},
+        #{shopName},
+        #{shopAddress},
+        #{shopEmail},
+        #{shopPhone},
+        #{shopStatus},
         #{id},
-        #{create_time}
+        #{createTime}
         )
     </insert>
     <insert id="addPay" useGeneratedKeys="true" keyProperty="id">
@@ -44,9 +44,9 @@
         )
         values
         (
-        #{mch_id},
-        #{api_key},
-        #{create_time}
+        #{mchId},
+        #{apiKey},
+        #{createTime}
         )
 
     </insert>
@@ -64,16 +64,16 @@
         from
         shop
         where
-        shop_name = #{shop_name}
+        shop_name = #{shopName}
     </select>
     <update id="updateShop">
         update
         shop
         set
-        shopName = #{shop_name},
-        shopAddress = #{shop_address},
-        shopEmail = #{shop_email},
-        shopPhone = #{shop_phone}
+        shopName = #{shopName},
+        shopAddress = #{shopAddress},
+        shopEmail = #{shopEmail},
+        shopPhone = #{shopPhone}
         where
         id = {id}
     </update>
@@ -81,8 +81,8 @@
         update
         pay_detail
         set
-        mch_id = #{mch_id},
-        api_key = #{api_key}
+        mch_id = #{mchId},
+        api_key = #{apiKey}
         where
         id = #{payDetailId}
     </update>
@@ -94,7 +94,7 @@
         where
         id = #{id}
     </select>
-    <select id="getShopDetailById" resultType="com.lanke.foodie.entity.PayDetail">
+    <select id="getShopDetailById" resultType="PayDetail">
         select
         *
         from

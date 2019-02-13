@@ -32,7 +32,7 @@ public class DetailServiceImpl implements DetailService {
      //   registDto.setCreate_time(dateStr);
 
         //注册时商家设为未审核状态
-        registDto.setShop_status(0);
+        registDto.setShopStatus(0);
 
         //判断用户名是否存在
         int checkUsername = detailDao.checkUsername(registDto.getUsername());
@@ -41,7 +41,7 @@ public class DetailServiceImpl implements DetailService {
         }
 
         //判断店名是否存在
-        int checkShopName = detailDao.checkShopName(registDto.getShop_name());
+        int checkShopName = detailDao.checkShopName(registDto.getShopName());
         if(checkShopName > 0){
             return 4;
         }
@@ -55,7 +55,7 @@ public class DetailServiceImpl implements DetailService {
     public int update(ShopUpdateDto shopUpdateDto) {
 
         //校验店名是否存在
-        int checkShopName = detailDao.checkShopName(shopUpdateDto.getShop_name());
+        int checkShopName = detailDao.checkShopName(shopUpdateDto.getShopName());
         if(checkShopName > 0){
             return 4;
         }
@@ -70,9 +70,8 @@ public class DetailServiceImpl implements DetailService {
         ShopInfoDto shopInfoDto = new ShopInfoDto();
         Shop shop = detailDao.getShopById(id);
         BeanUtils.copyProperties(shop,shopInfoDto);
-        PayDetail payDetail = detailDao.getShopDetailById(shop.getPay_detail_id());
-        shopInfoDto.setMch_id(payDetail.getMch_id());
-        shopInfoDto.setApi_key(payDetail.getApi_key());
+        PayDetail payDetail = detailDao.getShopDetailById(shop.getPayDetailId());
+        shopInfoDto.setMchTd(payDetail.getMchId());
         return shopInfoDto;
     }
 }

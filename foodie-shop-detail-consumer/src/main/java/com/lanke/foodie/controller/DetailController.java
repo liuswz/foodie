@@ -33,12 +33,12 @@ public class DetailController {
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "username", dataType = "String", value = "用户名", defaultValue = ""),
             @ApiImplicitParam(paramType = "query", name = "password", dataType = "String", value = "密码", defaultValue = ""),
-            @ApiImplicitParam(paramType = "query", name = "shop_name", dataType = "String", value = "店名", defaultValue = ""),
-            @ApiImplicitParam(paramType = "query", name = "shop_address", dataType = "String", value = "店家地址", defaultValue = ""),
-            @ApiImplicitParam(paramType = "query", name = "shop_email", dataType = "String", value = "店家邮箱", defaultValue = ""),
-            @ApiImplicitParam(paramType = "query", name = "shop_phone", dataType = "String", value = "店家电话", defaultValue = ""),
-            @ApiImplicitParam(paramType = "query", name = "mch_id", dataType = "String", value = "支付id", defaultValue = ""),
-            @ApiImplicitParam(paramType = "query", name = "api_key", dataType = "String", value = "支付key", defaultValue = "")
+            @ApiImplicitParam(paramType = "query", name = "shopName", dataType = "String", value = "店名", defaultValue = ""),
+            @ApiImplicitParam(paramType = "query", name = "shopAddress", dataType = "String", value = "店家地址", defaultValue = ""),
+            @ApiImplicitParam(paramType = "query", name = "shopEmail", dataType = "String", value = "店家邮箱", defaultValue = ""),
+            @ApiImplicitParam(paramType = "query", name = "shopPhone", dataType = "String", value = "店家电话", defaultValue = ""),
+            @ApiImplicitParam(paramType = "query", name = "mchId", dataType = "String", value = "支付id", defaultValue = ""),
+            @ApiImplicitParam(paramType = "query", name = "apiKey", dataType = "String", value = "支付key", defaultValue = "")
     })
     @RequestMapping(value = "/consumer/shopdetail/register",method = RequestMethod.POST)
     public BaseJson regist(RegistDto registDto){

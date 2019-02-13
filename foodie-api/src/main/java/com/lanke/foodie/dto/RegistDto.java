@@ -14,7 +14,7 @@ public class RegistDto {
 
     private String username;
     private String password;
-    private String shopame;
+    private String shopName;
     private String shopAddress;
     private String shopEmail;
     private String shopPhone;

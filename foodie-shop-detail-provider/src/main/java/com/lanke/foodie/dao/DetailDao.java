@@ -18,7 +18,7 @@ public interface DetailDao {
 
     public int checkUsername(@Param("username") String username);
 
-    public int checkShopName(@Param("shop_name") String shop_name);
+    public int checkShopName(@Param("shopName") String shopName);
 
     public int updateShop(ShopUpdateDto shopUpdateDto);
 
@@ -26,5 +26,5 @@ public interface DetailDao {
 
     public Shop getShopById(@Param("id") Integer id);
 
-    public PayDetail getShopDetailById(@Param("id") Integer pay_detail_id);
+    public PayDetail getShopDetailById(@Param("id") Integer payDetailId);
 }
