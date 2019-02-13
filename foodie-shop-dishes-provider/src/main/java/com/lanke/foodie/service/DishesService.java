@@ -10,6 +10,7 @@ public interface DishesService {
     public int addDishType(DishType dishType);
     public int addDish(Dish dish);
 
-    public List<String> findAllDishType(int shopId);
-    public Integer findDishTypeIdByName(String name,int shopId);
+    public List<DishType> findAllDishType(int shopId);
+//    public Integer checkDishType(int shopId,String name);
+//    public Integer checkDishes(String name);
 }

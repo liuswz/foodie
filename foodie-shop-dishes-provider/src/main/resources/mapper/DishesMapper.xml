@@ -47,21 +47,28 @@
         #{createTime}
         )
     </insert>
-    <select id="findAllDishType" resultType="String" >
+    <select id="findAllDishType" resultType="com.lanke.foodie.entity.DishType" >
         select
-        name
+        *
         from
         dish_type
         where
         shop_id = #{shopId}
     </select>
-    <select id="findDishTypeIdByName" resultType="int">
+    <select id="checkDishType" resultType="int">
         select
-        id
+        count(*)
         from
         dish_type
         where
         shop_id = #{shopId} and name=#{name}
     </select>
-
+    <select id="checkDishes" resultType="int">
+        select
+        count(*)
+        from
+        dish
+        where
+        name=#{name}
+    </select>
 </mapper>

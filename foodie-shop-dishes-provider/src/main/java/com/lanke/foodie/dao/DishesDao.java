@@ -13,6 +13,8 @@ public interface DishesDao {
     public int addDishType(DishType dishType);
     public int addDish(Dish dish);
 
-    public List<String> findAllDishType(int shopId);
-    public Integer findDishTypeIdByName(@Param("shopId") int shopId,@Param("name") String name);
+    public List<DishType> findAllDishType(int shopId);
+    public Integer checkDishType(@Param("shopId") int shopId,@Param("name") String name);
+    public Integer checkDishes(@Param("name") String name);
+
 }

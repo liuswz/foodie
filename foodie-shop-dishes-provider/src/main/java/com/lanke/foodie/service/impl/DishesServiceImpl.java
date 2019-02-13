@@ -21,9 +21,8 @@ public class DishesServiceImpl  implements DishesService {
     public int addDishType(DishType dishType) {
 
         dishType.setCreateTime(BaseUtils.getTime());
-       // log.info("bbbbbbbbbbbbbbbbbbbbbbbbbbbb{}",dishType.getName());
-        log.info("测试aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa{}", dishesDao.findDishTypeIdByName(1,dishType.getName()));
-        if(dishesDao.findDishTypeIdByName(1,dishType.getName())==null||dishesDao.findDishTypeIdByName(1,dishType.getName())==0){
+
+        if(dishesDao.checkDishType(1,dishType.getName())==0){
             return dishesDao.addDishType(dishType);
         }else{
 
@@ -33,14 +32,28 @@ public class DishesServiceImpl  implements DishesService {
     }
 
     public int addDish(Dish dish) {
-        return dishesDao.addDish(dish);
+
+        dish.setCreateTime(BaseUtils.getTime());
+
+        if(dishesDao.checkDishes(dish.getName())==0){
+            return dishesDao.addDish(dish);
+        }else{
+
+            return 0;
+        }
+
     }
 
-    public List<String> findAllDishType(int shopId) {
+    public List<DishType> findAllDishType(int shopId) {
         return dishesDao.findAllDishType(shopId);
     }
 
-    public Integer findDishTypeIdByName(String name, int shopId) {
-        return dishesDao.findDishTypeIdByName(shopId,name);
-    }
+//    public Integer checkDishType(int shopId, String name) {
+//        return dishesDao.checkDishType(shopId,name);
+//    }
+//
+//    public Integer checkDishes(String name) {
+//        return dishesDao.checkDishes(name);
+//    }
+
 }

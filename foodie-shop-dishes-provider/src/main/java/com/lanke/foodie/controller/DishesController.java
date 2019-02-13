@@ -4,10 +4,9 @@ import com.lanke.foodie.entity.Dish;
 import com.lanke.foodie.entity.DishType;
 import com.lanke.foodie.service.DishesService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class DishesController {
@@ -25,5 +24,11 @@ public class DishesController {
     public Integer addDish(@RequestBody Dish dish ){
 
         return dishesService.addDish(dish);
+    }
+
+    @RequestMapping(value = "/shopdishes/getAllDishType/{shopId}",method = RequestMethod.GET)
+    public List<DishType> findAllDishType(@PathVariable("shopId") int shopId) {
+
+        return dishesService.findAllDishType(shopId);
     }
 }
