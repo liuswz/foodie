@@ -1,0 +1,15 @@
+server: 
+  port: 3344 
+  
+spring:
+  application:
+    name:  foodie-config
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/liuswz/foodie/  #git@github.com:liuswz/foodie.git #GitHub上面的git仓库名字
+          search-paths: foodie_config                          # git仓库地址下的相对地址，可以配置多个，用,分割。
+          username: 2639147439@qq.com                                            # git仓库的账号
+          password: lwz0216
+

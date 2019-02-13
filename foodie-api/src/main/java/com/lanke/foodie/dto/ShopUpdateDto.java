@@ -11,6 +11,8 @@ import lombok.experimental.Accessors;
 public class ShopUpdateDto {
 
     private Integer id;
+    private String username;
+    private String password;
     private String shopName;
     private String shopAddress;
     private String shopEmail;

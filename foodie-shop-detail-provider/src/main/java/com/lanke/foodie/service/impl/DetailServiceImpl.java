@@ -3,9 +3,14 @@ package com.lanke.foodie.service.impl;
 
 import com.lanke.foodie.dao.DetailDao;
 import com.lanke.foodie.dto.RegistDto;
+import com.lanke.foodie.dto.ShopInfoDto;
 import com.lanke.foodie.dto.ShopUpdateDto;
+import com.lanke.foodie.entity.PayDetail;
+import com.lanke.foodie.entity.Shop;
 import com.lanke.foodie.service.DetailService;
 
+import com.lanke.foodie.utils.BaseUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,15 +27,12 @@ public class DetailServiceImpl implements DetailService {
     public int regist(RegistDto registDto) {
 
         //获取当前时间
-        Date now = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        //从前端或者自己模拟一个日期格式，转为String即可
-        String dateStr = format.format(now);
+        registDto.setCreateTime(BaseUtils.getTime());
 
-        registDto.setCreateTime(dateStr);
+     //   registDto.setCreate_time(dateStr);
 
         //注册时商家设为未审核状态
-        registDto.setShopStatus(0);
+        registDto.setShop_status(0);
 
         //判断用户名是否存在
         int checkUsername = detailDao.checkUsername(registDto.getUsername());
@@ -39,7 +41,7 @@ public class DetailServiceImpl implements DetailService {
         }
 
         //判断店名是否存在
-        int checkShopName = detailDao.checkShopName(registDto.getShopName());
+        int checkShopName = detailDao.checkShopName(registDto.getShop_name());
         if(checkShopName > 0){
             return 4;
         }
@@ -53,7 +55,7 @@ public class DetailServiceImpl implements DetailService {
     public int update(ShopUpdateDto shopUpdateDto) {
 
         //校验店名是否存在
-        int checkShopName = detailDao.checkShopName(shopUpdateDto.getShopName());
+        int checkShopName = detailDao.checkShopName(shopUpdateDto.getShop_name());
         if(checkShopName > 0){
             return 4;
         }
@@ -62,5 +64,15 @@ public class DetailServiceImpl implements DetailService {
         int flag2 = detailDao.updatePay(shopUpdateDto);
         int flag = flag1 + flag2;
         return flag;
+    }
+
+    public ShopInfoDto getById(Integer id) {
+        ShopInfoDto shopInfoDto = new ShopInfoDto();
+        Shop shop = detailDao.getShopById(id);
+        BeanUtils.copyProperties(shop,shopInfoDto);
+        PayDetail payDetail = detailDao.getShopDetailById(shop.getPay_detail_id());
+        shopInfoDto.setMch_id(payDetail.getMch_id());
+        shopInfoDto.setApi_key(payDetail.getApi_key());
+        return shopInfoDto;
     }
 }

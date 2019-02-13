@@ -24,13 +24,13 @@
         (
         #{username},
         #{password},
-        #{shopName},
-        #{shopAddress},
-        #{shopEmail},
-        #{shopPhone},
-        #{shopStatus},
+        #{shop_name},
+        #{shop_address},
+        #{shop_email},
+        #{shop_phone},
+        #{shop_status},
         #{id},
-        #{createTime}
+        #{create_time}
         )
     </insert>
     <insert id="addPay" useGeneratedKeys="true" keyProperty="id">
@@ -44,9 +44,9 @@
         )
         values
         (
-        #{mchId},
-        #{apiKey},
-        #{createTime}
+        #{mch_id},
+        #{api_key},
+        #{create_time}
         )
 
     </insert>
@@ -64,16 +64,16 @@
         from
         shop
         where
-        shop_name = #{shopName}
+        shop_name = #{shop_name}
     </select>
     <update id="updateShop">
         update
         shop
         set
-        shopName = #{shopName},
-        shopAddress = #{shopAddress},
-        shopEmail = #{shopEmail},
-        shopPhone = #{shopPhone}
+        shopName = #{shop_name},
+        shopAddress = #{shop_address},
+        shopEmail = #{shop_email},
+        shopPhone = #{shop_phone}
         where
         id = {id}
     </update>
@@ -81,11 +81,27 @@
         update
         pay_detail
         set
-        mch_id = #{mchId},
-        api_key = #{apiKey}
+        mch_id = #{mch_id},
+        api_key = #{api_key}
         where
         id = #{payDetailId}
     </update>
+    <select id="getShopById" resultType="Shop">
+        select
+        *
+        from
+        shop
+        where
+        id = #{id}
+    </select>
+    <select id="getShopDetailById" resultType="com.lanke.foodie.entity.PayDetail">
+        select
+        *
+        from
+        pay_detail
+        where
+        id = #{id}
+    </select>
 
 
 </mapper>

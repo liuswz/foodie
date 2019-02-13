@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lanke.foodie.dao.DishesDao">
+
+    <insert id="addDishType" parameterType="com.lanke.foodie.entity.DishType">
+        insert
+        into
+        dish_type
+        (
+        name,
+        shop_id,
+        create_time
+        )
+        values
+        (
+        #{name},
+        #{shopId},
+        #{createTime}
+        )
+    </insert>
+
+
+    <insert id="addDish" parameterType="com.lanke.foodie.entity.Dish">
+        insert
+        into
+        dish_type
+        (
+        name,
+        price,
+        introduction,
+        remark,
+        photo_url,
+        type_id,
+        create_time
+        )
+        values
+        (
+        #{name},
+        #{price},
+        #{introduction},
+        #{remark},
+        #{photo_url},
+        #{type_id},
+        #{createTime}
+        )
+    </insert>
+    <select id="findAllDishType" resultType="String" >
+        select
+        name
+        from
+        dish_type
+        where
+        shop_id = #{shopId}
+    </select>
+    <select id="findDishTypeIdByName" resultType="int">
+        select
+        id
+        from
+        dish_type
+        where
+        shop_id = #{shopId} and name=#{name}
+    </select>
+
+</mapper>
