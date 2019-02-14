@@ -27,8 +27,8 @@ public class DetailController {
         return detailService.regist(registDto);
     }
 
-    @RequestMapping(value = "/shopdetail/update",method = RequestMethod.GET)
-    public Integer update(ShopUpdateDto shopUpdateDto){
+    @RequestMapping(value = "/shopdetail/update",method = RequestMethod.POST)
+    public Integer update(@RequestBody ShopUpdateDto shopUpdateDto){
         return detailService.update(shopUpdateDto);
     }
 

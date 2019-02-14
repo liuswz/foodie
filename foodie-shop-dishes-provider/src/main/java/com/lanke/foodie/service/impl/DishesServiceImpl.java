@@ -48,6 +48,10 @@ public class DishesServiceImpl  implements DishesService {
         return dishesDao.findAllDishType(shopId);
     }
 
+    public Integer delDishTypeById(Integer id) {
+        return dishesDao.delDishTypeById(id);
+    }
+
 //    public Integer checkDishType(int shopId, String name) {
 //        return dishesDao.checkDishType(shopId,name);
 //    }

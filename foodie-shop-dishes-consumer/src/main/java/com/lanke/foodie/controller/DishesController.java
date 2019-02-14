@@ -71,4 +71,18 @@ public class DishesController {
             return dishService.findAllDishType(shopId);
        // return restTemplate.getForObject(REST_URL_PREFIX + "/shopdishes/getAllDishType?shopId="+shopId, List.class);
     }
+
+    @RequestMapping(value = "/consumer/shopdishes/delDishTypeById/{id}",method = RequestMethod.GET)
+    public BaseJson delDishTypeById(@PathVariable("id") Integer id) {
+        BaseJson baseJson = new BaseJson();
+        if(dishService.delDishTypeById(id) > 0){
+            baseJson.setCode(0);
+            baseJson.setMessage("成功");
+        }else{
+            baseJson.setCode(1);
+            baseJson.setMessage("失败");
+        }
+        return baseJson;
+
+    }
 }
