@@ -1,6 +1,10 @@
 package com.lanke.foodie.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.lanke.foodie.dao.DishesDao;
+import com.lanke.foodie.dto.DishesDto;
+import com.lanke.foodie.dto.PageResult;
 import com.lanke.foodie.entity.Dish;
 import com.lanke.foodie.entity.DishType;
 import com.lanke.foodie.service.DishesService;
@@ -44,12 +48,28 @@ public class DishesServiceImpl  implements DishesService {
 
     }
 
-    public List<DishType> findAllDishType(int shopId) {
-        return dishesDao.findAllDishType(shopId);
+
+    public PageResult findAllDishType(Integer pageNum, Integer pageSize,Integer shopId) {
+
+        PageHelper.startPage(pageNum, pageSize);
+        Page<DishType> page=   (Page<DishType>) dishesDao.findAllDishType(shopId);
+        return new PageResult(page.getTotal(), page.getResult());
+
     }
+    public PageResult findAllDishes(Integer pageNum, Integer pageSize,Integer shopId){
+
+        PageHelper.startPage(pageNum, pageSize);
+        Page<DishesDto> page=   (Page<DishesDto>) dishesDao.findAllDishes(shopId);
+        return new PageResult(page.getTotal(), page.getResult());
+
+    }
+
 
     public Integer delDishTypeById(Integer id) {
         return dishesDao.delDishTypeById(id);
+    }
+    public Integer delDishById(Integer id) {
+        return dishesDao.delDishById(id);
     }
 
     public Dish getDishById(Integer id) {

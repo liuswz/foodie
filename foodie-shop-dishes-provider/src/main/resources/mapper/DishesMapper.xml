@@ -78,6 +78,13 @@
         where
         id = #{id}
     </delete>
+    <delete id="delDishById">
+        delete
+        from
+        dish
+        where
+        id = #{id}
+    </delete>
     <select id="getDishById" resultType="Dish">
         select
         *
@@ -85,5 +92,10 @@
         dish
         where
         id = #{id}
+    </select>
+    <select id="findAllDishes" resultType="com.lanke.foodie.dto.DishesDto">
+        SELECT * FROM dish
+        LEFT JOIN dish_type
+        ON dish.type_id=dish_type.id WHERE shop_id= #{shopId}
     </select>
 </mapper>
