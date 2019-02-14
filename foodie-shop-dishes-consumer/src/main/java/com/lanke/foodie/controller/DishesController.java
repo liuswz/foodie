@@ -19,7 +19,7 @@ import java.util.List;
 public class DishesController {
 
 
-    private static final String REST_URL_PREFIX = "http://FOODIE-SHOPDISHES";
+   // private static final String REST_URL_PREFIX = "http://FOODIE-SHOPDISHES";
 
 //    @Autowired
 //    private RestTemplate restTemplate;
