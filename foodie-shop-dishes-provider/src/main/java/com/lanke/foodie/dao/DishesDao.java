@@ -24,4 +24,6 @@ public interface DishesDao {
     public Dish getDishById(@Param("id") Integer id);
     public List<DishesDto> findAllDishes(@Param("shopId") Integer shopId);
 
+    public Integer updateDish(Dish dish);
+
 }

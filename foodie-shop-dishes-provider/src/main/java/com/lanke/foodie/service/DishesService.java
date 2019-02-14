@@ -21,7 +21,7 @@ public interface DishesService {
 
     public Dish getDishById(Integer id);
 
-
+    public Integer updateDish(Dish dish);
 //    public Integer checkDishType(int shopId,String name);
 //    public Integer checkDishes(String name);
 }

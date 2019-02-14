@@ -76,6 +76,16 @@ public class DishesServiceImpl  implements DishesService {
         return dishesDao.getDishById(id);
     }
 
+    public Integer updateDish(Dish dish) {
+        dish.setCreateTime(BaseUtils.getTime());
+
+        if(dishesDao.checkDishes(dish.getName())==0){
+            return dishesDao.updateDish(dish);
+        }else{
+            return 0;
+        }
+    }
+
 //    public Integer checkDishType(int shopId, String name) {
 //        return dishesDao.checkDishType(shopId,name);
 //    }

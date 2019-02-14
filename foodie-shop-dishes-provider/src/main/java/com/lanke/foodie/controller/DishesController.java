@@ -53,4 +53,9 @@ public class DishesController {
     public PageResult getAllDishes(@PathVariable("page") Integer page, @PathVariable("size") Integer size, @PathVariable("shopId") Integer shopId) {
         return dishesService.findAllDishes(page,size,shopId);
     }
+
+    @RequestMapping(value = "/shopdishes/updateDish",method = RequestMethod.POST)
+    public Integer updateDish(@RequestBody Dish dish ){
+        return dishesService.updateDish(dish);
+    }
 }

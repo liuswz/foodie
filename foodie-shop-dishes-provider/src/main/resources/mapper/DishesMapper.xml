@@ -98,4 +98,18 @@
         LEFT JOIN dish_type
         ON dish.type_id=dish_type.id WHERE shop_id= #{shopId}
     </select>
+    <update id="updateDish">
+        update
+        dish
+        set
+        name = #{name},
+        price = #{price},
+        introduction = #{introduction},
+        remark = #{remark},
+        photo_url = #{photoUrl},
+        type_id = #{typeId},
+        create_time = #{createTime}
+        where
+        id = #{id}
+    </update>
 </mapper>
