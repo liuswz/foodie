@@ -26,4 +26,7 @@ public interface DishService {
 
     @RequestMapping(value = "/shopdishes/delDishTypeById/{id}",method = RequestMethod.GET)
     public Integer delDishTypeById(@PathVariable("id") Integer id);
+
+    @RequestMapping(value = "/shopdishes/getDishById/{id}",method = RequestMethod.GET)
+    public Dish getDishById(@PathVariable("id") Integer id);
 }

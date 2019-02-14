@@ -36,4 +36,9 @@ public class DishesController {
     public Integer delDishTypeById(@PathVariable("id") Integer id) {
         return dishesService.delDishTypeById(id);
     }
+
+    @RequestMapping(value = "/shopdishes/getDishById/{id}",method = RequestMethod.GET)
+    public Dish getDishById(@PathVariable("id") Integer id) {
+        return dishesService.getDishById(id);
+    }
 }

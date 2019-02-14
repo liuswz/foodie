@@ -27,7 +27,7 @@ public class DishesController {
 
     @RequestMapping(value = "/consumer/shopdishes/adddishtype",method = RequestMethod.POST)
     public  BaseJson adddishtype(DishType dishType ){
-          log.info("测试{}，日志级别{}，输出{}", "demo1aaaaaaaaaaaaaaaaaaaaaa", dishType.getName(), "info level log");
+          log.info("测试{}，日志级别{}，输出{}", "demo1aaaaaaaaaaaaaaaaaaaaaa", dishType.getTypeName(), "info level log");
         BaseJson baseJson = new BaseJson();
         // log.info("测试{}，日志级别{}，输出{}", registDto.getMchId(), "info", "info level log");
         // int flag =detailService.regist(registDto);
@@ -76,6 +76,21 @@ public class DishesController {
     public BaseJson delDishTypeById(@PathVariable("id") Integer id) {
         BaseJson baseJson = new BaseJson();
         if(dishService.delDishTypeById(id) > 0){
+            baseJson.setCode(0);
+            baseJson.setMessage("成功");
+        }else{
+            baseJson.setCode(1);
+            baseJson.setMessage("失败");
+        }
+        return baseJson;
+
+    }
+
+    @RequestMapping(value = "/consumer/shopdishes/getDishById/{id}",method = RequestMethod.GET)
+    public BaseJson getDishById(@PathVariable("id") Integer id) {
+        BaseJson baseJson = new BaseJson();
+        Dish dish = dishService.getDishById(id);
+        if(dish != null){
             baseJson.setCode(0);
             baseJson.setMessage("成功");
         }else{

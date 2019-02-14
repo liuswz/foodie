@@ -22,7 +22,7 @@ public class DishesServiceImpl  implements DishesService {
 
         dishType.setCreateTime(BaseUtils.getTime());
 
-        if(dishesDao.checkDishType(1,dishType.getName())==0){
+        if(dishesDao.checkDishType(1,dishType.getTypeName())==0){
             return dishesDao.addDishType(dishType);
         }else{
 
@@ -50,6 +50,10 @@ public class DishesServiceImpl  implements DishesService {
 
     public Integer delDishTypeById(Integer id) {
         return dishesDao.delDishTypeById(id);
+    }
+
+    public Dish getDishById(Integer id) {
+        return dishesDao.getDishById(id);
     }
 
 //    public Integer checkDishType(int shopId, String name) {

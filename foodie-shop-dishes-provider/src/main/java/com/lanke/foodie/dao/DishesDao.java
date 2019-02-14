@@ -18,4 +18,6 @@ public interface DishesDao {
     public Integer checkDishes(@Param("name") String name);
 
     public Integer delDishTypeById(@Param("id") Integer id);
+
+    public Dish getDishById(@Param("id") Integer id);
 }

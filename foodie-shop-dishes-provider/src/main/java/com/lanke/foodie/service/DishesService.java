@@ -14,6 +14,8 @@ public interface DishesService {
     public List<DishType> findAllDishType(int shopId);
 
     public Integer delDishTypeById(Integer id);
+
+    public Dish getDishById(Integer id);
 //    public Integer checkDishType(int shopId,String name);
 //    public Integer checkDishes(String name);
 }
