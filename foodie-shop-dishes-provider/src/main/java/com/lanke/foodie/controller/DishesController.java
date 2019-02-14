@@ -34,14 +34,14 @@ public class DishesController {
         return dishesService.findAllDishType(page,size,shopId);
     }
 
-    @RequestMapping(value = "/shopdishes/delDishTypeById/{id}",method = RequestMethod.DELETE)
-    public Integer delDishTypeById(@PathVariable("id") Integer id) {
-        return dishesService.delDishTypeById(id);
+    @RequestMapping(value = "/shopdishes/delDishTypeById/{ids}",method = RequestMethod.DELETE)
+    public Integer delDishTypeById(@PathVariable("ids") String ids ) {
+        return dishesService.delDishTypeById(ids);
     }
 
-    @RequestMapping(value = "/shopdishes/delDishById/{id}",method = RequestMethod.DELETE)
-    public Integer delDishById(@PathVariable("id") Integer id) {
-        return dishesService.delDishById(id);
+    @RequestMapping(value = "/shopdishes/delDishById/{ids}",method = RequestMethod.DELETE)
+    public Integer delDishById(@PathVariable("ids") String ids ) {
+        return dishesService.delDishById(ids);
     }
 
     @RequestMapping(value = "/shopdishes/getDishById/{id}",method = RequestMethod.GET)

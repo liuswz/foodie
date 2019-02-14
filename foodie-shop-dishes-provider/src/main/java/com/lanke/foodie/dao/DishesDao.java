@@ -18,8 +18,8 @@ public interface DishesDao {
     public Integer checkDishType(@Param("shopId") Integer shopId,@Param("name") String name);
     public Integer checkDishes(@Param("name") String name);
 
-    public Integer delDishTypeById(@Param("id") Integer id);
-    public Integer delDishById(@Param("id") Integer id);
+    public Integer delDishTypeById(@Param("ids") String ids);
+    public Integer delDishById(@Param("ids") String ids);
 
     public Dish getDishById(@Param("id") Integer id);
     public List<DishesDto> findAllDishes(@Param("shopId") Integer shopId);

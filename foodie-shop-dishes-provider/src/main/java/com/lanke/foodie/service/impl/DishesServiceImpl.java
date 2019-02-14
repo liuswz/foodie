@@ -65,11 +65,14 @@ public class DishesServiceImpl  implements DishesService {
     }
 
 
-    public Integer delDishTypeById(Integer id) {
-        return dishesDao.delDishTypeById(id);
+    public Integer delDishTypeById(String ids ) {
+        ids = "("+ids.substring(0,ids.length() - 1)+")";
+        log.info(ids);
+        return dishesDao.delDishTypeById(ids);
     }
-    public Integer delDishById(Integer id) {
-        return dishesDao.delDishById(id);
+    public Integer delDishById(String ids) {
+        ids = "("+ids.substring(0,ids.length() - 1)+")";
+        return dishesDao.delDishById(ids);
     }
 
     public Dish getDishById(Integer id) {

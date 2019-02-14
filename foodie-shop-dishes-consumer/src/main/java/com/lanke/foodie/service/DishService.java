@@ -32,14 +32,15 @@ public interface DishService {
     @RequestMapping(value = "/shopdishes/getAllDishes/{shopId}/{page}/{size}",method = RequestMethod.GET)
     public PageResult getAllDishes(@PathVariable("page") Integer page, @PathVariable("size") Integer size, @PathVariable("shopId") Integer shopId);
 
-    @RequestMapping(value = "/shopdishes/delDishTypeById/{id}",method = RequestMethod.DELETE)
-    public Integer delDishTypeById(@PathVariable("id") Integer id);
-    @RequestMapping(value = "/shopdishes/delDishById/{id}",method = RequestMethod.DELETE)
-    public Integer delDishById(@PathVariable("id") Integer id);
+    @RequestMapping(value = "/shopdishes/delDishTypeById/{ids}",method = RequestMethod.DELETE)
+    public Integer delDishTypeById(@PathVariable("ids") String ids);
+    @RequestMapping(value = "/shopdishes/delDishById/{ids}",method = RequestMethod.DELETE)
+    public Integer delDishById(@PathVariable("ids") String ids);
 
     @RequestMapping(value = "/shopdishes/getDishById/{id}",method = RequestMethod.GET)
     public Dish getDishById(@PathVariable("id") Integer id);
 
-
+    @RequestMapping(value = "/shopdishes/updateDish",method = RequestMethod.POST)
+    public Integer updateDish(@RequestBody Dish dish );
 
 }

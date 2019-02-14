@@ -33,16 +33,16 @@ public class DishesController {
         BaseJson baseJson = new BaseJson();
         // log.info("测试{}，日志级别{}，输出{}", registDto.getMchId(), "info", "info level log");
         // int flag =detailService.regist(registDto);
-        dishType.setShopId(1);
+      //  dishType.setShopId(1);
         //int flag = restTemplate.postForObject(REST_URL_PREFIX + "/shopdishes/adddishtype", dishType, Integer.class);
         int flag = dishService.addDishType(dishType);
         if(flag == 0){
-            baseJson.setCode(1);
+            baseJson.setCode(0);
             baseJson.setMessage("成功");
             baseJson.setResult("添加成功");
 
         }else {
-            baseJson.setCode(0);
+            baseJson.setCode(1);
             baseJson.setMessage("失败");
             baseJson.setResult("菜品类别已存在");
         }
@@ -59,11 +59,11 @@ public class DishesController {
         //int flag = restTemplate.postForObject(REST_URL_PREFIX + "/shopdishes/adddishtype", dishType, Integer.class);
         int flag = dishService.addDish(dish);
         if(flag == 0){
-            baseJson.setCode(1);
+            baseJson.setCode(0);
             baseJson.setMessage("成功");
             baseJson.setResult("添加成功");
         }else {
-            baseJson.setCode(0);
+            baseJson.setCode(1);
             baseJson.setMessage("失败");
             baseJson.setResult("菜品已存在");
 
@@ -85,10 +85,10 @@ public class DishesController {
         return dishService.getAllDishes(page,size,shopId);
     }
 
-    @RequestMapping(value = "/consumer/shopdishes/delDishTypeById/{id}",method = RequestMethod.DELETE)
-    public BaseJson delDishTypeById(@PathVariable("id") Integer id) {
+    @RequestMapping(value = "/consumer/shopdishes/delDishTypeById/{ids}",method = RequestMethod.DELETE)
+    public BaseJson delDishTypeById(@PathVariable("ids") String ids) {
         BaseJson baseJson = new BaseJson();
-        if(dishService.delDishTypeById(id) > 0){
+        if(dishService.delDishTypeById(ids) > 0){
             baseJson.setCode(0);
             baseJson.setMessage("成功");
         }else{
@@ -98,10 +98,10 @@ public class DishesController {
         return baseJson;
 
     }
-    @RequestMapping(value = "/consumer/shopdishes/delDishById/{id}",method = RequestMethod.DELETE)
-    public BaseJson delDisheById(@PathVariable("id") Integer id) {
+    @RequestMapping(value = "/consumer/shopdishes/delDishById/{ids}",method = RequestMethod.DELETE)
+    public BaseJson delDisheById(@PathVariable("ids") String ids) {
         BaseJson baseJson = new BaseJson();
-        if(dishService.delDishById(id) > 0){
+        if(dishService.delDishById(ids) > 0){
             baseJson.setCode(0);
             baseJson.setMessage("成功");
         }else{
@@ -117,6 +117,24 @@ public class DishesController {
         Dish dish = dishService.getDishById(id);
 
         return dish;
+
+    }
+    @RequestMapping(value = "/shopdishes/updateDish",method = RequestMethod.POST)
+    public BaseJson updateDish(@RequestBody Dish dish ){
+        BaseJson baseJson = new BaseJson();
+
+        int flag = dishService.updateDish(dish);
+        if(flag > 0){
+            baseJson.setCode(0);
+            baseJson.setMessage("成功");
+            baseJson.setResult("更改成功");
+
+        }else {
+            baseJson.setCode(1);
+            baseJson.setMessage("失败");
+            baseJson.setResult("更改失败");
+        }
+        return baseJson;
 
     }
 }

@@ -71,19 +71,22 @@
         where
         name=#{name}
     </select>
-    <delete id="delDishTypeById">
+    <delete id="delDishTypeById"  parameterType = "String">
         delete
         from
         dish_type
         where
-        id = #{id}
+        id in
+        ${ids}
     </delete>
-    <delete id="delDishById">
+
+    <delete id="delDishById"  parameterType = "String">
         delete
         from
         dish
         where
-        id = #{id}
+        id in
+        ${ids}
     </delete>
     <select id="getDishById" resultType="Dish">
         select
