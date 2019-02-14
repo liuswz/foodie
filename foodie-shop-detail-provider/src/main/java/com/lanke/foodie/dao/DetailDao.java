@@ -7,6 +7,8 @@ import com.lanke.foodie.entity.Shop;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 
 @Mapper
 public interface DetailDao {
@@ -25,6 +27,8 @@ public interface DetailDao {
     public int updatePay(ShopUpdateDto shopUpdateDto);
 
     public Shop getShopById(@Param("id") Integer id);
+
+    public List<Integer> checkShopNameForUpdate(@Param("shopName") String shopName);
 
     public PayDetail getShopDetailById(@Param("id") Integer payDetailId);
 }

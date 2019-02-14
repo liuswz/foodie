@@ -70,12 +70,12 @@
         update
         shop
         set
-        shopName = #{shopName},
-        shopAddress = #{shopAddress},
-        shopEmail = #{shopEmail},
-        shopPhone = #{shopPhone}
+        shop_name = #{shopName},
+        shop_address = #{shopAddress},
+        shop_email = #{shopEmail},
+        shop_phone = #{shopPhone}
         where
-        id = {id}
+        id = #{id}
     </update>
     <update id="updatePay">
         update
@@ -102,6 +102,13 @@
         where
         id = #{id}
     </select>
-
+    <select id="checkShopNameForUpdate" resultType="int">
+        select
+        id
+        from
+        shop
+        where
+        shop_name = #{shopName}
+    </select>
 
 </mapper>

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class DetailServiceImpl implements DetailService {
@@ -55,8 +56,8 @@ public class DetailServiceImpl implements DetailService {
     public int update(ShopUpdateDto shopUpdateDto) {
 
         //校验店名是否存在
-        int checkShopName = detailDao.checkShopName(shopUpdateDto.getShopName());
-        if(checkShopName > 0){
+        List<Integer> ids = detailDao.checkShopNameForUpdate(shopUpdateDto.getShopName());
+        if(ids.size() > 0 && ids.get(0) != shopUpdateDto.getId()){
             return 4;
         }
 
@@ -72,6 +73,7 @@ public class DetailServiceImpl implements DetailService {
         BeanUtils.copyProperties(shop,shopInfoDto);
         PayDetail payDetail = detailDao.getShopDetailById(shop.getPayDetailId());
         shopInfoDto.setMchId(payDetail.getMchId());
+        shopInfoDto.setApiKey(payDetail.getApiKey());
         return shopInfoDto;
     }
 }

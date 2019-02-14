@@ -6,11 +6,13 @@ import com.lanke.foodie.dto.ShopInfoDto;
 import com.lanke.foodie.dto.ShopUpdateDto;
 import com.lanke.foodie.json.BaseJson;
 
+import com.lanke.foodie.service.DetailService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,11 +25,8 @@ import java.util.Map;
 @RestController
 public class DetailController {
 
-
-    private static final String REST_URL_PREFIX = "http://FOODIE-SHOPDETAIL";
-
     @Autowired
-    private RestTemplate restTemplate;
+    private DetailService detailService;
 
     @ApiOperation(value = "商家入驻", notes = "商家管理")
     @ApiImplicitParams({
@@ -42,12 +41,8 @@ public class DetailController {
     })
     @RequestMapping(value = "/consumer/shopdetail/register",method = RequestMethod.POST)
     public BaseJson regist(RegistDto registDto){
-        //  log.info("测试{}，日志级别{}，输出{}", "demo1aaaaaaaaaaaaaaaaaaaaaa", "info", "info level log");
         BaseJson baseJson = new BaseJson();
-        // log.info("测试{}，日志级别{}，输出{}", registDto.getMchId(), "info", "info level log");
-        // int flag =detailService.regist(registDto);
-
-        int flag = restTemplate.postForObject(REST_URL_PREFIX + "/shopdetail/register", registDto, Integer.class);
+        int flag = detailService.regist(registDto);
         if(flag == 2){
             baseJson.setCode(0);
             baseJson.setResult("注册成功");
@@ -69,7 +64,7 @@ public class DetailController {
     @RequestMapping(value = "/consumer/shopdetail/update",method = RequestMethod.POST)
     public BaseJson update(ShopUpdateDto shopUpdateDto){
         BaseJson baseJson = new BaseJson();
-        int flag = restTemplate.postForObject(REST_URL_PREFIX + "/shopdetail/update", shopUpdateDto, Integer.class);
+        int flag = detailService.update(shopUpdateDto);
         if(flag == 2){
             baseJson.setCode(0);
             baseJson.setResult("修改成功");
@@ -84,10 +79,10 @@ public class DetailController {
         return baseJson;
     }
 
-    @RequestMapping(value = "/consumer/shopdetail/getById",method = RequestMethod.GET)
-    public BaseJson getById(Integer id){
+    @RequestMapping(value = "/consumer/shopdetail/getById/{id}",method = RequestMethod.GET)
+    public BaseJson getById(@PathVariable("id") Integer id){
         BaseJson baseJson = new BaseJson();
-        ShopInfoDto shopInfoDto = restTemplate.getForObject(REST_URL_PREFIX + "/shopdetail/getById?id="+id,ShopInfoDto.class);
+        ShopInfoDto shopInfoDto = detailService.getById(id);
         if(shopInfoDto != null){
             baseJson.setCode(0);
             baseJson.setMessage("成功");

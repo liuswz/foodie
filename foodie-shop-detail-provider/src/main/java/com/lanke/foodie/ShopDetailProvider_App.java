@@ -12,8 +12,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableEurekaClient //本服务启动后会自动注册进eureka服务中
 @EnableSwagger2
-
-//@EnableDiscoveryClient //服务发现
+@EnableDiscoveryClient //服务发现
 public class ShopDetailProvider_App
 {
 	public static void main(String[] args)
