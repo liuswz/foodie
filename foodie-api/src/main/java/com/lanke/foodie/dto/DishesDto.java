@@ -1,21 +1,22 @@
-package com.lanke.foodie.entity;
+package com.lanke.foodie.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-import java.io.Serializable;
-import java.util.Date;
-
 @NoArgsConstructor
 //@AllArgsConstructor
 @Data
 @Accessors(chain=true)
-public class DishType implements Serializable {
+public class DishesDto {
 
     private Integer id;
+    private String name;
+    private double price;
+    private String introduction;
+    private String remark;
+    private String photoUrl;
+    private Integer typeId;
     private String typeName;
     private Integer shopId;
-    private String createTime;
-
 }

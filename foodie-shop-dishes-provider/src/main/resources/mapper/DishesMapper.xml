@@ -71,4 +71,10 @@
         where
         name=#{name}
     </select>
+
+    <select id="checkDishes" resultType="int">
+        SELECT * FROM dish
+        LEFT JOIN dish_type
+        ON dish.type_id=dish_type.id WHERE shop_id= #{shopId}
+    </select>
 </mapper>
