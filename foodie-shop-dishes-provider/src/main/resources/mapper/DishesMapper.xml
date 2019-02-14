@@ -71,4 +71,11 @@
         where
         name=#{name}
     </select>
+    <delete id="delDishTypeById">
+        delete
+        from
+        dish_type
+        where
+        id = #{id}
+    </delete>
 </mapper>
