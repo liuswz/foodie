@@ -99,8 +99,8 @@
     </select>
     <select id="findAllDishes" resultType="com.lanke.foodie.dto.DishesDto">
         SELECT * FROM dish
-        LEFT JOIN dish_type
-        ON dish.type_id=dish_type.id WHERE shop_id= #{shopId} and type_name like '%${value}%' or name like '%${value}%'
+        inner JOIN dish_type
+        ON dish.type_id=dish_type.id WHERE dish.shop_id= #{shopId} and (type_name like '%${value}%' or name like '%${value}%')
     </select>
     <update id="updateDish">
         update
@@ -123,9 +123,10 @@
         dish
         where
         shop_id = #{shopId}
-        id
+        and
+        type_id
         in
-        (#{ids})
+        (${ids})
 
     </select>
 </mapper>

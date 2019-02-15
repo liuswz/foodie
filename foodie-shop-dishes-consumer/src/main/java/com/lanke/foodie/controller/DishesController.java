@@ -97,6 +97,7 @@ public class DishesController {
 
     @RequestMapping(value = "/consumer/shopdishes/delDishTypeById/{ids}",method = RequestMethod.GET)
     public BaseJson delDishTypeById(@PathVariable("ids") String ids) {
+
         BaseJson baseJson = new BaseJson();
         if(dishService.delDishTypeById(ids) > 0){
             baseJson.setCode(0);
@@ -132,17 +133,19 @@ public class DishesController {
         return dishAndTypeDto;
 
     }
-    @RequestMapping(value = "/shopdishes/updateDish",method = RequestMethod.POST)
-    public BaseJson updateDish(@RequestBody Dish dish ){
+    @RequestMapping(value = "/consumer/shopdishes/updateDish",method = RequestMethod.POST)
+    public BaseJson updateDish( Dish dish ){
         BaseJson baseJson = new BaseJson();
-
+        log.info(dish.getName()+"***********************8");
         int flag = dishService.updateDish(dish);
         if(flag > 0){
             baseJson.setCode(0);
             baseJson.setMessage("成功");
             baseJson.setResult("更改成功");
 
+
         }else {
+
             baseJson.setCode(1);
             baseJson.setMessage("失败");
             baseJson.setResult("更改失败");
@@ -152,7 +155,7 @@ public class DishesController {
     }
 
     @RequestMapping(value = "/consumer/shopdishes/getIfDishByTypeId",method = RequestMethod.POST)
-    public BaseJson getIfDishByTypeId(@RequestBody DishesDto dishesDto ){
+    public BaseJson getIfDishByTypeId( DishesDto dishesDto ){
         BaseJson baseJson = new BaseJson();
 
         int flag = dishService.getIfDishByTypeId(dishesDto);

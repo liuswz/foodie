@@ -18,3 +18,7 @@ info:
   company.name: www.lanke.com
   build.artifactId: $project.artifactId$
   build.version: $project.version$
+
+logging:
+  level:
+    com.lanke.foodie.dao : debug

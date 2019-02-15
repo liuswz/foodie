@@ -40,6 +40,7 @@ public class DishesController {
     }
     @RequestMapping(value = "/shopdishes/delDishTypeById/{ids}",method = RequestMethod.GET)
     public Integer delDishTypeById(@PathVariable("ids") String ids ) {
+
         return dishesService.delDishTypeById(ids);
     }
 

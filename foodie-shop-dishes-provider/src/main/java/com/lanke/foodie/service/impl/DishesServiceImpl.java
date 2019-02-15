@@ -65,6 +65,7 @@ public class DishesServiceImpl  implements DishesService {
     public PageResult findAllDishes(Integer pageNum, Integer pageSize,Integer shopId, String value){
 
         PageHelper.startPage(pageNum, pageSize);
+
         Page<DishesDto> page=   (Page<DishesDto>) dishesDao.findAllDishes(shopId,value);
         return new PageResult(page.getTotal(), page.getResult());
 
@@ -87,15 +88,18 @@ public class DishesServiceImpl  implements DishesService {
 
     public Integer updateDish(Dish dish) {
         dish.setCreateTime(BaseUtils.getTime());
-
-        if(dishesDao.checkDishes(dish.getName())==0){
-            return dishesDao.updateDish(dish);
-        }else{
-            return 0;
-        }
+        return dishesDao.updateDish(dish);
+//        if(dishesDao.checkDishes(dish.getName())==0){
+//
+//        }else{
+//            return 0;
+//        }
     }
 
     public Integer getIfDishByTypeId(DishesDto dishesDto) {
+        String ids = dishesDto.getIds();
+        dishesDto.setIds(ids.substring(0,ids.length() - 1));
+
         return dishesDao.getIfDishByTypeId(dishesDto);
     }
 
