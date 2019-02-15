@@ -1,5 +1,6 @@
 package com.lanke.foodie.controller;
 
+import com.lanke.foodie.dto.DishAndTypeDto;
 import com.lanke.foodie.dto.DishesDto;
 import com.lanke.foodie.dto.PageResult;
 import com.lanke.foodie.entity.Dish;
@@ -13,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -52,7 +54,7 @@ public class DishesController {
 
     @RequestMapping(value = "/consumer/shopdishes/adddishes",method = RequestMethod.POST)
     public  BaseJson adddishes(Dish dish ){
-       // log.info("测试{}，日志级别{}，输出{}", "demo1aaaaaaaaaaaaaaaaaaaaaa", dishType.getName(), "info level log");
+    //    log.info("测试{}，日志级别{}，输出{}", "demo1aaaaaaaaaaaaaaaaaaaaaa", dish.getName(), "info level log");
         BaseJson baseJson = new BaseJson();
         // log.info("测试{}，日志级别{}，输出{}", registDto.getMchId(), "info", "info level log");
         // int flag =detailService.regist(registDto);
@@ -120,12 +122,14 @@ public class DishesController {
         return baseJson;
 
     }
-    @RequestMapping(value = "/consumer/shopdishes/getDishById/{id}",method = RequestMethod.GET)
-    public Dish getDishById(@PathVariable("id") Integer id) {
-        BaseJson baseJson = new BaseJson();
-        Dish dish = dishService.getDishById(id);
+    @RequestMapping(value = "/consumer/shopdishes/getDishAndTypeById/{id}/{shopId}",method = RequestMethod.GET)
+    public DishAndTypeDto getDishAndTypeById(@PathVariable("id") Integer id,@PathVariable("shopId") Integer shopId) {
+     //   BaseJson baseJson = new BaseJson();
+        DishAndTypeDto dishAndTypeDto = new DishAndTypeDto();
 
-        return dish;
+        dishAndTypeDto.setDish(dishService.getDishById(id));
+        dishAndTypeDto.setTypelist(dishService.findAllDishType(shopId));
+        return dishAndTypeDto;
 
     }
     @RequestMapping(value = "/shopdishes/updateDish",method = RequestMethod.POST)
