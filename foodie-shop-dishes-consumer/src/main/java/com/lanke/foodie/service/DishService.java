@@ -6,10 +6,7 @@ import com.lanke.foodie.dto.PageResult;
 import com.lanke.foodie.entity.Dish;
 import com.lanke.foodie.entity.DishType;
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,8 +27,8 @@ public interface DishService {
             @PathVariable("shopId") Integer shopId);
     @RequestMapping(value = "/shopdishes/getAllDishType/{shopId}",method = RequestMethod.GET)
     public List<DishType> findAllDishType( @PathVariable("shopId") Integer shopId);
-    @RequestMapping(value = "/shopdishes/getAllDishes/{shopId}/{page}/{size}/{value}",method = RequestMethod.GET)
-    public PageResult getAllDishes(@PathVariable("page") Integer page, @PathVariable("size") Integer size, @PathVariable("shopId") Integer shopId,@PathVariable("value") String value);
+    @RequestMapping(value = "/shopdishes/getAllDishes",method = RequestMethod.GET)
+    public PageResult getAllDishes(@RequestParam("page") Integer page, @RequestParam("size") Integer size, @RequestParam("shopId") Integer shopId, @RequestParam("value") String value);
 
     @RequestMapping(value = "/shopdishes/delDishTypeById/{ids}",method = RequestMethod.GET)
     public Integer delDishTypeById(@PathVariable("ids") String ids);

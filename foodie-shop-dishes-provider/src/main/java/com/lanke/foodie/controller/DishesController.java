@@ -53,8 +53,8 @@ public class DishesController {
         return dishesService.getDishById(id);
     }
 
-    @RequestMapping(value = "/shopdishes/getAllDishes/{shopId}/{page}/{size}/{value}",method = RequestMethod.GET)
-    public PageResult getAllDishes(@PathVariable("page") Integer page, @PathVariable("size") Integer size, @PathVariable("shopId") Integer shopId,@PathVariable("value") String value) {
+    @RequestMapping(value = "/shopdishes/getAllDishes",method = RequestMethod.GET)
+    public PageResult getAllDishes(@RequestParam("page") Integer page, @RequestParam("size") Integer size, @RequestParam("shopId") Integer shopId,@RequestParam("value") String value) {
         return dishesService.findAllDishes(page,size,shopId,value);
     }
 

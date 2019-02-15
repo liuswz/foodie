@@ -83,12 +83,12 @@ public class DishesController {
         return dishService.findAllDishType(shopId);
         // return restTemplate.getForObject(REST_URL_PREFIX + "/shopdishes/getAllDishType?shopId="+shopId, List.class);
     }
-    @RequestMapping(value = "/consumer/shopdishes/getAllDishes/{shopId}/{page}/{size}/{value}",method = RequestMethod.GET)
+    @RequestMapping(value = "/consumer/shopdishes/getAllDishes",method = RequestMethod.GET)
     public PageResult getAllDishes(
-            @PathVariable("page") Integer page,
-            @PathVariable("size") Integer size,
-            @PathVariable("shopId") Integer shopId,
-            @PathVariable("value") String value) {
+            @RequestParam("page") Integer page,
+            @RequestParam("size") Integer size,
+            @RequestParam("shopId") Integer shopId,
+            @RequestParam(value="value",defaultValue="") String value) {
 
         return dishService.getAllDishes(page,size,shopId,value);
     }
