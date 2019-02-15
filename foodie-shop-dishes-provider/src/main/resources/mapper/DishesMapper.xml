@@ -100,7 +100,7 @@
     <select id="findAllDishes" resultType="com.lanke.foodie.dto.DishesDto">
         SELECT * FROM dish
         LEFT JOIN dish_type
-        ON dish.type_id=dish_type.id WHERE shop_id= #{shopId}
+        ON dish.type_id=dish_type.id WHERE shop_id= #{shopId} and type_name like '%${value}%' or name like '%${value}%'
     </select>
     <update id="updateDish">
         update

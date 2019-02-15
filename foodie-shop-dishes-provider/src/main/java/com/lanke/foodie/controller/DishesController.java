@@ -38,12 +38,12 @@ public class DishesController {
 
         return dishesService.findAllDishType(shopId);
     }
-    @RequestMapping(value = "/shopdishes/delDishTypeById/{ids}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/shopdishes/delDishTypeById/{ids}",method = RequestMethod.GET)
     public Integer delDishTypeById(@PathVariable("ids") String ids ) {
         return dishesService.delDishTypeById(ids);
     }
 
-    @RequestMapping(value = "/shopdishes/delDishById/{ids}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/shopdishes/delDishById/{ids}",method = RequestMethod.GET)
     public Integer delDishById(@PathVariable("ids") String ids ) {
         return dishesService.delDishById(ids);
     }
@@ -53,9 +53,9 @@ public class DishesController {
         return dishesService.getDishById(id);
     }
 
-    @RequestMapping(value = "/shopdishes/getAllDishes/{shopId}/{page}/{size}",method = RequestMethod.GET)
-    public PageResult getAllDishes(@PathVariable("page") Integer page, @PathVariable("size") Integer size, @PathVariable("shopId") Integer shopId) {
-        return dishesService.findAllDishes(page,size,shopId);
+    @RequestMapping(value = "/shopdishes/getAllDishes/{shopId}/{page}/{size}/{value}",method = RequestMethod.GET)
+    public PageResult getAllDishes(@PathVariable("page") Integer page, @PathVariable("size") Integer size, @PathVariable("shopId") Integer shopId,@PathVariable("value") String value) {
+        return dishesService.findAllDishes(page,size,shopId,value);
     }
 
     @RequestMapping(value = "/shopdishes/updateDish",method = RequestMethod.POST)

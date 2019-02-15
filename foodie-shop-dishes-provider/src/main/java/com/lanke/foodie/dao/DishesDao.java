@@ -22,7 +22,7 @@ public interface DishesDao {
     public Integer delDishById(@Param("ids") String ids);
 
     public Dish getDishById(@Param("id") Integer id);
-    public List<DishesDto> findAllDishes(@Param("shopId") Integer shopId);
+    public List<DishesDto> findAllDishes(@Param("shopId") Integer shopId,@Param("value") String value);
 
     public Integer updateDish(Dish dish);
 

@@ -62,10 +62,10 @@ public class DishesServiceImpl  implements DishesService {
         return dishesDao.findAllDishType(shopId);
 
     }
-    public PageResult findAllDishes(Integer pageNum, Integer pageSize,Integer shopId){
+    public PageResult findAllDishes(Integer pageNum, Integer pageSize,Integer shopId, String value){
 
         PageHelper.startPage(pageNum, pageSize);
-        Page<DishesDto> page=   (Page<DishesDto>) dishesDao.findAllDishes(shopId);
+        Page<DishesDto> page=   (Page<DishesDto>) dishesDao.findAllDishes(shopId,value);
         return new PageResult(page.getTotal(), page.getResult());
 
     }

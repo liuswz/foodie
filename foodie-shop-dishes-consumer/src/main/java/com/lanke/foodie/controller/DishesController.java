@@ -83,16 +83,17 @@ public class DishesController {
         return dishService.findAllDishType(shopId);
         // return restTemplate.getForObject(REST_URL_PREFIX + "/shopdishes/getAllDishType?shopId="+shopId, List.class);
     }
-    @RequestMapping(value = "/consumer/shopdishes/getAllDishes/{shopId}/{page}/{size}",method = RequestMethod.GET)
+    @RequestMapping(value = "/consumer/shopdishes/getAllDishes/{shopId}/{page}/{size}/{value}",method = RequestMethod.GET)
     public PageResult getAllDishes(
             @PathVariable("page") Integer page,
             @PathVariable("size") Integer size,
-            @PathVariable("shopId") Integer shopId) {
+            @PathVariable("shopId") Integer shopId,
+            @PathVariable("value") String value) {
 
-        return dishService.getAllDishes(page,size,shopId);
+        return dishService.getAllDishes(page,size,shopId,value);
     }
 
-    @RequestMapping(value = "/consumer/shopdishes/delDishTypeById/{ids}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/consumer/shopdishes/delDishTypeById/{ids}",method = RequestMethod.GET)
     public BaseJson delDishTypeById(@PathVariable("ids") String ids) {
         BaseJson baseJson = new BaseJson();
         if(dishService.delDishTypeById(ids) > 0){
@@ -105,10 +106,11 @@ public class DishesController {
         return baseJson;
 
     }
-    @RequestMapping(value = "/consumer/shopdishes/delDishById/{ids}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/consumer/shopdishes/delDishById/{ids}",method = RequestMethod.GET)
     public BaseJson delDisheById(@PathVariable("ids") String ids) {
+
         BaseJson baseJson = new BaseJson();
-        if(dishService.delDishById(ids) > 0){
+        if(dishService.delDishTypeById(ids) > 0){
             baseJson.setCode(0);
             baseJson.setMessage("成功");
         }else{
