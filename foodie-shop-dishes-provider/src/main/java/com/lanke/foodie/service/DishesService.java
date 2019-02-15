@@ -14,6 +14,7 @@ public interface DishesService {
 
     public int addDish(Dish dish);
     public PageResult findAllDishType(Integer pageNum, Integer pageSize, Integer shopId);
+    public List<DishType>  findAllDishType(Integer shopId);
     public PageResult findAllDishes(Integer pageNum, Integer pageSize, Integer shopId);
 
     public Integer delDishTypeById(String ids);

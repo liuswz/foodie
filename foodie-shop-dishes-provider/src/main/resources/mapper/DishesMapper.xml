@@ -10,13 +10,13 @@
         into
         dish_type
         (
-        name,
+        type_name,
         shop_id,
         create_time
         )
         values
         (
-        #{name},
+        #{typeName},
         #{shopId},
         #{createTime}
         )
@@ -55,13 +55,14 @@
         where
         shop_id = #{shopId}
     </select>
+
     <select id="checkDishType" resultType="int">
         select
         count(*)
         from
         dish_type
         where
-        shop_id = #{shopId} and name=#{name}
+        shop_id = #{shopId} and type_name=#{typeName}
     </select>
     <select id="checkDishes" resultType="int">
         select

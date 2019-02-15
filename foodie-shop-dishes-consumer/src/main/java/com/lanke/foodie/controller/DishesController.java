@@ -37,14 +37,15 @@ public class DishesController {
         //int flag = restTemplate.postForObject(REST_URL_PREFIX + "/shopdishes/adddishtype", dishType, Integer.class);
         int flag = dishService.addDishType(dishType);
         if(flag == 0){
+            baseJson.setCode(1);
+            baseJson.setMessage("失败");
+            baseJson.setResult("菜品类别已存在");
+
+        }else {
             baseJson.setCode(0);
             baseJson.setMessage("成功");
             baseJson.setResult("添加成功");
 
-        }else {
-            baseJson.setCode(1);
-            baseJson.setMessage("失败");
-            baseJson.setResult("菜品类别已存在");
         }
         return baseJson;
     }
@@ -59,13 +60,15 @@ public class DishesController {
         //int flag = restTemplate.postForObject(REST_URL_PREFIX + "/shopdishes/adddishtype", dishType, Integer.class);
         int flag = dishService.addDish(dish);
         if(flag == 0){
-            baseJson.setCode(0);
-            baseJson.setMessage("成功");
-            baseJson.setResult("添加成功");
-        }else {
             baseJson.setCode(1);
             baseJson.setMessage("失败");
             baseJson.setResult("菜品已存在");
+        }else {
+
+            baseJson.setCode(0);
+            baseJson.setMessage("成功");
+            baseJson.setResult("添加成功");
+
 
         }
         return baseJson;
@@ -75,7 +78,11 @@ public class DishesController {
             return dishService.findAllDishType(page,size,shopId);
        // return restTemplate.getForObject(REST_URL_PREFIX + "/shopdishes/getAllDishType?shopId="+shopId, List.class);
     }
-
+    @RequestMapping(value = "/consumer/shopdishes/getAllDishType/{shopId}",method = RequestMethod.GET)
+    public List<DishType> findAllDishType(@PathVariable("shopId") Integer shopId) {
+        return dishService.findAllDishType(shopId);
+        // return restTemplate.getForObject(REST_URL_PREFIX + "/shopdishes/getAllDishType?shopId="+shopId, List.class);
+    }
     @RequestMapping(value = "/consumer/shopdishes/getAllDishes/{shopId}/{page}/{size}",method = RequestMethod.GET)
     public PageResult getAllDishes(
             @PathVariable("page") Integer page,

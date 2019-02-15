@@ -28,7 +28,8 @@ public interface DishService {
             @PathVariable("page") Integer page,
             @PathVariable("size") Integer size,
             @PathVariable("shopId") Integer shopId);
-
+    @RequestMapping(value = "/shopdishes/getAllDishType/{shopId}",method = RequestMethod.GET)
+    public List<DishType> findAllDishType( @PathVariable("shopId") Integer shopId);
     @RequestMapping(value = "/shopdishes/getAllDishes/{shopId}/{page}/{size}",method = RequestMethod.GET)
     public PageResult getAllDishes(@PathVariable("page") Integer page, @PathVariable("size") Integer size, @PathVariable("shopId") Integer shopId);
 
@@ -42,5 +43,6 @@ public interface DishService {
 
     @RequestMapping(value = "/shopdishes/updateDish",method = RequestMethod.POST)
     public Integer updateDish(@RequestBody Dish dish );
+
 
 }
