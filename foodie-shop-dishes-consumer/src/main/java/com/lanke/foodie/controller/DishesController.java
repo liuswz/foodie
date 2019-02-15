@@ -110,7 +110,7 @@ public class DishesController {
     public BaseJson delDisheById(@PathVariable("ids") String ids) {
 
         BaseJson baseJson = new BaseJson();
-        if(dishService.delDishTypeById(ids) > 0){
+        if(dishService.delDishById(ids) > 0){
             baseJson.setCode(0);
             baseJson.setMessage("成功");
         }else{
