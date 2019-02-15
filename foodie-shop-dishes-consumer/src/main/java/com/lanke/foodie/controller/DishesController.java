@@ -152,9 +152,13 @@ public class DishesController {
     }
 
     @RequestMapping(value = "/consumer/shopdishes/getIfDishByTypeId",method = RequestMethod.POST)
-    public BaseJson getIfDishByTypeId(@RequestBody DishesDto dishesDto ){
+    public BaseJson getIfDishByTypeId( DishesDto dishesDto ){
         BaseJson baseJson = new BaseJson();
 
+        for(int i=0;i<20;i++){
+            System.out.println(dishesDto.getShopId());
+            System.out.println(dishesDto.getIds());
+        }
         int flag = dishService.getIfDishByTypeId(dishesDto);
         if(flag > 0){
             baseJson.setCode(0);

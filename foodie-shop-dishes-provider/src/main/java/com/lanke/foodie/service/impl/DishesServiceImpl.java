@@ -96,6 +96,7 @@ public class DishesServiceImpl  implements DishesService {
     }
 
     public Integer getIfDishByTypeId(DishesDto dishesDto) {
+        dishesDto.setIds("("+dishesDto.getIds().substring(0,dishesDto.getIds().length() - 1)+")");
         return dishesDao.getIfDishByTypeId(dishesDto);
     }
 

@@ -123,9 +123,10 @@
         dish
         where
         shop_id = #{shopId}
-        id
+        and
+        type_id
         in
-        (#{ids})
+        ${ids}
 
     </select>
 </mapper>
