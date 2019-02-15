@@ -62,4 +62,9 @@ public class DishesController {
     public Integer updateDish(@RequestBody Dish dish ){
         return dishesService.updateDish(dish);
     }
+
+    @RequestMapping(value = "/shopdishes/getIfDishByTypeId",method = RequestMethod.POST)
+    public Integer getIfDishByTypeId(@RequestBody DishesDto dishesDto ){
+        return dishesService.getIfDishByTypeId(dishesDto);
+    }
 }

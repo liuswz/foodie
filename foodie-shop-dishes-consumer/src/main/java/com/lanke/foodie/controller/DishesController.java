@@ -146,4 +146,19 @@ public class DishesController {
         return baseJson;
 
     }
+
+    @RequestMapping(value = "/consumer/shopdishes/getIfDishByTypeId",method = RequestMethod.POST)
+    public BaseJson getIfDishByTypeId(@RequestBody DishesDto dishesDto ){
+        BaseJson baseJson = new BaseJson();
+
+        int flag = dishService.getIfDishByTypeId(dishesDto);
+        if(flag > 0){
+            baseJson.setCode(0);
+
+        }else {
+            baseJson.setCode(1);
+        }
+        return baseJson;
+
+    }
 }

@@ -116,4 +116,16 @@
         where
         id = #{id}
     </update>
+    <select id="getIfDishByTypeId" resultType="int">
+        select
+        count(*)
+        from
+        dish
+        where
+        shop_id = #{shopId}
+        id
+        in
+        (#{ids})
+
+    </select>
 </mapper>

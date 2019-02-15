@@ -95,6 +95,10 @@ public class DishesServiceImpl  implements DishesService {
         }
     }
 
+    public Integer getIfDishByTypeId(DishesDto dishesDto) {
+        return dishesDao.getIfDishByTypeId(dishesDto);
+    }
+
 //    public Integer checkDishType(int shopId, String name) {
 //        return dishesDao.checkDishType(shopId,name);
 //    }

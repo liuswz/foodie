@@ -26,4 +26,6 @@ public interface DishesDao {
 
     public Integer updateDish(Dish dish);
 
+    public Integer getIfDishByTypeId(DishesDto dishesDto);
+
 }

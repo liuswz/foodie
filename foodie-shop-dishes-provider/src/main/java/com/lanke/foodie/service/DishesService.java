@@ -23,6 +23,8 @@ public interface DishesService {
     public Dish getDishById(Integer id);
 
     public Integer updateDish(Dish dish);
+
+    public Integer getIfDishByTypeId(DishesDto dishesDto);
 //    public Integer checkDishType(int shopId,String name);
 //    public Integer checkDishes(String name);
 }
