@@ -64,17 +64,19 @@ public class DetailController {
     public BaseJson update(Shop shop){
         BaseJson baseJson = new BaseJson();
         int flag = detailService.update(shop);
-        if(flag == 2){
+        if(flag == 1){
             baseJson.setCode(0);
+            baseJson.setMessage("成功");
             baseJson.setResult("修改成功");
         }else if(flag == 4){
             baseJson.setCode(1);
             baseJson.setMessage("失败");
             baseJson.setResult("店名已存在");
-        }else {
-            baseJson.setCode(1);
-            baseJson.setMessage("失败");
-        }
+       }
+//        else {
+//            baseJson.setCode(1);
+//            baseJson.setMessage("失败");
+//        }
         return baseJson;
     }
 
