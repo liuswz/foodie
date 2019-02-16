@@ -69,11 +69,12 @@
     </select>
     <select id="checkDishes" resultType="int">
         select
-        count(*)
+        id
         from
         dish
         where
-        name=#{name}
+        name=#{name} and
+        shop_id=#{shopId}
     </select>
     <delete id="delDishTypeById"  parameterType = "String">
         delete

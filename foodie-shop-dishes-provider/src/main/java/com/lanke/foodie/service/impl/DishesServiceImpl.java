@@ -39,7 +39,7 @@ public class DishesServiceImpl  implements DishesService {
 
         dish.setCreateTime(BaseUtils.getTime());
 
-        if(dishesDao.checkDishes(dish.getName())==0){
+        if(dishesDao.checkDishes(dish.getName(),dish.getShopId()).size()==0){
             return dishesDao.addDish(dish);
         }else{
 
@@ -88,12 +88,19 @@ public class DishesServiceImpl  implements DishesService {
 
     public Integer updateDish(Dish dish) {
         dish.setCreateTime(BaseUtils.getTime());
-        return dishesDao.updateDish(dish);
-//        if(dishesDao.checkDishes(dish.getName())==0){
-//
-//        }else{
-//            return 0;
-//        }
+      //  return dishesDao.updateDish(dish);
+
+        List<Integer> ids = dishesDao.checkDishes(dish.getName(),dish.getShopId());
+        if(ids.size() > 0 && ids.get(0) != dish.getId()){
+            return 0;
+        }
+
+        int flag = dishesDao.updateDish(dish);
+        // int flag2 = detailDao.updatePay(shop);
+        //  int flag = flag1 + flag2;
+        return flag;
+
+
     }
 
     public Integer getIfDishByTypeId(DishesDto dishesDto) {

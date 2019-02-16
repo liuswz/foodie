@@ -136,7 +136,7 @@ public class DishesController {
     @RequestMapping(value = "/consumer/shopdishes/updateDish",method = RequestMethod.POST)
     public BaseJson updateDish( Dish dish ){
         BaseJson baseJson = new BaseJson();
-        log.info(dish.getName()+"***********************8");
+      //  log.info(dish.getName()+"***********************8");
         int flag = dishService.updateDish(dish);
         if(flag > 0){
             baseJson.setCode(0);
@@ -148,7 +148,7 @@ public class DishesController {
 
             baseJson.setCode(1);
             baseJson.setMessage("失败");
-            baseJson.setResult("更改失败");
+            baseJson.setResult("菜名已存在");
         }
         return baseJson;
 
