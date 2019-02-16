@@ -34,7 +34,8 @@
         remark,
         photo_url,
         type_id,
-        create_time
+        create_time,
+        shop_id
         )
         values
         (
@@ -44,7 +45,8 @@
         #{remark},
         #{photoUrl},
         #{typeId},
-        #{createTime}
+        #{createTime},
+        #{shopId}
         )
     </insert>
     <select id="findAllDishType" resultType="com.lanke.foodie.entity.DishType" >
