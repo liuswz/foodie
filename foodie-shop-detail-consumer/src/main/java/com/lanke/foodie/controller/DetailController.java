@@ -42,9 +42,10 @@ public class DetailController {
     public BaseJson regist(Shop shop){
         BaseJson baseJson = new BaseJson();
         int flag = detailService.regist(shop);
-        if(flag == 2){
+        if(flag == 1){
             baseJson.setCode(0);
             baseJson.setResult("注册成功");
+
         }else if(flag == 3){
             baseJson.setCode(1);
             baseJson.setMessage("失败");
@@ -56,6 +57,7 @@ public class DetailController {
         }else {
             baseJson.setCode(1);
             baseJson.setMessage("失败");
+            baseJson.setResult("注册失败");
         }
         return baseJson;
     }
