@@ -158,6 +158,10 @@ public class DishesController {
     public BaseJson getIfDishByTypeId( DishesDto dishesDto ){
         BaseJson baseJson = new BaseJson();
 
+        for(int i=0;i<20;i++){
+            System.out.println(dishesDto.getShopId());
+            System.out.println(dishesDto.getIds());
+        }
         int flag = dishService.getIfDishByTypeId(dishesDto);
         if(flag > 0){
             baseJson.setCode(0);
