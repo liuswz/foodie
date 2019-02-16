@@ -1,9 +1,8 @@
 package com.lanke.foodie.controller;
 
 import com.fasterxml.jackson.databind.ser.Serializers;
-import com.lanke.foodie.dto.RegistDto;
-import com.lanke.foodie.dto.ShopInfoDto;
-import com.lanke.foodie.dto.ShopUpdateDto;
+
+import com.lanke.foodie.entity.Shop;
 import com.lanke.foodie.json.BaseJson;
 
 import com.lanke.foodie.service.DetailService;
@@ -40,9 +39,9 @@ public class DetailController {
             @ApiImplicitParam(paramType = "query", name = "apiKey", dataType = "String", value = "支付key", defaultValue = "")
     })
     @RequestMapping(value = "/consumer/shopdetail/register",method = RequestMethod.POST)
-    public BaseJson regist(RegistDto registDto){
+    public BaseJson regist(Shop shop){
         BaseJson baseJson = new BaseJson();
-        int flag = detailService.regist(registDto);
+        int flag = detailService.regist(shop);
         if(flag == 2){
             baseJson.setCode(0);
             baseJson.setResult("注册成功");
@@ -62,9 +61,9 @@ public class DetailController {
     }
 
     @RequestMapping(value = "/consumer/shopdetail/update",method = RequestMethod.POST)
-    public BaseJson update(ShopUpdateDto shopUpdateDto){
+    public BaseJson update(Shop shop){
         BaseJson baseJson = new BaseJson();
-        int flag = detailService.update(shopUpdateDto);
+        int flag = detailService.update(shop);
         if(flag == 2){
             baseJson.setCode(0);
             baseJson.setResult("修改成功");
@@ -82,11 +81,11 @@ public class DetailController {
     @RequestMapping(value = "/consumer/shopdetail/getById/{id}",method = RequestMethod.GET)
     public BaseJson getById(@PathVariable("id") Integer id){
         BaseJson baseJson = new BaseJson();
-        ShopInfoDto shopInfoDto = detailService.getById(id);
-        if(shopInfoDto != null){
+        Shop shop = detailService.getById(id);
+        if(shop != null){
             baseJson.setCode(0);
             baseJson.setMessage("成功");
-            baseJson.setResult(shopInfoDto);
+            baseJson.setResult(shop);
         }else{
             baseJson.setCode(1);
             baseJson.setMessage("失败");

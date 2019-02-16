@@ -1,9 +1,8 @@
 package com.lanke.foodie.service;
 
 import com.lanke.foodie.dto.DishesDto;
-import com.lanke.foodie.dto.RegistDto;
-import com.lanke.foodie.dto.ShopInfoDto;
-import com.lanke.foodie.dto.ShopUpdateDto;
+
+import com.lanke.foodie.entity.Shop;
 import feign.Param;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.*;
@@ -13,13 +12,13 @@ public interface DetailService {
 
 
     @RequestMapping(value = "/shopdetail/register",method = RequestMethod.POST)
-    public Integer regist(@RequestBody RegistDto registDto  );
+    public Integer regist(@RequestBody Shop shop  );
 
     @RequestMapping(value = "/shopdetail/update",method = RequestMethod.POST)
-    public Integer update(@RequestBody ShopUpdateDto shopUpdateDto);
+    public Integer update(@RequestBody Shop shop);
 
     @RequestMapping(value = "/shopdetail/getById",method = RequestMethod.GET)
-    public ShopInfoDto getById(@RequestParam("id") Integer id);
+    public Shop getById(@RequestParam("id") Integer id);
 
 
 }

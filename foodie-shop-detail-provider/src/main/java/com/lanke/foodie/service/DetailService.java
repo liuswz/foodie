@@ -1,13 +1,12 @@
 package com.lanke.foodie.service;
 
-import com.lanke.foodie.dto.RegistDto;
-import com.lanke.foodie.dto.ShopInfoDto;
-import com.lanke.foodie.dto.ShopUpdateDto;
+
+import com.lanke.foodie.entity.Shop;
 
 public interface DetailService {
-    public int regist(RegistDto registDto);
+    public int regist(Shop shop);
 
-    public int update(ShopUpdateDto shopUpdateDto);
+    public int update(Shop shop);
 
-    public ShopInfoDto getById(Integer id);
+    public Shop getById(Integer id);
 }
