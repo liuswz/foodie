@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lanke.foodie.dao.DishesDao">
+
+
+
+
+
+    <select id="findAllDishType" resultType="com.lanke.foodie.entity.DishType" >
+        select
+        *
+        from
+        dish_type
+        where
+        shop_id = #{shopId}
+    </select>
+
+
+
+    <select id="getDishById" resultType="com.lanke.foodie.entity.Dish">
+        select
+        *
+        from
+        dish
+        where
+        id = #{id}
+    </select>
+    <select id="findAllDishes" resultType="com.lanke.foodie.dto.DishesDto">
+        SELECT * FROM dish
+        inner JOIN dish_type
+        ON dish.type_id=dish_type.id WHERE dish.shop_id= #{shopId}
+    </select>
+
+</mapper>

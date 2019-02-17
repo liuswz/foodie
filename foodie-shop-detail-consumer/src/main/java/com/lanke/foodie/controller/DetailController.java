@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,6 +27,9 @@ public class DetailController {
 
     @Autowired
     private DetailService detailService;
+    @Autowired
+    private JmsMessagingTemplate jmsMessagingTemplate;
+
 
     @ApiOperation(value = "商家入驻", notes = "商家管理")
     @ApiImplicitParams({
@@ -98,4 +102,18 @@ public class DetailController {
 
     }
 
+    @RequestMapping(value = "/consumer/shopdetail/createTemplate/{username}",method = RequestMethod.GET)
+    public BaseJson create_template(@PathVariable("username") String username){
+
+        jmsMessagingTemplate.convertAndSend("statics", username);
+        BaseJson baseJson = new BaseJson();
+
+
+        baseJson.setCode(0);
+        baseJson.setMessage("成功");
+        baseJson.setResult("生成静态页面成功");
+
+        return baseJson;
+
+    }
 }

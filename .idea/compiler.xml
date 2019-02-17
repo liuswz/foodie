@@ -16,6 +16,7 @@
         <module name="foodie-shop-dishes-provider" />
         <module name="foodie-shop-order-consumer" />
         <module name="foodie-shop-order-provider" />
+        <module name="foodie-static-service" />
       </profile>
     </annotationProcessing>
   </component>
