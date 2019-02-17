@@ -19,7 +19,7 @@ public interface DishesService {
 
     public List<TypeToDishDto> getTypeToDish(Integer shopId);
 
-    public Shop getShopById( String username);
+    public Shop getShopById( Integer shopId);
 
 
 

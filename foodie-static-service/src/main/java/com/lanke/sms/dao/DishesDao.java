@@ -20,6 +20,6 @@ public interface DishesDao {
 
     public List<Dish> getDishByTypeId(@Param("typeId") Integer typeId);
 
-    public Shop getShopById(@Param("username") String username);
+    public Shop getShopById(@Param("username") Integer shopId);
 
 }

@@ -47,8 +47,8 @@ public class DishesServiceImpl  implements DishesService {
         return typeToDishDtoList;
     }
 
-    public Shop getShopById(String username) {
-        return dishesDao.getShopById(username);
+    public Shop getShopById(Integer shopId) {
+        return dishesDao.getShopById(shopId);
     }
 
     public Dish getDishById(Integer id) {
