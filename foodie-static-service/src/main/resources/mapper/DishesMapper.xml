@@ -34,4 +34,21 @@
         ON dish.type_id=dish_type.id WHERE dish.shop_id= #{shopId}
     </select>
 
+    <select id="getDishByTypeId" resultType="Dish">
+        select
+        *
+        from
+        dish
+        where
+        type_id = #{typeId}
+    </select>
+    <select id="getShopById" resultType="Shop">
+        select
+        *
+        from
+        shop
+        where
+        id = #{id}
+    </select>
+
 </mapper>
