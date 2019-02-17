@@ -48,7 +48,7 @@
         from
         shop
         where
-        id = #{id}
+        username = #{username}
     </select>
 
 </mapper>
