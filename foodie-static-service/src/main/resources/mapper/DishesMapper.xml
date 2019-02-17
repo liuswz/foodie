@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.lanke.foodie.dao.DishesDao">
+<mapper namespace="com.lanke.sms.dao.DishesDao">
 
 
 
@@ -34,7 +34,7 @@
         ON dish.type_id=dish_type.id WHERE dish.shop_id= #{shopId}
     </select>
 
-    <select id="getDishByTypeId" resultType="Dish">
+    <select id="getDishByTypeId" resultType="com.lanke.foodie.entity.Dish">
         select
         *
         from
@@ -42,7 +42,7 @@
         where
         type_id = #{typeId}
     </select>
-    <select id="getShopById" resultType="Shop">
+    <select id="getShopById" resultType="com.lanke.foodie.entity.Shop">
         select
         *
         from
