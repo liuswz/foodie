@@ -102,10 +102,13 @@ public class DetailController {
 
     }
 
-    @RequestMapping(value = "/consumer/shopdetail/createTemplate/{username}",method = RequestMethod.GET)
-    public BaseJson create_template(@PathVariable("username") String username){
+    @RequestMapping(value = "/consumer/shopdetail/createTemplate/{id}/{username}",method = RequestMethod.GET)
+    public BaseJson create_template(@PathVariable("id") String id,@PathVariable("username") String username){
 
-        jmsMessagingTemplate.convertAndSend("statics", username);
+        Map map=new HashMap<String,String>();
+        map.put("id", id);
+        map.put("username", username);
+        jmsMessagingTemplate.convertAndSend("statics", map);
         BaseJson baseJson = new BaseJson();
 
 
