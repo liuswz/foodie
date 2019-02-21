@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import java.util.List;
 @Slf4j
 @Service
@@ -58,6 +59,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     public PageResult findOrderByTime(Integer pageNum, Integer pageSize, findOrderParamsDto findOrderParamsDto) {
+//        String fromTime = findOrderParamsDto.getFromTime();
+//        String toTime = findOrderParamsDto.getToTime();
+
+
         PageHelper.startPage(pageNum, pageSize);
         Page<Order> page=   (Page<Order>) orderDao.findOrderByTime(findOrderParamsDto);
         return new PageResult(page.getTotal(), page.getResult());
