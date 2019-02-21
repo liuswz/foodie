@@ -14,4 +14,11 @@ public class BaseUtils {
         return dateStr;
 
     }
+    public static String createOrderNo(){
+
+
+        return  new Date().getTime() + "" + (int)(89999999*Math.random()+10000000);
+
+    }
+
 }

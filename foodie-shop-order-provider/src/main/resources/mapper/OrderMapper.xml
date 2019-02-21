@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lanke.foodie.dao.OrderDao">
+
+    <insert id="addOrder" useGeneratedKeys="true" keyProperty="id" >
+        insert
+        into
+        fd_order
+        (
+        order_no,
+        table_num,
+        order_status,
+        cost,
+        shop_id,
+        create_time
+        )
+        values
+        (
+        #{orderNo},
+        #{tableNum},
+        #{orderStatus},
+        #{cost},
+        #{shopId},
+        #{createTime}
+        )
+    </insert>
+    <insert id="addOrderItem">
+        insert
+        order_item
+        (
+        dish_id,
+        dish_num,
+        total_cost,
+        order_id,
+        create_time
+        )
+        values
+        (
+        #{dishId},
+        #{dishNum},
+        #{totalCost},
+        #{orderId},
+        #{createTime}
+        )
+    </insert>
+    <!--<select id="checkUsername" resultType="int">-->
+        <!--select-->
+        <!--count(*)-->
+        <!--from-->
+        <!--shop-->
+        <!--where-->
+        <!--username = #{username}-->
+    <!--</select>-->
+    <!--<select id="checkShopName" resultType="int">-->
+        <!--select-->
+        <!--count(*)-->
+        <!--from-->
+        <!--shop-->
+        <!--where-->
+        <!--shop_name = #{shopName}-->
+    <!--</select>-->
+    <!--<update id="updateShop">-->
+        <!--update-->
+        <!--shop-->
+        <!--set-->
+        <!--shop_name = #{shopName},-->
+        <!--shop_address = #{shopAddress},-->
+        <!--shop_email = #{shopEmail},-->
+        <!--shop_phone = #{shopPhone},-->
+        <!--shop_notice = #{shopNotice},-->
+        <!--photo_url = #{photoUrl}-->
+        <!--where-->
+        <!--id = #{id}-->
+    <!--</update>-->
+    <!--&lt;!&ndash;<update id="updatePay">&ndash;&gt;-->
+    <!--&lt;!&ndash;update&ndash;&gt;-->
+    <!--&lt;!&ndash;pay_detail&ndash;&gt;-->
+    <!--&lt;!&ndash;set&ndash;&gt;-->
+    <!--&lt;!&ndash;mch_id = #{mchId},&ndash;&gt;-->
+    <!--&lt;!&ndash;api_key = #{apiKey}&ndash;&gt;-->
+    <!--&lt;!&ndash;where&ndash;&gt;-->
+    <!--&lt;!&ndash;id = #{payDetailId}&ndash;&gt;-->
+    <!--&lt;!&ndash;</update>&ndash;&gt;-->
+    <!--<select id="getShopById" resultType="Shop">-->
+        <!--select-->
+        <!--*-->
+        <!--from-->
+        <!--shop-->
+        <!--where-->
+        <!--id = #{id}-->
+    <!--</select>-->
+    <!--&lt;!&ndash;<select id="getShopDetailById" resultType="PayDetail">&ndash;&gt;-->
+    <!--&lt;!&ndash;select&ndash;&gt;-->
+    <!--&lt;!&ndash;*&ndash;&gt;-->
+    <!--&lt;!&ndash;from&ndash;&gt;-->
+    <!--&lt;!&ndash;pay_detail&ndash;&gt;-->
+    <!--&lt;!&ndash;where&ndash;&gt;-->
+    <!--&lt;!&ndash;id = #{id}&ndash;&gt;-->
+    <!--&lt;!&ndash;</select>&ndash;&gt;-->
+    <!--<select id="checkShopNameForUpdate" resultType="int">-->
+        <!--select-->
+        <!--id-->
+        <!--from-->
+        <!--shop-->
+        <!--where-->
+        <!--shop_name = #{shopName}-->
+    <!--</select>-->
+
+</mapper>

@@ -34,7 +34,7 @@
         ON dish.type_id=dish_type.id WHERE dish.shop_id= #{shopId}
     </select>
 
-    <select id="getDishByTypeId" resultType="com.lanke.foodie.entity.Dish">
+    <select id="getDishByTypeId" resultType="com.lanke.foodie.dto.DishStaticDto">
         select
         *
         from

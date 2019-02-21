@@ -43,7 +43,7 @@ public class SmsListener {
         Context context = new Context();
 
         context.setVariable("typeToDishList", dishesService.getTypeToDish(Integer.parseInt(map.get("id"))));
-        log.info( dishesService.getTypeToDish(Integer.parseInt(map.get("id"))).get(0).getDishType().getTypeName()+"---------------------------------");
+      //  log.info( dishesService.getTypeToDish(Integer.parseInt(map.get("id"))).get(0).getDishType().getTypeName()+"---------------------------------");
         context.setVariable("shop", dishesService.getShopById(Integer.parseInt(map.get("id"))));
 
 

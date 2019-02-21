@@ -14,9 +14,10 @@ import java.util.Date;
 public class Order implements Serializable {
 
     private Integer id;
-    private String orderNum;
+    private String orderNo;
     private Integer orderStatus;
     private double cost;
+    private Integer tableNum;
     private Integer shopId;
     private String createTime;
 }

@@ -10,8 +10,8 @@
 </head>
 <body>
 <div class="header" id="app">
-    <div class="content-wrapper" >
-        <!--<div class="avatar">-->
+    <!--<div class="content-wrapper" >-->
+      <!--&lt;!&ndash;  <div class="avatar">-->
             <!--<img width="64" height="64" th:src="@{${shop.photoUrl}}"/>-->
         <!--</div>-->
         <!--<div class="content">-->
@@ -19,11 +19,11 @@
                 <!--<span class="brand"></span>-->
                 <!--<span class="name" th:text="${shop.shopName}"></span>-->
             <!--</div>-->
-            <!---->
+
             <!--<div class="description" th:text="${shop.shopNotice}"> </div>-->
-            <!--&lt;!&ndash; <div class="support">-->
+          <!--<div class="support">-->
                 <!--<span class="icon decrease"></span>-->
-                <!--<span class="text">在线支付满28减5</span> -->
+                <!--<span class="text">在线支付满28减5</span>-->
             <!--</div> &ndash;&gt;-->
         <!--</div>-->
     <!--</div>-->
@@ -130,7 +130,7 @@
     <!--<div class="footer">-->
         <!--<div class="left">-->
         	<!--<div class="count_num"><span id="totalcountshow">0</span></div>-->
-            <!--<span id="cartN" class="nowrap">总计：<span id="totalpriceshow">0</span>元</span> -->
+            <!--<span id="cartN" class="nowrap">总计：<span id="totalpriceshow">0</span>元</span>-->
         <!--</div>-->
         <!--<div class="right">-->
             <!--<a id="btnselect" class="xhlbtn disable" href="order_notes.html">去结算</a>-->
@@ -180,9 +180,9 @@
         <!--</dl>-->
         <!--<div class="foot">-->
             <!--<span>加入购物车</span>-->
-        <!--</div>-->
-        <p>{{ shop.shopName }}</p>
-    </div>
+        <!--</div>&ndash;&gt;-->
+
+    <!--</div>-->
 </div>
 <script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript" src="js/add.js"></script>
@@ -195,18 +195,16 @@
         el: "#app",
         //data用于存放数据或者变量
         data: {
-            typeToDishList:{},
-            shop:{}
+            typeToDishList:typeToDishList,
+            shop:shop
             //	dish_photo:null,
 
         },
         //用于数据初始化
 
         created: function () {
-            this.typeToDishList=typeToDishList;
-            this.shop=shop;
-            alert("sssssssss");
-            alert(typeToDishList);
+
+
 
         },
         //用于存放所有的事件方法集合

@@ -1,19 +1,18 @@
 package com.lanke.foodie.dto;
 
-import com.lanke.foodie.entity.Dish;
-import com.lanke.foodie.entity.DishType;
+import com.lanke.foodie.entity.Order;
+import com.lanke.foodie.entity.OrderItem;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.util.List;
-
 @NoArgsConstructor
 //@AllArgsConstructor
 @Data
 @Accessors(chain=true)
-public class TypeToDishDto {
+public class OrderAndItemDto {
 
-    private DishType dishType;
-    private List<DishStaticDto> dishList;
+    private Order order;
+    private List<OrderItem> orderItemList;
 }

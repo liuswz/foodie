@@ -1,5 +1,6 @@
 package com.lanke.sms.dao;
 
+import com.lanke.foodie.dto.DishStaticDto;
 import com.lanke.foodie.dto.DishesDto;
 import com.lanke.foodie.entity.Dish;
 import com.lanke.foodie.entity.DishType;
@@ -18,7 +19,7 @@ public interface DishesDao {
     public Dish getDishById(@Param("id") Integer id);
     public List<DishesDto> findAllDishes(@Param("shopId") Integer shopId);
 
-    public List<Dish> getDishByTypeId(@Param("typeId") Integer typeId);
+    public List<DishStaticDto> getDishByTypeId(@Param("typeId") Integer typeId);
 
     public Shop getShopById(@Param("id") Integer id);
 
