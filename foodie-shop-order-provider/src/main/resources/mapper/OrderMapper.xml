@@ -5,7 +5,7 @@
 
 <mapper namespace="com.lanke.foodie.dao.OrderDao">
 
-    <insert id="addOrder" useGeneratedKeys="true" keyProperty="id" >
+    <insert id="addOrder" useGeneratedKeys="true" keyProperty="id" parameterType="com.lanke.foodie.entity.Order"  >
         insert
         into
         fd_order
@@ -46,67 +46,33 @@
         #{createTime}
         )
     </insert>
-    <!--<select id="checkUsername" resultType="int">-->
-        <!--select-->
-        <!--count(*)-->
-        <!--from-->
-        <!--shop-->
-        <!--where-->
-        <!--username = #{username}-->
-    <!--</select>-->
-    <!--<select id="checkShopName" resultType="int">-->
-        <!--select-->
-        <!--count(*)-->
-        <!--from-->
-        <!--shop-->
-        <!--where-->
-        <!--shop_name = #{shopName}-->
-    <!--</select>-->
-    <!--<update id="updateShop">-->
-        <!--update-->
-        <!--shop-->
-        <!--set-->
-        <!--shop_name = #{shopName},-->
-        <!--shop_address = #{shopAddress},-->
-        <!--shop_email = #{shopEmail},-->
-        <!--shop_phone = #{shopPhone},-->
-        <!--shop_notice = #{shopNotice},-->
-        <!--photo_url = #{photoUrl}-->
-        <!--where-->
-        <!--id = #{id}-->
-    <!--</update>-->
-    <!--&lt;!&ndash;<update id="updatePay">&ndash;&gt;-->
-    <!--&lt;!&ndash;update&ndash;&gt;-->
-    <!--&lt;!&ndash;pay_detail&ndash;&gt;-->
-    <!--&lt;!&ndash;set&ndash;&gt;-->
-    <!--&lt;!&ndash;mch_id = #{mchId},&ndash;&gt;-->
-    <!--&lt;!&ndash;api_key = #{apiKey}&ndash;&gt;-->
-    <!--&lt;!&ndash;where&ndash;&gt;-->
-    <!--&lt;!&ndash;id = #{payDetailId}&ndash;&gt;-->
-    <!--&lt;!&ndash;</update>&ndash;&gt;-->
-    <!--<select id="getShopById" resultType="Shop">-->
-        <!--select-->
-        <!--*-->
-        <!--from-->
-        <!--shop-->
-        <!--where-->
-        <!--id = #{id}-->
-    <!--</select>-->
-    <!--&lt;!&ndash;<select id="getShopDetailById" resultType="PayDetail">&ndash;&gt;-->
-    <!--&lt;!&ndash;select&ndash;&gt;-->
-    <!--&lt;!&ndash;*&ndash;&gt;-->
-    <!--&lt;!&ndash;from&ndash;&gt;-->
-    <!--&lt;!&ndash;pay_detail&ndash;&gt;-->
-    <!--&lt;!&ndash;where&ndash;&gt;-->
-    <!--&lt;!&ndash;id = #{id}&ndash;&gt;-->
-    <!--&lt;!&ndash;</select>&ndash;&gt;-->
-    <!--<select id="checkShopNameForUpdate" resultType="int">-->
-        <!--select-->
-        <!--id-->
-        <!--from-->
-        <!--shop-->
-        <!--where-->
-        <!--shop_name = #{shopName}-->
-    <!--</select>-->
+    <select id="findAllOrder" resultType="com.lanke.foodie.entity.Order" >
+        select
+        *
+        from
+        fd_order
+        where
+        shop_id = #{shopId}
+        order by id desc
+    </select>
+    <select id="findOrderByTime" parameterType="com.lanke.foodie.dto.findOrderParamsDto" resultType="com.lanke.foodie.entity.Order" >
+         SELECT
+            *
+            FROM
+            fd_order
+            WHERE
+            create_time  BETWEEN
+            #{fromTime}
+            AND
+             #{toTime}
+            and  shop_id = #{shopId}
+
+    </select>
+    <select id="findOrderItem" resultType="com.lanke.foodie.dto.OrderItemDto">
+        SELECT * FROM order_item
+        inner JOIN dish
+        ON order_item.dish_id=dish.id WHERE order_item.order_id= #{orderId} and dish.shop_id = #{shopId}
+    </select>
+
 
 </mapper>

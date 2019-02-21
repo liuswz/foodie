@@ -3,6 +3,9 @@ package com.lanke.foodie.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.lanke.foodie.dto.OrderAndItemDto;
+import com.lanke.foodie.dto.OrderItemDto;
+import com.lanke.foodie.dto.PageResult;
+import com.lanke.foodie.dto.findOrderParamsDto;
 import com.lanke.foodie.entity.Order;
 import com.lanke.foodie.entity.OrderItem;
 import com.lanke.foodie.enums.Result;
@@ -30,10 +33,7 @@ public class OrderController {
         orderAndItemDto.setOrder(order);
         orderAndItemDto.setOrderItemList(orderItem);
         BaseJson baseJson = new BaseJson();
-        // log.info("测试{}，日志级别{}，输出{}", registDto.getMchId(), "info", "info level log");
-        // int flag =detailService.regist(registDto);
 
-        //int flag = restTemplate.postForObject(REST_URL_PREFIX + "/shopdishes/adddishtype", dishType, Integer.class);
         int flag = orderService.addOrder(orderAndItemDto);
         if(flag == Result.SUCCESS.getIndex()){
             baseJson.setCode(flag);
@@ -49,5 +49,24 @@ public class OrderController {
         }
         return baseJson;
 
+    }
+
+
+    @RequestMapping(value = "/consumer/shoporder/findAllOrder/{page}/{size}/{shopId}",method = RequestMethod.GET)
+    public PageResult findAllOrder(@PathVariable("page") Integer page, @PathVariable("size") Integer size, @PathVariable("shopId") Integer shopId) {
+
+        return orderService.findAllOrder(page,size,shopId);
+    }
+    @RequestMapping(value = "/consumer/shoporder/findOrderByTime",method = RequestMethod.GET)
+    public PageResult findOrderByTime(  @RequestParam("page") Integer page,
+                                        @RequestParam("size") Integer size,
+                                        findOrderParamsDto findOrderParamsDto) {
+
+        return orderService.findOrderByTime(page,size,findOrderParamsDto);
+    }
+    @RequestMapping(value = "/consumer/shoporder/findOrderItem/{orderId}/{shopId}",method = RequestMethod.GET)
+    public List<OrderItemDto> findOrderItem(@PathVariable("orderId") Integer orderId, @PathVariable("shopId") Integer shopId) {
+
+        return orderService.findOrderItem(orderId,shopId);
     }
 }

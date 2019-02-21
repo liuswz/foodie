@@ -44,4 +44,5 @@ public interface DishService {
     @RequestMapping(value = "/shopdishes/getIfDishByTypeId",method = RequestMethod.POST)
     public Integer getIfDishByTypeId(@RequestBody DishesDto dishesDto );
 
+
 }
