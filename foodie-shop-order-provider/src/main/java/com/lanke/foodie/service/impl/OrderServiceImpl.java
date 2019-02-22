@@ -51,7 +51,7 @@ public class OrderServiceImpl implements OrderService {
 
     public PageResult findAllOrder(Integer pageNum, Integer pageSize, Integer shopId) {
         PageHelper.startPage(pageNum, pageSize);
-        Page<Order> page=   (Page<Order>) orderDao.findAllOrder(shopId);
+        Page<Order> page=   (Page<Order>) BaseUtils.transformTime(orderDao.findAllOrder(shopId),"yyyy-MM-dd HH:mm");
         return new PageResult(page.getTotal(), page.getResult());
 
     }
@@ -63,12 +63,29 @@ public class OrderServiceImpl implements OrderService {
         findOrderParamsDto.setFromTime(findOrderParamsDto.getFromTime()+" 00:00:00");
         findOrderParamsDto.setToTime(findOrderParamsDto.getToTime()+" 23:59:59");
         PageHelper.startPage(pageNum, pageSize);
-        Page<Order> page=   (Page<Order>) orderDao.findOrderByTime(findOrderParamsDto);
+
+
+        Page<Order> page=   (Page<Order>) BaseUtils.transformTime(orderDao.findOrderByTime(findOrderParamsDto),"yyyy-MM-dd HH:mm"); ;
         return new PageResult(page.getTotal(), page.getResult());
     }
 
     public List<OrderItemDto> findOrderItem(Integer orderId, Integer shopId) {
         return orderDao.findOrderItem(orderId,shopId);
+    }
+
+    public PageResult findNotFinishOrder(Integer pageNum, Integer pageSize, Integer shopId) {
+
+        PageHelper.startPage(pageNum, pageSize);
+        Page<Order> page= (Page<Order>) BaseUtils.transformTime(orderDao.findNotFinishOrder(shopId),"yyyy-MM-dd HH:mm");
+        return new PageResult(page.getTotal(), page.getResult());
+
+    }
+
+    public Integer updatOrder(Integer orderStatus, Integer id) {
+        if(orderDao.updatOrder(orderStatus,id)>0)
+            return Result.SUCCESS.getIndex();
+        else
+            return Result.FAIL.getIndex();
     }
 
 

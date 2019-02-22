@@ -18,5 +18,6 @@ public interface OrderDao {
     public List<Order> findOrderByTime(FindOrderParamsDto findOrderParamsDto);
     public List<OrderItemDto> findOrderItem(@Param("orderId") Integer orderId, @Param("shopId") Integer shopId);
 
-
+    public List<Order> findNotFinishOrder(@Param("shopId")  Integer shopId);
+    public Integer  updatOrder(@Param("orderStatus") Integer orderStatus,@Param("id") Integer id);
 }

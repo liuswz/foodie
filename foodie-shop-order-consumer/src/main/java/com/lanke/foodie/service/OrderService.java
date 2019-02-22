@@ -20,4 +20,9 @@ public interface OrderService {
     public PageResult findOrderByTime(@RequestParam("page") Integer page,  @RequestParam("size")  Integer size, @RequestBody FindOrderParamsDto findOrderParamsDto);
     @RequestMapping(value = "/shoporder/findOrderItem/{orderId}/{shopId}",method = RequestMethod.GET)
     public List<OrderItemDto> findOrderItem(@PathVariable("orderId") Integer orderId, @PathVariable("shopId") Integer shopId) ;
+
+    @RequestMapping(value = "/shoporder/findNotFinishOrder/{page}/{size}/{shopId}",method = RequestMethod.GET)
+    public PageResult findNotFinishOrder(@PathVariable("page") Integer page, @PathVariable("size") Integer size, @PathVariable("shopId") Integer shopId);
+    @RequestMapping(value = "/shoporder/updatOrder/{orderStatus}/{id}",method = RequestMethod.GET)
+    public Integer  updatOrder( @PathVariable("orderStatus") Integer orderStatus,@PathVariable("id") Integer id);
 }

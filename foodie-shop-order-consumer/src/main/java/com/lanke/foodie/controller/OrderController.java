@@ -68,4 +68,31 @@ log.info(page+size+findOrderParamsDto.getFromTime()+findOrderParamsDto.getToTime
 
         return orderService.findOrderItem(orderId,shopId);
     }
+
+
+    @RequestMapping(value = "/consumer/shoporder/findNotFinishOrder/{page}/{size}/{shopId}",method = RequestMethod.GET)
+    public PageResult findNotFinishOrder(@PathVariable("page") Integer page, @PathVariable("size") Integer size, @PathVariable("shopId") Integer shopId){
+        return orderService.findNotFinishOrder(page,size,shopId);
+    }
+    @RequestMapping(value = "/consumer/shoporder/updatOrder/{orderStatus}/{id}",method = RequestMethod.GET)
+    public BaseJson  updatOrder( @PathVariable("orderStatus") Integer orderStatus,@PathVariable("id") Integer id){
+
+        int flag = orderService.updatOrder(orderStatus,id);
+
+        BaseJson baseJson = new BaseJson();
+        if(flag == Result.SUCCESS.getIndex()){
+            baseJson.setCode(flag);
+            baseJson.setMessage("成功");
+            baseJson.setResult("更改成功");
+        }else {
+
+            baseJson.setCode(flag);
+            baseJson.setMessage("失败");
+            baseJson.setResult("更改失败");
+
+
+        }
+        return baseJson;
+
+    }
 }

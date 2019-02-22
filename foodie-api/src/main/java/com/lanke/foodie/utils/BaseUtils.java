@@ -1,7 +1,11 @@
 package com.lanke.foodie.utils;
 
+import com.lanke.foodie.entity.Order;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class BaseUtils {
 
@@ -20,5 +24,22 @@ public class BaseUtils {
         return  new Date().getTime() + "" + (int)(89999999*Math.random()+10000000);
 
     }
+    public static List<Order> transformTime(List<Order> list,String dateFormate) {
+        SimpleDateFormat ft = new SimpleDateFormat (dateFormate);
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.0");
 
+
+
+
+        for(Order o:list){
+            Date d = null;
+            try {
+                d = sdf1.parse(o.getCreateTime());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            o.setCreateTime(ft.format(d));
+        }
+        return list;
+    }
 }

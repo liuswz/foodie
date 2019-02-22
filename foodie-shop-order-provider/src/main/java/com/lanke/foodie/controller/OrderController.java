@@ -39,4 +39,12 @@ public class OrderController {
 
         return orderService.findOrderItem(orderId,shopId);
     }
+    @RequestMapping(value = "/shoporder/findNotFinishOrder/{page}/{size}/{shopId}",method = RequestMethod.GET)
+    public PageResult findNotFinishOrder(@PathVariable("page") Integer page, @PathVariable("size") Integer size, @PathVariable("shopId") Integer shopId){
+        return orderService.findNotFinishOrder(page,size,shopId);
+    }
+    @RequestMapping(value = "/shoporder/updatOrder/{orderStatus}/{id}",method = RequestMethod.GET)
+    public Integer  updatOrder( @PathVariable("orderStatus") Integer orderStatus,@PathVariable("id") Integer id){
+        return orderService.updatOrder(orderStatus,id);
+    }
 }
