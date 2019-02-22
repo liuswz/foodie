@@ -79,7 +79,7 @@
         from
         fd_order
         where
-        shop_id = #{shopId} and order_status != 4
+        shop_id = #{shopId} and order_status != 3
         order by id desc
     </select>
     <update id="updatOrder">
