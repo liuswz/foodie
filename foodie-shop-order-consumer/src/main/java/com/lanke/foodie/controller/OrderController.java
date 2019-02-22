@@ -1,11 +1,10 @@
 package com.lanke.foodie.controller;
 
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import com.lanke.foodie.dto.FindOrderParamsDto;
 import com.lanke.foodie.dto.OrderAndItemDto;
 import com.lanke.foodie.dto.OrderItemDto;
 import com.lanke.foodie.dto.PageResult;
-import com.lanke.foodie.dto.findOrderParamsDto;
 import com.lanke.foodie.entity.Order;
 import com.lanke.foodie.entity.OrderItem;
 import com.lanke.foodie.enums.Result;
@@ -57,11 +56,11 @@ public class OrderController {
 
         return orderService.findAllOrder(page,size,shopId);
     }
-    @RequestMapping(value = "/consumer/shoporder/findOrderByTime",method = RequestMethod.GET)
+    @RequestMapping(value = "/consumer/shoporder/findOrderByTime",method = RequestMethod.POST)
     public PageResult findOrderByTime(  @RequestParam("page") Integer page,
                                         @RequestParam("size") Integer size,
-                                        findOrderParamsDto findOrderParamsDto) {
-
+                                        FindOrderParamsDto findOrderParamsDto) {
+log.info(page+size+findOrderParamsDto.getFromTime()+findOrderParamsDto.getToTime());
         return orderService.findOrderByTime(page,size,findOrderParamsDto);
     }
     @RequestMapping(value = "/consumer/shoporder/findOrderItem/{orderId}/{shopId}",method = RequestMethod.GET)

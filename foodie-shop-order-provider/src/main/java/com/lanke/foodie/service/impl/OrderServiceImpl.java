@@ -6,14 +6,12 @@ import com.lanke.foodie.dao.OrderDao;
 import com.lanke.foodie.dto.OrderAndItemDto;
 import com.lanke.foodie.dto.OrderItemDto;
 import com.lanke.foodie.dto.PageResult;
-import com.lanke.foodie.dto.findOrderParamsDto;
-import com.lanke.foodie.entity.DishType;
+import com.lanke.foodie.dto.FindOrderParamsDto;
 import com.lanke.foodie.entity.Order;
 import com.lanke.foodie.entity.OrderItem;
 import com.lanke.foodie.enums.Result;
 import com.lanke.foodie.service.OrderService;
 import com.lanke.foodie.utils.BaseUtils;
-import com.sun.xml.internal.rngom.parse.host.Base;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,11 +56,12 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
-    public PageResult findOrderByTime(Integer pageNum, Integer pageSize, findOrderParamsDto findOrderParamsDto) {
-//        String fromTime = findOrderParamsDto.getFromTime();
-//        String toTime = findOrderParamsDto.getToTime();
-
-
+    public PageResult findOrderByTime(Integer pageNum, Integer pageSize, FindOrderParamsDto findOrderParamsDto) {
+//        String fromTime = FindOrderParamsDto.getFromTime();
+//        String toTime = FindOrderParamsDto.getToTime();
+     //   log.info(FindOrderParamsDto.getFromTime());
+        findOrderParamsDto.setFromTime(findOrderParamsDto.getFromTime()+" 00:00:00");
+        findOrderParamsDto.setToTime(findOrderParamsDto.getToTime()+" 23:59:59");
         PageHelper.startPage(pageNum, pageSize);
         Page<Order> page=   (Page<Order>) orderDao.findOrderByTime(findOrderParamsDto);
         return new PageResult(page.getTotal(), page.getResult());

@@ -55,7 +55,7 @@
         shop_id = #{shopId}
         order by id desc
     </select>
-    <select id="findOrderByTime" parameterType="com.lanke.foodie.dto.findOrderParamsDto" resultType="com.lanke.foodie.entity.Order" >
+    <select id="findOrderByTime" parameterType="com.lanke.foodie.dto.FindOrderParamsDto" resultType="com.lanke.foodie.entity.Order" >
          SELECT
             *
             FROM

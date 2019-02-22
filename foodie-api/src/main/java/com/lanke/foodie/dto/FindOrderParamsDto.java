@@ -8,7 +8,7 @@ import lombok.experimental.Accessors;
 //@AllArgsConstructor
 @Data
 @Accessors(chain=true)
-public class findOrderParamsDto {
+public class FindOrderParamsDto {
 
     private String fromTime;
     private String toTime;
