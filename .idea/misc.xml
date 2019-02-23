@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/foodie-detail-provider" />
+    <file type="web" url="file://$PROJECT_DIR$/foodie-dishes-provider" />
+    <file type="web" url="file://$PROJECT_DIR$/foodie-order-provider" />
+    <file type="web" url="file://$PROJECT_DIR$/foodie-shop-consumer" />
     <file type="web" url="file://$PROJECT_DIR$/foodie-shop-detail-consumer" />
-    <file type="web" url="file://$PROJECT_DIR$/foodie-shop-detail-provider" />
-    <file type="web" url="file://$PROJECT_DIR$/foodie-shop-dishes-consumer" />
-    <file type="web" url="file://$PROJECT_DIR$/foodie-shop-dishes-provider" />
-    <file type="web" url="file://$PROJECT_DIR$/foodie-shop-order-consumer" />
-    <file type="web" url="file://$PROJECT_DIR$/foodie-shop-order-provider" />
+    <file type="web" url="file://$PROJECT_DIR$/foodie-user-consumer" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">

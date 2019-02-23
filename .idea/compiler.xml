@@ -9,15 +9,21 @@
         <outputRelativeToContentRoot value="true" />
         <module name="foodie-api" />
         <module name="foodie-config" />
+        <module name="foodie-detail-provider" />
+        <module name="foodie-dishes-provider" />
         <module name="foodie-eureka-sever" />
+        <module name="foodie-order-provider" />
+        <module name="foodie-shop-consumer" />
         <module name="foodie-shop-detail-consumer" />
-        <module name="foodie-shop-detail-provider" />
-        <module name="foodie-shop-dishes-consumer" />
-        <module name="foodie-shop-dishes-provider" />
-        <module name="foodie-shop-order-consumer" />
-        <module name="foodie-shop-order-provider" />
         <module name="foodie-static-service" />
+        <module name="foodie-user-consumer" />
+        <module name="foodie-zuul" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="foodie-shop-detail" target="1.5" />
+      <module name="foodie-shop-dishes" target="1.5" />
+      <module name="foodie-shop-order" target="1.5" />
+    </bytecodeTargetLevel>
   </component>
 </project>

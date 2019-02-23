@@ -1,0 +1,36 @@
+server: 
+  port: 9527
+ 
+spring: 
+  application:
+    name: foodie-zuul-gateway
+ 
+eureka:
+  client: #客户端注册进eureka服务列表内
+    service-url:
+      defaultZone: http://localhost:7001/eureka
+  instance:
+    instance-id: foodie-zuul
+    prefer-ip-address: true 
+ 
+ 
+zuul:
+  #ignored-services: microservicecloud-dept
+  #prefix: /atguigu
+  ignored-services: "*"
+  routes:
+    user:
+      serviceId: foodie-user-consumer
+      path: /user/**
+    shop:
+      serviceId: foodie-shop-consumer
+      path: /shop/**
+#    dishes:
+#      serviceId: foodie-shopdishes
+#      path: /dishes/**
+
+info:
+  app.name: lanke-foodie
+  company.name: www.lanke.com
+  build.artifactId: $project.artifactId$
+  build.version: $project.version$
