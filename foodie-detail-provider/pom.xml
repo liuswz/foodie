@@ -13,6 +13,11 @@
 
     <dependencies>
         <!-- 引入自己定义的api通用包，可以使用Dept部门Entity -->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+
+        </dependency>
 
         <dependency>
             <groupId>io.springfox</groupId>

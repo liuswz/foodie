@@ -83,7 +83,8 @@
         shop_email = #{shopEmail},
         shop_phone = #{shopPhone},
         shop_notice = #{shopNotice},
-        photo_url = #{photoUrl}
+        photo_url = #{photoUrl},
+        pay_photo = #{payPhoto}
         where
         id = #{id}
     </update>

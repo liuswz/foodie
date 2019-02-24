@@ -7,9 +7,11 @@ import com.lanke.foodie.entity.Shop;
 import com.lanke.foodie.service.DetailService;
 
 import com.lanke.foodie.utils.BaseUtils;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
@@ -31,7 +33,7 @@ public class DetailServiceImpl implements DetailService {
 
         //注册时商家设为未审核状态
         shop.setShopStatus(0);
-
+        shop.setPassword(DigestUtils.md5Hex(shop.getPassword()));
         //判断用户名是否存在
         int checkUsername = detailDao.checkUsername(shop.getUsername());
         if(checkUsername > 0){
