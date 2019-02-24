@@ -31,8 +31,8 @@ public class DetailController {
         return detailService.update(shop);
     }
 
-    @RequestMapping(value = "/shopdetail/getById",method = RequestMethod.GET)
-    public Shop getById(Integer id){
+    @RequestMapping(value = "/shopdetail/getById/{id}",method = RequestMethod.GET)
+    public Shop getById(@PathVariable("id") Integer id){
         return detailService.getById(id);
     }
 }
