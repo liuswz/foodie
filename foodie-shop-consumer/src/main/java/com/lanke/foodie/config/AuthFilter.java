@@ -6,6 +6,7 @@ import org.apache.commons.lang.StringUtils;
 import org.jasig.cas.client.authentication.AttributePrincipal;
 import org.jasig.cas.client.util.AbstractCasFilter;
 import org.jasig.cas.client.validation.Assertion;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.security.Principal;
 @Slf4j
 @Component
+@Order(value=0)
 @WebFilter(urlPatterns = "/webapi/*", filterName = "authFilter")
 public class AuthFilter implements Filter {
 
@@ -35,6 +37,17 @@ public class AuthFilter implements Filter {
 //            response.sendRedirect("");
 //        }
 
+
+//        res.setHeader("Access-Control-Allow-Origin", "*");
+//
+//        res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
+//
+//        res.setHeader("Access-Control-Max-Age", "1728000");
+//
+//        res.setHeader("Access-Control-Allow-Headers",
+//
+//                "Authentication, Authorization, content-type, Accept, x-requested-with, Cache-Control");
+//
 //        Principal principal  = assertion.getPrincipal();
 //
 //        String loginName =principal.getName();
@@ -45,13 +58,21 @@ public class AuthFilter implements Filter {
 //        System.out.printf("AuthenticationDate:%s\r\n",assertion.getAuthenticationDate());
 
         HttpServletRequest request_ = (HttpServletRequest)request;
-        HttpServletResponse response_ = (HttpServletResponse)response;
+        HttpServletResponse response_ = (HttpServletResponse) response;
         String loginName = CASUtil.getAccountNameFromCas(request_);
         if(StringUtils.isNotEmpty(loginName)){
             log.info("访问者 ：" +loginName);
             request_.getSession().setAttribute("loginName", loginName);
+         //   chain.doFilter(request, response);
         }else{
-          //  response_.sendRedirect("http\\://127.0.0.1\\:8088/cas/login");
+            //request_.getRequestDispatcher("/redirectlogin").forward(request_, response_);
+            String path=request_.getRequestURI();
+            log.info(path+"------------------------------------");
+            if(path.indexOf("redirectlogin")<0) {
+                request_.getRequestDispatcher("/redirectlogin").forward(request_, response_);
+                return ;
+            }
+
         }
         chain.doFilter(request, response);
 

@@ -35,11 +35,28 @@ public class DetailController {
     public BaseJson getUsername(HttpSession session)  {
         BaseJson baseJson = new BaseJson();
 
+        if(session.getAttribute("loginName")==null){
+            baseJson.setCode(1);
+            baseJson.setMessage("失败");
+            baseJson.setResult(session.getAttribute("用户名请求失败").toString());
 
-        baseJson.setCode(0);
-        baseJson.setMessage("成功");
-        baseJson.setResult(session.getAttribute("loginName").toString());
+        }else{
+            baseJson.setCode(0);
+            baseJson.setMessage("成功");
+            baseJson.setResult(session.getAttribute("loginName").toString());
 
+        }
+
+
+
+        return baseJson;
+    }
+    @RequestMapping(value = "/redirectlogin",method = RequestMethod.GET)
+    public BaseJson redirectlogin()  {
+        BaseJson baseJson = new BaseJson();
+        baseJson.setCode(1);
+        baseJson.setMessage("失败");
+        baseJson.setResult("请登录");
 
 
         return baseJson;

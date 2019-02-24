@@ -27,36 +27,40 @@ class CasFilterConfig {
 
 
 
-    private static final String CAS_SERVER_URL_PREFIX = "http://localhost:8088/cas";
+    private static final String CAS_SERVER_URL_PREFIX = "http://127.0.0.1:8088/cas";
 
 
-    private static final String SERVER_NAME = "http://localhost:9002";
+    private static final String SERVER_NAME = "http://127.0.0.1:9002";
+
+
+    private static final String CAS_SERVER_URL_LOGIN = "http://127.0.0.1:8088/cas/login";
+
+
 
     /**
-     * 登录过滤器
-     * @return
+     * description: 登录过滤器
+     * @param: []
+     * @return: org.springframework.boot.web.servlet.FilterRegistrationBean
      */
-
     @Bean
     public FilterRegistrationBean filterSingleRegistration() {
         FilterRegistrationBean registration = new FilterRegistrationBean();
         registration.setFilter(new SingleSignOutFilter());
         // 设定匹配的路径
         registration.addUrlPatterns("/*");
-        Map<String, String> initParameters = new HashMap<String, String>();
+        Map<String,String> initParameters = new HashMap<String, String>();
         initParameters.put("casServerUrlPrefix", CAS_SERVER_URL_PREFIX);
-        initParameters.put("ignorePattern", "/logout");
-        initParameters.put("ignorePattern", "/register");
         registration.setInitParameters(initParameters);
         // 设定加载的顺序
         registration.setOrder(1);
         return registration;
     }
 
+
     /**
-     * 过滤验证器
-     *
-     * @return
+     * description:过滤验证器
+     *     * @param: []
+     * @return: org.springframework.boot.web.servlet.FilterRegistrationBean
      */
     @Bean
     public FilterRegistrationBean filterValidationRegistration() {
@@ -64,7 +68,7 @@ class CasFilterConfig {
         registration.setFilter(new Cas30ProxyReceivingTicketValidationFilter());
         // 设定匹配的路径
         registration.addUrlPatterns("/*");
-        Map<String, String> initParameters = new HashMap<String, String>();
+        Map<String,String>  initParameters = new HashMap<String, String>();
         initParameters.put("casServerUrlPrefix", CAS_SERVER_URL_PREFIX);
         initParameters.put("serverName", SERVER_NAME);
         initParameters.put("useSession", "true");
@@ -74,10 +78,11 @@ class CasFilterConfig {
         return registration;
     }
 
+
     /**
-     * 授权过滤器
-     *
-     * @return
+     * description:授权过滤器
+     * @param: []
+     * @return: org.springframework.boot.web.servlet.FilterRegistrationBean
      */
     @Bean
     public FilterRegistrationBean filterAuthenticationRegistration() {
@@ -85,12 +90,15 @@ class CasFilterConfig {
         registration.setFilter(new AuthenticationFilter());
         // 设定匹配的路径
         registration.addUrlPatterns("/*");
-        Map<String, String> initParameters = new HashMap<String, String>();
-        initParameters.put("casServerLoginUrl", CAS_SERVER_URL_PREFIX);
+        Map<String,String>  initParameters = new HashMap<String, String>();
+        initParameters.put("casServerLoginUrl", CAS_SERVER_URL_LOGIN);
         initParameters.put("serverName", SERVER_NAME);
-        initParameters.put("ignorePattern", ".*");
-        //表示过滤所有
-    //    initParameters.put("ignoreUrlPatternType", "com.yellowcong.cas.auth.SimpleUrlPatternMatcherStrategy");
+        //忽略/logout的路径
+        initParameters.put("ignorePattern", "/logout/*");
+        initParameters.put("ignorePattern", "/register/*");
+        initParameters.put("ignorePattern", "/redirectlogin/*");
+
+      //  initParameters.put("ignoreUrlPatternType", "com.zhang.springbootcasclient1.auth.SimpleUrlPatternMatcherStrategy");
 
         registration.setInitParameters(initParameters);
         // 设定加载的顺序
@@ -100,7 +108,6 @@ class CasFilterConfig {
 
     /**
      * wraper过滤器
-     *
      * @return
      */
     @Bean
@@ -116,14 +123,15 @@ class CasFilterConfig {
 
     /**
      * 添加监听器
-     *
      * @return
      */
     @Bean
-    public ServletListenerRegistrationBean<EventListener> singleSignOutListenerRegistration() {
+    public ServletListenerRegistrationBean<EventListener> singleSignOutListenerRegistration(){
         ServletListenerRegistrationBean<EventListener> registrationBean = new ServletListenerRegistrationBean<EventListener>();
         registrationBean.setListener(new SingleSignOutHttpSessionListener());
         registrationBean.setOrder(1);
         return registrationBean;
     }
+
+
 }
