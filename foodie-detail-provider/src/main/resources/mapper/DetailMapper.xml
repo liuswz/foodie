@@ -19,6 +19,9 @@
         shop_status,
         shop_notice,
         photo_url,
+        business_phpto,
+        pay_photo,
+        idcard_photo,
         create_time
         )
         values
@@ -32,6 +35,9 @@
         #{shopStatus},
         #{shopNotice},
         #{photoUrl},
+        #{businessPhpto},
+        #{payPhoto},
+        #{idcardPhoto},
         #{createTime}
         )
     </insert>

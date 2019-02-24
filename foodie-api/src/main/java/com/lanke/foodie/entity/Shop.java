@@ -19,6 +19,9 @@ public class Shop implements Serializable {
     private String shopName;
     private String shopAddress;
     private String shopEmail;
+    private String businessPhpto;
+    private String idcardPhoto;
+    private String payPhoto;
     private String shopPhone;
   //  private Integer payDetailId;
     private Integer shopStatus;

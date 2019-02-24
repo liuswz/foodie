@@ -38,6 +38,14 @@ public class DetailController {
     public String getUsername(HttpSession session)  {
         return session.getAttribute("loginName").toString();
     }
+    @RequestMapping("/logout")
+    public String logout1(HttpSession session) {
+        session.invalidate();
+
+        // 直接退出，走默认退出方式
+        return "redirect:http://localhost:8088/cas/logout";
+    }
+
 
     @ApiOperation(value = "商家入驻", notes = "商家管理")
     @ApiImplicitParams({
