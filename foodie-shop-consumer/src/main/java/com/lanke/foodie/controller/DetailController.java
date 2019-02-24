@@ -30,9 +30,9 @@ public class DetailController {
     @Autowired
     private JmsMessagingTemplate jmsMessagingTemplate;
 
-    @RequestMapping("/admin")
+    @RequestMapping("/gotoAdmin")
     public void enter_admin(HttpServletResponse response) throws IOException {
-        response.sendRedirect("http://127.0.0.1:82/admin/");
+        response.sendRedirect("http://127.0.0.1:82/admin");
     }
     @RequestMapping(value = "/getUsername",method = RequestMethod.GET)
     public BaseJson getUsername(HttpSession session)  {
