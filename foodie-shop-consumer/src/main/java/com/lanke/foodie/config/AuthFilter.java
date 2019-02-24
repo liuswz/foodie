@@ -43,7 +43,7 @@ public class AuthFilter implements Filter {
 //        System.out.printf("ValidFromDate:%s\r\n",assertion.getValidFromDate());
 //        System.out.printf("ValidUntilDate:%s\r\n",assertion.getValidUntilDate());
 //        System.out.printf("AuthenticationDate:%s\r\n",assertion.getAuthenticationDate());
-
+        log.info("访问者 ：-------------------------------------------" );
         HttpServletRequest request_ = (HttpServletRequest)request;
         HttpServletResponse response_ = (HttpServletResponse)response;
         String loginName = CASUtil.getAccountNameFromCas(request_);
