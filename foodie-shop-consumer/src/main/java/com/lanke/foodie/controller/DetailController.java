@@ -34,9 +34,18 @@ public class DetailController {
     public void enter_admin(HttpServletResponse response) throws IOException {
         response.sendRedirect("http://127.0.0.1:82/admin/");
     }
-    @RequestMapping("/getUsername")
-    public String getUsername(HttpSession session)  {
-        return session.getAttribute("loginName").toString();
+    @RequestMapping(value = "/getUsername",method = RequestMethod.GET)
+    public BaseJson getUsername(HttpSession session)  {
+        BaseJson baseJson = new BaseJson();
+
+
+        baseJson.setCode(0);
+        baseJson.setMessage("成功");
+        baseJson.setResult(session.getAttribute("loginName").toString());
+
+
+
+        return baseJson;
     }
     @RequestMapping("/logout")
     public String logout1(HttpSession session) {
