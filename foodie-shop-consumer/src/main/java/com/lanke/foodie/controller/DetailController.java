@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,6 +27,11 @@ public class DetailController {
     private DetailService detailService;
     @Autowired
     private JmsMessagingTemplate jmsMessagingTemplate;
+
+    @RequestMapping("/admin")
+    void handleFoo(HttpServletResponse response) throws IOException {
+        response.sendRedirect("http://127.0.0.1:82/admin/");
+    }
 
 
     @ApiOperation(value = "商家入驻", notes = "商家管理")

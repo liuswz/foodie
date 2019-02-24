@@ -15,6 +15,8 @@ eureka:
  
  
 zuul:
+#  sensitive-headers: Access-Control-Allow-Origin
+#  ignored-headers: Access-Control-Allow-Origin,H-APP-Id,Token,APPToken
   #ignored-services: microservicecloud-dept
   #prefix: /atguigu
   ignored-services: "*"
@@ -25,6 +27,7 @@ zuul:
     shop:
       serviceId: foodie-shop-consumer
       path: /shop/**
+
 #    dishes:
 #      serviceId: foodie-shopdishes
 #      path: /dishes/**
