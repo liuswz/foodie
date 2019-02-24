@@ -22,7 +22,7 @@ class casFilterConfig {
 
 
 
-    private static final String CAS_URL= "https://localhost:8088/cas/login";
+    private static final String CAS_URL= "http://localhost:8088/cas";
 
 
 
