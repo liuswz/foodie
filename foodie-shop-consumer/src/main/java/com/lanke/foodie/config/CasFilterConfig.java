@@ -5,11 +5,16 @@ import org.jasig.cas.client.session.SingleSignOutFilter;
 import org.jasig.cas.client.session.SingleSignOutHttpSessionListener;
 import org.jasig.cas.client.util.HttpServletRequestWrapperFilter;
 import org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter;
+import org.jasig.cas.client.validation.Cas30ProxyReceivingTicketValidationFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
+
+import java.util.EventListener;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
 
@@ -18,182 +23,107 @@ import org.springframework.core.Ordered;
  */
 
 @Configuration
-class casFilterConfig {
+class CasFilterConfig {
 
 
 
-    private static final String CAS_URL= "http://localhost:8088/cas";
+    private static final String CAS_SERVER_URL_PREFIX = "http://localhost:8088/cas";
 
 
-
-    private static final String APP_URL= "http://localhost:9002";
-
-
-
-    @Bean
-
-    public ServletListenerRegistrationBean servletListenerRegistrationBean(){
-
-        ServletListenerRegistrationBean  listenerRegistrationBean = new ServletListenerRegistrationBean();
-
-        listenerRegistrationBean.setListener(new SingleSignOutHttpSessionListener());
-
-        listenerRegistrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
-
-        return listenerRegistrationBean;
-
-    }
-
-
+    private static final String SERVER_NAME = "http://localhost:9002";
 
     /**
-
-     * 单点登录退出
-
+     * 登录过滤器
      * @return
-
      */
 
     @Bean
-
-    public FilterRegistrationBean singleSignOutFilter(){
-
-        FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-
-        registrationBean.setFilter(new SingleSignOutFilter());
-
-        registrationBean.addUrlPatterns("/*");
-
-        registrationBean.addInitParameter("casServerUrlPrefix", CAS_URL );
-
-        registrationBean.setName("CAS Single Sign Out Filter");
-
-        registrationBean.setOrder(2);
-
-        return registrationBean;
-
+    public FilterRegistrationBean filterSingleRegistration() {
+        FilterRegistrationBean registration = new FilterRegistrationBean();
+        registration.setFilter(new SingleSignOutFilter());
+        // 设定匹配的路径
+        registration.addUrlPatterns("/*");
+        Map<String, String> initParameters = new HashMap<String, String>();
+        initParameters.put("casServerUrlPrefix", CAS_SERVER_URL_PREFIX);
+        initParameters.put("ignorePattern", "/logout");
+        initParameters.put("ignorePattern", "/register");
+        registration.setInitParameters(initParameters);
+        // 设定加载的顺序
+        registration.setOrder(1);
+        return registration;
     }
-
-
 
     /**
-
-     * 单点登录认证
-
+     * 过滤验证器
+     *
      * @return
-
      */
-
     @Bean
-
-    public FilterRegistrationBean AuthenticationFilter(){
-
-        FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-
-        registrationBean.setFilter(new AuthenticationFilter());
-
-        registrationBean.addUrlPatterns("/*");
-
-        registrationBean.setName("CAS Filter");
-
-        registrationBean.addInitParameter("casServerLoginUrl",CAS_URL);
-
-        registrationBean.addInitParameter("serverName", APP_URL );
-
-        registrationBean.setOrder(3);
-
-        return registrationBean;
-
+    public FilterRegistrationBean filterValidationRegistration() {
+        FilterRegistrationBean registration = new FilterRegistrationBean();
+        registration.setFilter(new Cas30ProxyReceivingTicketValidationFilter());
+        // 设定匹配的路径
+        registration.addUrlPatterns("/*");
+        Map<String, String> initParameters = new HashMap<String, String>();
+        initParameters.put("casServerUrlPrefix", CAS_SERVER_URL_PREFIX);
+        initParameters.put("serverName", SERVER_NAME);
+        initParameters.put("useSession", "true");
+        registration.setInitParameters(initParameters);
+        // 设定加载的顺序
+        registration.setOrder(1);
+        return registration;
     }
-
-
 
     /**
-
-     * 单点登录校验
-
+     * 授权过滤器
+     *
      * @return
-
      */
-
     @Bean
+    public FilterRegistrationBean filterAuthenticationRegistration() {
+        FilterRegistrationBean registration = new FilterRegistrationBean();
+        registration.setFilter(new AuthenticationFilter());
+        // 设定匹配的路径
+        registration.addUrlPatterns("/*");
+        Map<String, String> initParameters = new HashMap<String, String>();
+        initParameters.put("casServerLoginUrl", CAS_SERVER_URL_PREFIX);
+        initParameters.put("serverName", SERVER_NAME);
+        initParameters.put("ignorePattern", ".*");
+        //表示过滤所有
+    //    initParameters.put("ignoreUrlPatternType", "com.yellowcong.cas.auth.SimpleUrlPatternMatcherStrategy");
 
-    public FilterRegistrationBean cas20ProxyReceivingTicketValidationFilter(){
-
-        FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-
-        registrationBean.setFilter(new Cas20ProxyReceivingTicketValidationFilter());
-
-        registrationBean.addUrlPatterns("/*");
-
-        registrationBean.setName("CAS Validation Filter");
-
-        registrationBean.addInitParameter("casServerUrlPrefix", CAS_URL );
-
-        registrationBean.addInitParameter("serverName", APP_URL );
-
-        registrationBean.setOrder(4);
-
-        return registrationBean;
-
+        registration.setInitParameters(initParameters);
+        // 设定加载的顺序
+        registration.setOrder(1);
+        return registration;
     }
-
-
 
     /**
-
-     * 单点登录请求包装
-
+     * wraper过滤器
+     *
      * @return
-
      */
-
     @Bean
-
-    public FilterRegistrationBean httpServletRequestWrapperFilter(){
-
-        FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-
-        registrationBean.setFilter(new HttpServletRequestWrapperFilter());
-
-        registrationBean.addUrlPatterns("/*");
-
-        registrationBean.setName("CAS HttpServletRequest Wrapper Filter");
-
-        registrationBean.setOrder(5);
-
-        return registrationBean;
-
+    public FilterRegistrationBean filterWrapperRegistration() {
+        FilterRegistrationBean registration = new FilterRegistrationBean();
+        registration.setFilter(new HttpServletRequestWrapperFilter());
+        // 设定匹配的路径
+        registration.addUrlPatterns("/*");
+        // 设定加载的顺序
+        registration.setOrder(1);
+        return registration;
     }
-
-
 
     /**
-
-     * 单点登录本地用户信息
-
+     * 添加监听器
+     *
      * @return
-
      */
-
     @Bean
-
-    public FilterRegistrationBean localUserInfoFilter(){
-
-        FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-
-        registrationBean.setFilter(new AuthFilter());
-
-        registrationBean.addUrlPatterns("/*");
-
-        registrationBean.setName("localUserInfoFilter");
-
-        registrationBean.setOrder(6);
-
+    public ServletListenerRegistrationBean<EventListener> singleSignOutListenerRegistration() {
+        ServletListenerRegistrationBean<EventListener> registrationBean = new ServletListenerRegistrationBean<EventListener>();
+        registrationBean.setListener(new SingleSignOutHttpSessionListener());
+        registrationBean.setOrder(1);
         return registrationBean;
-
     }
-
-
-
 }

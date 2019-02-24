@@ -9,10 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsMessagingTemplate;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,11 +45,11 @@ public class DetailController {
         return baseJson;
     }
     @RequestMapping("/logout")
-    public String logout1(HttpSession session) {
+    public void logout1(HttpSession session,HttpServletResponse response) throws IOException {
         session.invalidate();
-
+        response.sendRedirect("http://localhost:8088/cas/logout");
         // 直接退出，走默认退出方式
-        return "redirect:http://localhost:8088/cas/logout";
+
     }
 
 
@@ -67,8 +64,12 @@ public class DetailController {
             @ApiImplicitParam(paramType = "query", name = "mchId", dataType = "String", value = "支付id", defaultValue = ""),
             @ApiImplicitParam(paramType = "query", name = "apiKey", dataType = "String", value = "支付key", defaultValue = "")
     })
+
+
     @RequestMapping(value = "/consumer/shopdetail/register",method = RequestMethod.POST)
     public BaseJson regist(Shop shop){
+
+     //   log.info(shop.getBusinessPhoto()+"-----------------------------");
         BaseJson baseJson = new BaseJson();
         int flag = detailService.regist(shop);
         if(flag == 1){

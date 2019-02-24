@@ -4,7 +4,7 @@ import com.lanke.foodie.entity.Shop;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-@FeignClient(value = "FOODIE-SHOPDETAIL")
+@FeignClient(value = "FOODIE-DETAIL")
 public interface DetailService {
 
 

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(value = "FOODIE-SHOPDISHES")
+@FeignClient(value = "FOODIE-DISHES")
 public interface DishService {
 
 

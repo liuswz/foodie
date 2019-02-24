@@ -19,7 +19,7 @@ public class Shop implements Serializable {
     private String shopName;
     private String shopAddress;
     private String shopEmail;
-    private String businessPhpto;
+    private String businessPhoto;
     private String idcardPhoto;
     private String payPhoto;
     private String shopPhone;

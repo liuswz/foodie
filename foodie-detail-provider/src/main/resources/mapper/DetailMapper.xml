@@ -19,7 +19,7 @@
         shop_status,
         shop_notice,
         photo_url,
-        business_phpto,
+        business_photo,
         pay_photo,
         idcard_photo,
         create_time
@@ -35,7 +35,7 @@
         #{shopStatus},
         #{shopNotice},
         #{photoUrl},
-        #{businessPhpto},
+        #{businessPhoto},
         #{payPhoto},
         #{idcardPhoto},
         #{createTime}
