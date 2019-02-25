@@ -67,8 +67,8 @@ public class AuthFilter implements Filter {
         }else{
             //request_.getRequestDispatcher("/redirectlogin").forward(request_, response_);
             String path=request_.getRequestURI();
-            log.info(path+"------------------------------------");
-            if(path.indexOf("redirectlogin")<0) {
+            //log.info(path+"------------------------------------");
+            if(path.indexOf("redirectlogin")<0&&path.indexOf("gotoAdmin")<0) {
                 request_.getRequestDispatcher("/redirectlogin").forward(request_, response_);
                 return ;
             }
