@@ -1,3 +1,4 @@
+/*
 package com.lanke.foodie.config;
 
 
@@ -5,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.jasig.cas.client.authentication.AttributePrincipal;
 import org.jasig.cas.client.util.AbstractCasFilter;
+import org.jasig.cas.client.util.AssertionHolder;
 import org.jasig.cas.client.validation.Assertion;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -15,10 +17,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.Enumeration;
+
 @Slf4j
 @Component
 @Order(value=0)
-@WebFilter(urlPatterns = "/webapi/*", filterName = "authFilter")
+@WebFilter(urlPatterns = "/*", filterName = "authFilter")
 public class AuthFilter implements Filter {
 
 
@@ -56,22 +60,40 @@ public class AuthFilter implements Filter {
 //        System.out.printf("ValidFromDate:%s\r\n",assertion.getValidFromDate());
 //        System.out.printf("ValidUntilDate:%s\r\n",assertion.getValidUntilDate());
 //        System.out.printf("AuthenticationDate:%s\r\n",assertion.getAuthenticationDate());
+        Enumeration enu=request.getParameterNames();
+        while(enu.hasMoreElements()){
+            String paraName=(String)enu.nextElement();
+            System.out.println("000"+paraName+": "+request.getParameter(paraName));
+        }
+
 
         HttpServletRequest request_ = (HttpServletRequest)request;
         HttpServletResponse response_ = (HttpServletResponse) response;
         String loginName = CASUtil.getAccountNameFromCas(request_);
+
+
+        String path=request_.getRequestURI();
+        log.info(path+"------------------------------------"+loginName);
+
+
+
+
+
+
+
+
         if(StringUtils.isNotEmpty(loginName)){
-            log.info("访问者 ：" +loginName);
+            log.info("4444444444444444444444444444444 ：" +loginName);
           //  request_.getSession().setAttribute("loginName", loginName);
-         //   chain.doFilter(request, response);
+
         }else{
             //request_.getRequestDispatcher("/redirectlogin").forward(request_, response_);
-            String path=request_.getRequestURI();
-            //log.info(path+"------------------------------------");
-            if(path.indexOf("redirectlogin")<0&&path.indexOf("gotoAdmin")<0) {
-                request_.getRequestDispatcher("/redirectlogin").forward(request_, response_);
+            log.info("无访问者 ：55555555555555555555555" );
+            if(path.indexOf("redirectlogin")<0&&path.indexOf("gotoAdmin")<0&&path.indexOf("gotoAdmin2")<0) {
+                request_.getRequestDispatcher("/common/redirectlogin").forward(request_, response_);
                 return ;
             }
+
 
         }
         chain.doFilter(request, response);
@@ -87,3 +109,4 @@ public class AuthFilter implements Filter {
 }
 
 
+*/

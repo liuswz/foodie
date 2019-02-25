@@ -16,7 +16,7 @@ public class SimpleUrlPatternMatcherStrategy implements UrlPatternMatcherStrateg
     public boolean matches(String url) {
         //使用正则表达式来匹配需要忽略的连接
 
-        if(url.contains("/logout")||url.contains("/consumer/shopdetail/register")||url.contains("/redirectlogin")){
+        if(url.contains("/consumer/logout")||url.contains("/consumer/shopdetail/register")||url.contains("/consumer/redirectlogin")){
             return true;
         }
 

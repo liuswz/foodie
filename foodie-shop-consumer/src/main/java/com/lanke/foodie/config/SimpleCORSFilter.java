@@ -1,10 +1,10 @@
 //package com.lanke.foodie.config;
 //
-//
 //import javax.servlet.*;
 //
 //import javax.servlet.annotation.WebFilter;
 //
+//import javax.servlet.http.HttpServletRequest;
 //import javax.servlet.http.HttpServletResponse;
 //
 //
@@ -23,9 +23,9 @@
 //
 //@Order(value=0)
 //
-//@WebFilter(filterName = "CorsFilterConfig", urlPatterns = "/*")
+//@WebFilter(filterName = "SimpleCORSFilter", urlPatterns = "/*")
 //
-//public class CorsFilterConfig implements Filter {
+//public class SimpleCORSFilter implements Filter {
 //
 //
 //
@@ -44,7 +44,7 @@
 //    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
 //
 //                         FilterChain filterChain) throws IOException, ServletException {
-//
+//        System.out.println("===============CorsFilterConfig执行2=================");
 //        HttpServletResponse res = (HttpServletResponse) servletResponse;
 //
 //        res.setHeader("Access-Control-Allow-Origin", "*");
@@ -56,6 +56,16 @@
 //        res.setHeader("Access-Control-Allow-Headers",
 //
 //                "Authentication, Authorization, content-type, Accept, x-requested-with, Cache-Control");
+//        HttpServletRequest request = (HttpServletRequest)servletRequest;
+//        HttpServletResponse response= (HttpServletResponse) servletResponse;
+//        String path=request.getRequestURI();
+////        System.out.println(path);
+////        if(path.equals("/common/getUsername1")){
+////           // response.sendRedirect("/common/getUsername");
+////            request.getRequestDispatcher("/common/getUsername").forward(request, response);
+////        }else{
+////            filterChain.doFilter(servletRequest, res);
+////        }
 //
 //        filterChain.doFilter(servletRequest, res);
 //

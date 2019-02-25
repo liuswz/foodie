@@ -4,8 +4,9 @@ import org.jasig.cas.client.authentication.AuthenticationFilter;
 import org.jasig.cas.client.session.SingleSignOutFilter;
 import org.jasig.cas.client.session.SingleSignOutHttpSessionListener;
 import org.jasig.cas.client.util.HttpServletRequestWrapperFilter;
-import org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter;
+
 import org.jasig.cas.client.validation.Cas30ProxyReceivingTicketValidationFilter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -27,13 +28,13 @@ class CasFilterConfig {
 
 
 
-    private static final String CAS_SERVER_URL_PREFIX = "http://127.0.0.1:8088/cas";
+    private static final String CAS_SERVER_URL_PREFIX = "http://foodie.com:8088/cas";
 
 
-    private static final String SERVER_NAME = "http://127.0.0.1:9002";
+    private static final String SERVER_NAME = "http://foodie.com:9002";
 
 
-    private static final String CAS_SERVER_URL_LOGIN = "http://127.0.0.1:8088/cas/login";
+    private static final String CAS_SERVER_URL_LOGIN = "http://foodie.com:8088/cas/login";
 
 
 
@@ -95,9 +96,9 @@ class CasFilterConfig {
         initParameters.put("casServerLoginUrl", CAS_SERVER_URL_LOGIN);
         initParameters.put("serverName", SERVER_NAME);
         //忽略/logout的路径
-        initParameters.put("ignorePattern", "/logout");
+        initParameters.put("ignorePattern", "/common/logout");
         initParameters.put("ignorePattern", "/consumer/shopdetail/register");
-        initParameters.put("ignorePattern", "/redirectlogin");
+        initParameters.put("ignorePattern", "/common/redirectlogin");
         initParameters.put("ignoreUrlPatternType", "com.lanke.foodie.config.SimpleUrlPatternMatcherStrategy");
 
       //  initParameters.put("ignoreUrlPatternType", "com.zhang.springbootcasclient1.auth.SimpleUrlPatternMatcherStrategy");
@@ -134,6 +135,64 @@ class CasFilterConfig {
         registrationBean.setOrder(1);
         return registrationBean;
     }
+
+
+
+//        @Value("${cas.server-url-prefix}")
+//        private String serverUrlPrefix;
+//        @Value("${cas.server-login-url}")
+//        private String serverLoginUrl;
+//        @Value("${cas.client-host-url}")
+//        private String clientHostUrl;
+//
+//
+//
+//        /**
+//
+//         * 授权过滤器
+//
+//         * @return
+//
+//         */
+//
+//        @Bean
+//
+//        public FilterRegistrationBean filterAuthenticationRegistration() {
+//
+//            FilterRegistrationBean registration = new FilterRegistrationBean();
+//
+//            registration.setFilter(new AuthenticationFilter());
+//
+//            // 设定匹配的路径
+//
+//            registration.addUrlPatterns("/*");
+//
+//            Map<String,String> initParameters = new HashMap<String, String>();
+//
+//            initParameters.put("casServerLoginUrl", serverUrlPrefix);
+//
+//            initParameters.put("serverName", clientHostUrl);
+//
+//            //忽略的url，"|"分隔多个url
+//
+//
+//            //忽略/logout的路径
+//        initParameters.put("ignorePattern", "/common/logout");
+//        initParameters.put("ignorePattern", "/consumer/shopdetail/register");
+//        initParameters.put("ignorePattern", "/common/redirectlogin");
+//        initParameters.put("ignoreUrlPatternType", "com.lanke.foodie.config.SimpleUrlPatternMatcherStrategy");
+//
+//      //  initParameters.put("ignoreUrlPatternType", "com.zhang.springbootcasclient1.auth.SimpleUrlPatternMatcherStrategy");
+//            registration.setInitParameters(initParameters);
+//
+//            // 设定加载的顺序
+//
+//            registration.setOrder(1);
+//
+//            return registration;
+//
+//        }
+
 
 
 }

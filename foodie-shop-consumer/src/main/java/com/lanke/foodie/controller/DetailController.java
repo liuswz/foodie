@@ -31,15 +31,19 @@ public class DetailController {
     @Autowired
     private JmsMessagingTemplate jmsMessagingTemplate;
 
-    @RequestMapping("/gotoAdmin")
+    @RequestMapping("/common/gotoAdmin")
     public void enter_admin(HttpServletResponse response) throws IOException {
         response.sendRedirect("http://127.0.0.1:82/admin");
     }
-    @RequestMapping(value = "/getUsername",method = RequestMethod.GET)
-    public Map<String,String> getUsername(HttpServletRequest request) throws UnsupportedEncodingException {
+    @RequestMapping("/common/gotoAdmin2")
+    public void enter_admin2() throws IOException {
+    //    response.sendRedirect("/gotoAdmin2");
+    }
+    @RequestMapping(value = "/common/getUsername",method = RequestMethod.GET)
+    public Map<String,String> getUsername(HttpServletRequest request) {
         String username = CASUtil.getAccountNameFromCas(request);
 
-
+        log.info(username+"----------------------");
         ShopNameAndIdDto shopNameAndIdDto = detailService.getNameAndIdByUsername(username);
         Map<String,String> map = new HashMap<String, String>();
         map.put("username",username);
@@ -48,7 +52,7 @@ public class DetailController {
 
         return map;
     }
-    @RequestMapping(value = "/redirectlogin",method = RequestMethod.GET)
+    @RequestMapping(value = "/common/redirectlogin",method = RequestMethod.GET)
     public BaseJson redirectlogin()  {
         BaseJson baseJson = new BaseJson();
         baseJson.setCode(1);
@@ -58,7 +62,7 @@ public class DetailController {
 
         return baseJson;
     }
-    @RequestMapping("/logout")
+    @RequestMapping("/common/logout")
     public void logout1(HttpSession session,HttpServletResponse response) throws IOException {
         session.invalidate();
         response.sendRedirect("http://localhost:8088/cas/logout");
