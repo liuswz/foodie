@@ -35,4 +35,9 @@ public class DetailController {
     public Shop getById(@PathVariable("id") Integer id){
         return detailService.getById(id);
     }
+
+    @RequestMapping(value = "/shopdetail/getIdByUsername/{username}",method = RequestMethod.GET)
+    public Integer getIdByUsername(@PathVariable("username") String username){
+        return detailService.getIdByUsername(username);
+    }
 }

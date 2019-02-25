@@ -17,5 +17,6 @@ public interface DetailService {
     @RequestMapping(value = "/shopdetail/getById/{id}",method = RequestMethod.GET)
     public Shop getById(@PathVariable("id") Integer id);
 
-
+    @RequestMapping(value = "/shopdetail/getIdByUsername/{username}",method = RequestMethod.GET)
+    public Integer getIdByUsername(@PathVariable("username") String username);
 }

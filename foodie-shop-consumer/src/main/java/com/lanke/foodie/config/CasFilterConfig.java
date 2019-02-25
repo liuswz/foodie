@@ -50,6 +50,7 @@ class CasFilterConfig {
         registration.addUrlPatterns("/*");
         Map<String,String> initParameters = new HashMap<String, String>();
         initParameters.put("casServerUrlPrefix", CAS_SERVER_URL_PREFIX);
+
         registration.setInitParameters(initParameters);
         // 设定加载的顺序
         registration.setOrder(1);
@@ -94,9 +95,10 @@ class CasFilterConfig {
         initParameters.put("casServerLoginUrl", CAS_SERVER_URL_LOGIN);
         initParameters.put("serverName", SERVER_NAME);
         //忽略/logout的路径
-        initParameters.put("ignorePattern", "/logout/*");
-        initParameters.put("ignorePattern", "/register/*");
-        initParameters.put("ignorePattern", "/redirectlogin/*");
+        initParameters.put("ignorePattern", "/logout");
+        initParameters.put("ignorePattern", "/consumer/shopdetail/register");
+        initParameters.put("ignorePattern", "/redirectlogin");
+        initParameters.put("ignoreUrlPatternType", "com.lanke.foodie.config.SimpleUrlPatternMatcherStrategy");
 
       //  initParameters.put("ignoreUrlPatternType", "com.zhang.springbootcasclient1.auth.SimpleUrlPatternMatcherStrategy");
 

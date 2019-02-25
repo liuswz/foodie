@@ -122,4 +122,12 @@
         shop_name = #{shopName}
     </select>
 
+    <select id="getIdByUsername" resultType="int">
+        select
+        id
+        from
+        shop
+        where
+        username = #{username}
+    </select>
 </mapper>

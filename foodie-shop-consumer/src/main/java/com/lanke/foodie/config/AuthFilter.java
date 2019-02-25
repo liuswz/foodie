@@ -62,16 +62,16 @@ public class AuthFilter implements Filter {
         String loginName = CASUtil.getAccountNameFromCas(request_);
         if(StringUtils.isNotEmpty(loginName)){
             log.info("访问者 ：" +loginName);
-            request_.getSession().setAttribute("loginName", loginName);
+          //  request_.getSession().setAttribute("loginName", loginName);
          //   chain.doFilter(request, response);
         }else{
             //request_.getRequestDispatcher("/redirectlogin").forward(request_, response_);
             String path=request_.getRequestURI();
-            log.info(path+"------------------------------------");
-            if(path.indexOf("redirectlogin")<0) {
-                request_.getRequestDispatcher("/redirectlogin").forward(request_, response_);
-                return ;
-            }
+           // log.info(path+"------------------------------------");
+//            if(path.indexOf("redirectlogin")<0) {
+//                request_.getRequestDispatcher("/redirectlogin").forward(request_, response_);
+//                return ;
+//            }
 
         }
         chain.doFilter(request, response);

@@ -1,5 +1,6 @@
 package com.lanke.foodie.controller;
 
+import com.lanke.foodie.config.CASUtil;
 import com.lanke.foodie.entity.Shop;
 import com.lanke.foodie.json.BaseJson;
 import com.lanke.foodie.service.DetailService;
@@ -7,6 +8,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.jasig.cas.client.authentication.AttributePrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,24 +35,17 @@ public class DetailController {
         response.sendRedirect("http://127.0.0.1:82/admin");
     }
     @RequestMapping(value = "/getUsername",method = RequestMethod.GET)
-    public BaseJson getUsername(HttpSession session)  {
-        BaseJson baseJson = new BaseJson();
-
-        if(session.getAttribute("loginName")==null){
-            baseJson.setCode(1);
-            baseJson.setMessage("失败");
-            baseJson.setResult(session.getAttribute("用户名请求失败").toString());
-
-        }else{
-            baseJson.setCode(0);
-            baseJson.setMessage("成功");
-            baseJson.setResult(session.getAttribute("loginName").toString());
-
-        }
+    public Map<String,String> getUsername(HttpServletRequest request) throws UnsupportedEncodingException {
+        String username = CASUtil.getAccountNameFromCas(request);
 
 
+        int id = detailService.getIdByUsername(username);
+        Map<String,String> map = new HashMap<String, String>();
+        map.put("username",username);
+        map.put("id",id+"");
 
-        return baseJson;
+
+        return map;
     }
     @RequestMapping(value = "/redirectlogin",method = RequestMethod.GET)
     public BaseJson redirectlogin()  {

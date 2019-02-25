@@ -28,6 +28,6 @@ public interface DetailDao {
     public Shop getShopById(@Param("id") Integer id);
 
     public List<Integer> checkShopNameForUpdate(@Param("shopName") String shopName);
-
+    public int  getIdByUsername(@Param("username") String username);
   //  public PayDetail getShopDetailById(@Param("id") Integer payDetailId);
 }

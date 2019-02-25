@@ -7,6 +7,7 @@ import com.lanke.foodie.entity.Shop;
 import com.lanke.foodie.service.DetailService;
 
 import com.lanke.foodie.utils.BaseUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
+@Slf4j
 @Service
 public class DetailServiceImpl implements DetailService {
 
@@ -33,7 +34,7 @@ public class DetailServiceImpl implements DetailService {
 
         //注册时商家设为未审核状态
         shop.setShopStatus(0);
-        shop.setPassword(DigestUtils.md5Hex(shop.getPassword()));
+
         //判断用户名是否存在
         int checkUsername = detailDao.checkUsername(shop.getUsername());
         if(checkUsername > 0){
@@ -47,6 +48,8 @@ public class DetailServiceImpl implements DetailService {
         }
         //初始化status为0
         shop.setShopStatus(0);
+        log.info(DigestUtils.md5Hex(shop.getPassword())+"-------------------");
+        shop.setPassword(DigestUtils.md5Hex(shop.getPassword()));
      //   int flag2 = detailDao.addPay(shop);
         int flag = detailDao.addShop(shop);
     //    int flag = flag1 + flag2;
@@ -75,5 +78,9 @@ public class DetailServiceImpl implements DetailService {
       //  shopInfoDto.setMchId(payDetail.getMchId());
      //   shopInfoDto.setApiKey(payDetail.getApiKey());
         return shop;
+    }
+
+    public int getIdByUsername(String username) {
+        return detailDao.getIdByUsername(username);
     }
 }
