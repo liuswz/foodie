@@ -28,13 +28,13 @@ class CasFilterConfig {
 
 
 
-    private static final String CAS_SERVER_URL_PREFIX = "http://foodie.com:8088/cas";
+    private static final String CAS_SERVER_URL_PREFIX = "http://127.0.0.1:8088/cas";
 
 
-    private static final String SERVER_NAME = "http://foodie.com:9002";
+    private static final String SERVER_NAME = "http://127.0.0.1:9002";
 
 
-    private static final String CAS_SERVER_URL_LOGIN = "http://foodie.com:8088/cas/login";
+    private static final String CAS_SERVER_URL_LOGIN = "http://127.0.0.1:8088/cas/login";
 
 
 

@@ -35,10 +35,10 @@ public class DetailController {
     public void enter_admin(HttpServletResponse response) throws IOException {
         response.sendRedirect("http://127.0.0.1:82/admin");
     }
-    @RequestMapping("/common/gotoAdmin2")
-    public void enter_admin2() throws IOException {
-    //    response.sendRedirect("/gotoAdmin2");
-    }
+//    @RequestMapping("/common/gotoAdmin2")
+//    public void enter_admin2() throws IOException {
+//    //    response.sendRedirect("/gotoAdmin2");
+//    }
     @RequestMapping(value = "/common/getUsername",method = RequestMethod.GET)
     public Map<String,String> getUsername(HttpServletRequest request) {
         String username = CASUtil.getAccountNameFromCas(request);
