@@ -1,5 +1,6 @@
 package com.lanke.foodie.service;
 
+import com.lanke.foodie.dto.ShopNameAndIdDto;
 import com.lanke.foodie.entity.Shop;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,8 @@ public interface DetailService {
     @RequestMapping(value = "/shopdetail/getById/{id}",method = RequestMethod.GET)
     public Shop getById(@PathVariable("id") Integer id);
 
-    @RequestMapping(value = "/shopdetail/getIdByUsername/{username}",method = RequestMethod.GET)
-    public Integer getIdByUsername(@PathVariable("username") String username);
+    
+
+    @RequestMapping(value = "/shopdetail/getNameAndIdByUsername/{username}",method = RequestMethod.GET)
+    public ShopNameAndIdDto getNameAndIdByUsername(@PathVariable("username") String username);
 }

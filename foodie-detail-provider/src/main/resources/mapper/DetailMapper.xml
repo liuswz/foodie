@@ -122,9 +122,9 @@
         shop_name = #{shopName}
     </select>
 
-    <select id="getIdByUsername" resultType="int">
+    <select id="getNameAndIdByUsername" resultType="com.lanke.foodie.dto.ShopNameAndIdDto">
         select
-        id
+        id,shop_name
         from
         shop
         where

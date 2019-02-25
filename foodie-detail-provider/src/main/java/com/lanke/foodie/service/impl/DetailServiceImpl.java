@@ -3,6 +3,7 @@ package com.lanke.foodie.service.impl;
 
 import com.lanke.foodie.dao.DetailDao;
 
+import com.lanke.foodie.dto.ShopNameAndIdDto;
 import com.lanke.foodie.entity.Shop;
 import com.lanke.foodie.service.DetailService;
 
@@ -80,7 +81,7 @@ public class DetailServiceImpl implements DetailService {
         return shop;
     }
 
-    public int getIdByUsername(String username) {
-        return detailDao.getIdByUsername(username);
+    public ShopNameAndIdDto getNameAndIdByUsername(String username) {
+        return detailDao.getNameAndIdByUsername(username);
     }
 }

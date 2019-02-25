@@ -1,6 +1,7 @@
 package com.lanke.foodie.controller;
 
 
+import com.lanke.foodie.dto.ShopNameAndIdDto;
 import com.lanke.foodie.entity.Shop;
 import com.lanke.foodie.json.BaseJson;
 import com.lanke.foodie.service.DetailService;
@@ -36,8 +37,8 @@ public class DetailController {
         return detailService.getById(id);
     }
 
-    @RequestMapping(value = "/shopdetail/getIdByUsername/{username}",method = RequestMethod.GET)
-    public Integer getIdByUsername(@PathVariable("username") String username){
-        return detailService.getIdByUsername(username);
+    @RequestMapping(value = "/shopdetail/getNameAndIdByUsername/{username}",method = RequestMethod.GET)
+    public ShopNameAndIdDto getNameAndIdByUsername(@PathVariable("username") String username){
+        return detailService.getNameAndIdByUsername(username);
     }
 }

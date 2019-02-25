@@ -1,6 +1,7 @@
 package com.lanke.foodie.controller;
 
 import com.lanke.foodie.config.CASUtil;
+import com.lanke.foodie.dto.ShopNameAndIdDto;
 import com.lanke.foodie.entity.Shop;
 import com.lanke.foodie.json.BaseJson;
 import com.lanke.foodie.service.DetailService;
@@ -39,11 +40,11 @@ public class DetailController {
         String username = CASUtil.getAccountNameFromCas(request);
 
 
-        int id = detailService.getIdByUsername(username);
+        ShopNameAndIdDto shopNameAndIdDto = detailService.getNameAndIdByUsername(username);
         Map<String,String> map = new HashMap<String, String>();
         map.put("username",username);
-        map.put("id",id+"");
-
+        map.put("id",shopNameAndIdDto.getId()+"");
+        map.put("shopName",shopNameAndIdDto.getShopName()+"");
 
         return map;
     }

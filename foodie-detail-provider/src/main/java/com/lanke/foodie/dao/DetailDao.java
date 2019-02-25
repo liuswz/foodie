@@ -2,6 +2,7 @@ package com.lanke.foodie.dao;
 
 
 
+import com.lanke.foodie.dto.ShopNameAndIdDto;
 import com.lanke.foodie.entity.Shop;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -28,6 +29,6 @@ public interface DetailDao {
     public Shop getShopById(@Param("id") Integer id);
 
     public List<Integer> checkShopNameForUpdate(@Param("shopName") String shopName);
-    public int  getIdByUsername(@Param("username") String username);
+    public ShopNameAndIdDto getNameAndIdByUsername(@Param("username") String username);
   //  public PayDetail getShopDetailById(@Param("id") Integer payDetailId);
 }
