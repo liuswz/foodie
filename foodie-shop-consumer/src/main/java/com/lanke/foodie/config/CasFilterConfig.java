@@ -3,6 +3,7 @@ package com.lanke.foodie.config;
 import org.jasig.cas.client.authentication.AuthenticationFilter;
 import org.jasig.cas.client.session.SingleSignOutFilter;
 import org.jasig.cas.client.session.SingleSignOutHttpSessionListener;
+import org.jasig.cas.client.util.AssertionThreadLocalFilter;
 import org.jasig.cas.client.util.HttpServletRequestWrapperFilter;
 
 import org.jasig.cas.client.validation.Cas30ProxyReceivingTicketValidationFilter;
@@ -13,9 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 
-import java.util.EventListener;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
 
@@ -136,7 +135,17 @@ class CasFilterConfig {
         return registrationBean;
     }
 
-
+    // 取用户信息
+    @Bean
+    public FilterRegistrationBean casAssertionThreadLocalFilter() {
+        FilterRegistrationBean authenticationFilter = new FilterRegistrationBean();
+        authenticationFilter.setFilter(new AssertionThreadLocalFilter());
+        authenticationFilter.setOrder(1);
+        List<String> urlPatterns = new ArrayList<String>();
+        urlPatterns.add("/*");// 设置匹配的url
+        authenticationFilter.setUrlPatterns(urlPatterns);
+        return authenticationFilter;
+    }
 
 //        @Value("${cas.server-url-prefix}")
 //        private String serverUrlPrefix;

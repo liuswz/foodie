@@ -28,4 +28,7 @@ public class Shop implements Serializable {
     private String createTime;
     private String photoUrl;
     private String shopNotice;
+
+
+    private String authority;
 }

@@ -21,6 +21,7 @@ public interface DetailDao {
     public int checkUsername(@Param("username") String username);
 
     public int checkShopName(@Param("shopName") String shopName);
+    public String getAuthorityByUsername(@Param("username") String username);
 
     public int updateShop(Shop shop);
 

@@ -62,12 +62,23 @@ public class DetailController {
 
         return baseJson;
     }
+//    @RequestMapping("/common/logout")
+//    public void logout1(HttpSession session,HttpServletResponse response) throws IOException {
+//     //   session.invalidate();
+//        response.sendRedirect("http://localhost:8088/cas/logout");
+//        // 直接退出，走默认退出方式
+//
+//    }
     @RequestMapping("/common/logout")
-    public void logout1(HttpSession session,HttpServletResponse response) throws IOException {
+    public void logout2(HttpSession session,HttpServletResponse response) throws IOException {
         session.invalidate();
-        response.sendRedirect("http://localhost:8088/cas/logout");
-        // 直接退出，走默认退出方式
-
+        // 退出登录后，跳转到退出成功的页面，不走默认页面
+        response.sendRedirect("http://127.0.0.1:8088/cas/logout?service=http://127.0.0.1:9002/logout/success");
+    }
+//
+    @RequestMapping("/logout/success")
+    public void logout2(HttpServletResponse response) throws IOException {
+      //  response.sendRedirect("http://localhost:8088/cas/login");
     }
 
 
@@ -129,7 +140,8 @@ public class DetailController {
 //        }
         return baseJson;
     }
-
+  //  http://localhost:9527/shop/consumer/shopdetail/getById/23
+    // http://localhost:9527/shop/common/logout
     @RequestMapping(value = "/consumer/shopdetail/getById/{id}",method = RequestMethod.GET)
     public BaseJson getById(@PathVariable("id") Integer id){
         BaseJson baseJson = new BaseJson();

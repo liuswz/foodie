@@ -21,6 +21,7 @@
         photo_url,
         business_photo,
         pay_photo,
+        authority,
         idcard_photo,
         create_time
         )
@@ -37,6 +38,7 @@
         #{photoUrl},
         #{businessPhoto},
         #{payPhoto},
+        #{authority},
         #{idcardPhoto},
         #{createTime}
         )
@@ -125,6 +127,15 @@
     <select id="getNameAndIdByUsername" resultType="com.lanke.foodie.dto.ShopNameAndIdDto">
         select
         id,shop_name
+        from
+        shop
+        where
+        username = #{username}
+    </select>
+
+    <select id="getAuthorityByUsername" resultType="String">
+        select
+        authority
         from
         shop
         where

@@ -22,4 +22,7 @@ public interface DetailService {
 
     @RequestMapping(value = "/shopdetail/getNameAndIdByUsername/{username}",method = RequestMethod.GET)
     public ShopNameAndIdDto getNameAndIdByUsername(@PathVariable("username") String username);
+
+    @RequestMapping(value = "/shopdetail/getAuthorityByUsername/{username}",method = RequestMethod.GET)
+    public String getAuthorityByUsername(@PathVariable("username") String username);
 }

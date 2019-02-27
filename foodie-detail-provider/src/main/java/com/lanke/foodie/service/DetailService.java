@@ -12,4 +12,6 @@ public interface DetailService {
 
     public Shop getById(Integer id);
     public ShopNameAndIdDto getNameAndIdByUsername(String username);
+
+    public String getAuthorityByUsername(String username);
 }

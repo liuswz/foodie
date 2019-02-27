@@ -4,20 +4,18 @@ package com.lanke.foodie.service.impl;
 import com.lanke.foodie.dao.DetailDao;
 
 import com.lanke.foodie.dto.ShopNameAndIdDto;
+
 import com.lanke.foodie.entity.Shop;
+import com.lanke.foodie.enums.Authority;
 import com.lanke.foodie.service.DetailService;
 
 import com.lanke.foodie.utils.BaseUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-import javax.annotation.Resource;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 @Slf4j
 @Service
@@ -49,6 +47,7 @@ public class DetailServiceImpl implements DetailService {
         }
         //初始化status为0
         shop.setShopStatus(0);
+        shop.setAuthority(Authority.Common.getName());
         log.info(DigestUtils.md5Hex(shop.getPassword())+"-------------------");
         shop.setPassword(DigestUtils.md5Hex(shop.getPassword()));
      //   int flag2 = detailDao.addPay(shop);
@@ -83,5 +82,9 @@ public class DetailServiceImpl implements DetailService {
 
     public ShopNameAndIdDto getNameAndIdByUsername(String username) {
         return detailDao.getNameAndIdByUsername(username);
+    }
+
+    public String getAuthorityByUsername(String username) {
+        return detailDao.getAuthorityByUsername(username);
     }
 }

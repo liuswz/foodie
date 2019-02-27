@@ -41,4 +41,8 @@ public class DetailController {
     public ShopNameAndIdDto getNameAndIdByUsername(@PathVariable("username") String username){
         return detailService.getNameAndIdByUsername(username);
     }
+    @RequestMapping(value = "/shopdetail/getAuthorityByUsername/{username}",method = RequestMethod.GET)
+    public String getAuthorityByUsername(@PathVariable("username") String username) {
+        return detailService.getAuthorityByUsername(username);
+    }
 }

@@ -7,7 +7,7 @@ spring:
 eureka:
   client: #客户端注册进eureka服务列表内
     service-url:
-      defaultZone: http://localhost:7001/eureka
+      defaultZone: http://127.0.0.1:7001/eureka
       #defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
   instance:
     instance-id: foodie-orders
@@ -21,6 +21,18 @@ info:
 ribbon:
   ReadTimeout: 3000
   ConnectTimeout: 3000
+
+
+#security:
+#  cas:
+#    server:
+#      host: http://127.0.0.1:8088/cas
+#      login: ${security.cas.server.host}/login
+#      logout: ${security.cas.server.host}/logout
+#    service:
+#      host: http://localhost:9002
+#      login: /login/cas
+#      logout: /logout
 
 #eureka:
 #  client:
