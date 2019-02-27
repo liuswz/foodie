@@ -30,5 +30,5 @@ public class Shop implements Serializable {
     private String shopNotice;
 
 
-    private String authority;
+  //  private String authority;
 }

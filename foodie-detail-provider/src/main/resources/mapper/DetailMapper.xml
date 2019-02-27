@@ -21,7 +21,7 @@
         photo_url,
         business_photo,
         pay_photo,
-        authority,
+
         idcard_photo,
         create_time
         )
@@ -38,11 +38,12 @@
         #{photoUrl},
         #{businessPhoto},
         #{payPhoto},
-        #{authority},
+
         #{idcardPhoto},
         #{createTime}
         )
     </insert>
+
     <!--<insert id="addPay" useGeneratedKeys="true" keyProperty="id">-->
         <!--insert-->
         <!--into-->

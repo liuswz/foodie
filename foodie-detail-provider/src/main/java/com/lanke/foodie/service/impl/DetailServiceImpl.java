@@ -47,7 +47,7 @@ public class DetailServiceImpl implements DetailService {
         }
         //初始化status为0
         shop.setShopStatus(0);
-        shop.setAuthority(Authority.Common.getName());
+      //  shop.setAuthority(Authority.Common.getName());
         log.info(DigestUtils.md5Hex(shop.getPassword())+"-------------------");
         shop.setPassword(DigestUtils.md5Hex(shop.getPassword()));
      //   int flag2 = detailDao.addPay(shop);
