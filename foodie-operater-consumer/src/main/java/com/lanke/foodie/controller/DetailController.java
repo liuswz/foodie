@@ -35,18 +35,11 @@ public class DetailController {
 
 
     @RequestMapping(value = "/consumer/shopdetail/getById/{id}",method = RequestMethod.GET)
-    public BaseJson getById(@PathVariable("id") Integer id){
+    public Shop getById(@PathVariable("id") Integer id){
         BaseJson baseJson = new BaseJson();
         Shop shop = detailService.getById(id);
-        if(shop != null){
-            baseJson.setCode(0);
-            baseJson.setMessage("成功");
-            baseJson.setResult(shop);
-        }else{
-            baseJson.setCode(1);
-            baseJson.setMessage("失败");
-        }
-        return baseJson;
+
+        return shop;
 
     }
 
@@ -100,21 +93,14 @@ public class DetailController {
 
     }
 
-
     @RequestMapping(value = "/consumer/shopdetail/findPayPhoto/{id}",method = RequestMethod.GET)
-    public TransferView findPayPhoto(FindOrderParamsDto findOrderParamsDto){
-
-        String  payPhoto = detailService.findPayPhoto(findOrderParamsDto.getShopId());
-        Double totalcost = orderService.findTotalCost(findOrderParamsDto);
-        if(totalcost==null) totalcost=0.0;
-
-        TransferView transferView = new TransferView();
-        transferView.setPayPhoto(payPhoto);
-        transferView.setTotalCost(totalcost);
-
-
-
-        return transferView;
+    public BaseJson findPayPhoto(Integer id){
+        String  payPhoto = detailService.findPayPhoto(id);
+        BaseJson baseJson = new BaseJson();
+        baseJson.setCode(0);
+        baseJson.setMessage("成功");
+        baseJson.setResult(payPhoto);
+        return baseJson;
 
     }
 

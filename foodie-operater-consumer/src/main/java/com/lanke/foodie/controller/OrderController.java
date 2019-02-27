@@ -27,7 +27,7 @@ public class OrderController {
         return orderService.findTotalOrders(page,size);
     }
     @RequestMapping(value = "/consumer/shoporder/findOrderByTimeAndValue",method = RequestMethod.POST)
-    public PageResult findOrderByTimeAndValue(@RequestParam("page")  Integer page, @RequestParam("size") Integer size,@RequestBody OrderIndexDto orderIndexDto){
+    public PageResult findOrderByTimeAndValue(@RequestParam("page")  Integer page, @RequestParam("size") Integer size,OrderIndexDto orderIndexDto){
 //log.info(page+size+findOrderParamsDto.getFromTime()+findOrderParamsDto.getToTime());
         return orderService.findOrderByTimeAndValue(page,size,orderIndexDto);
     }
@@ -62,5 +62,17 @@ public class OrderController {
         return baseJson;
 
     }
+    @RequestMapping(value = "/consumer/shoporder/findTotalCost",method = RequestMethod.GET)
+    public BaseJson findTotalCost( FindOrderParamsDto findOrderParamsDto){
+        Double totalcost  = orderService.findTotalCost(findOrderParamsDto);
+        if(totalcost==null) totalcost=0.0;
 
+        BaseJson baseJson = new BaseJson();
+        baseJson.setCode(0);
+        baseJson.setMessage("成功");
+        baseJson.setResult(totalcost);
+        return baseJson;
+
+
+    }
 }
