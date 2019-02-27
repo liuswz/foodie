@@ -73,7 +73,7 @@ public class DetailController {
     public void logout2(HttpSession session,HttpServletResponse response) throws IOException {
         session.invalidate();
         // 退出登录后，跳转到退出成功的页面，不走默认页面
-        response.sendRedirect("http://127.0.0.1:8088/cas/logout?service=http://127.0.0.1:9002/logout/success");
+        response.sendRedirect("http://127.0.0.1:8088/cas/logout?service=http://127.0.0.1:82/admin");
     }
 //
     @RequestMapping("/logout/success")

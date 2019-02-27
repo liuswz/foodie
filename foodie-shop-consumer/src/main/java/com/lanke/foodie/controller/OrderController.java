@@ -61,7 +61,7 @@ public class OrderController {
     public PageResult findOrderByTime(  @RequestParam("page") Integer page,
                                         @RequestParam("size") Integer size,
                                         FindOrderParamsDto findOrderParamsDto) {
-log.info(page+size+findOrderParamsDto.getFromTime()+findOrderParamsDto.getToTime());
+//log.info(page+size+findOrderParamsDto.getFromTime()+findOrderParamsDto.getToTime());
         return orderService.findOrderByTime(page,size,findOrderParamsDto);
     }
     @RequestMapping(value = "/consumer/shoporder/findOrderItem/{orderId}/{shopId}",method = RequestMethod.GET)
@@ -75,10 +75,10 @@ log.info(page+size+findOrderParamsDto.getFromTime()+findOrderParamsDto.getToTime
     public PageResult findNotFinishOrder(@PathVariable("page") Integer page, @PathVariable("size") Integer size, @PathVariable("shopId") Integer shopId){
         return orderService.findNotFinishOrder(page,size,shopId);
     }
-    @RequestMapping(value = "/consumer/shoporder/updatOrder/{orderStatus}/{id}",method = RequestMethod.GET)
-    public BaseJson  updatOrder( @PathVariable("orderStatus") Integer orderStatus,@PathVariable("id") Integer id){
+    @RequestMapping(value = "/consumer/shoporder/updateOrderStatus/{orderStatus}/{id}",method = RequestMethod.GET)
+    public BaseJson  updateOrderStatus( @PathVariable("orderStatus") Integer orderStatus,@PathVariable("id") Integer id){
 
-        int flag = orderService.updatOrder(orderStatus,id);
+        int flag = orderService.updateOrderStatus(orderStatus,id);
 
         BaseJson baseJson = new BaseJson();
         if(flag == Result.SUCCESS.getIndex()){
@@ -96,4 +96,26 @@ log.info(page+size+findOrderParamsDto.getFromTime()+findOrderParamsDto.getToTime
         return baseJson;
 
     }
+    @RequestMapping(value = "/consumer/shoporder/updateDishStatus/{dishStatus}/{id}",method = RequestMethod.GET)
+    public BaseJson  updateDishStatus( @PathVariable("dishStatus") Integer dishStatus,@PathVariable("id") Integer id){
+
+        int flag = orderService.updateDishStatus(dishStatus,id);
+
+        BaseJson baseJson = new BaseJson();
+        if(flag == Result.SUCCESS.getIndex()){
+            baseJson.setCode(flag);
+            baseJson.setMessage("成功");
+            baseJson.setResult("更改成功");
+        }else {
+
+            baseJson.setCode(flag);
+            baseJson.setMessage("失败");
+            baseJson.setResult("更改失败");
+
+
+        }
+        return baseJson;
+
+    }
+
 }

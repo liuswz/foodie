@@ -1,5 +1,6 @@
 package com.lanke.foodie.utils;
 
+import com.lanke.foodie.dto.OrderAndShopDto;
 import com.lanke.foodie.entity.Order;
 
 import java.text.ParseException;
@@ -27,10 +28,21 @@ public class BaseUtils {
     public static List<Order> transformTime(List<Order> list,String dateFormate) {
         SimpleDateFormat ft = new SimpleDateFormat (dateFormate);
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.0");
+        for(Order o:list){
+            Date d = null;
+            try {
+                d = sdf1.parse(o.getCreateTime());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            o.setCreateTime(ft.format(d));
+        }
+        return list;
+    }
 
-
-
-
+    public static List<OrderAndShopDto> transformTimeToOrderAndShopDto(List<OrderAndShopDto> list, String dateFormate) {
+        SimpleDateFormat ft = new SimpleDateFormat (dateFormate);
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.0");
         for(Order o:list){
             Date d = null;
             try {

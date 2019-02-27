@@ -3,13 +3,13 @@ package com.lanke.foodie.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.lanke.foodie.dao.OrderDao;
-import com.lanke.foodie.dto.OrderAndItemDto;
-import com.lanke.foodie.dto.OrderItemDto;
-import com.lanke.foodie.dto.PageResult;
-import com.lanke.foodie.dto.FindOrderParamsDto;
+import com.lanke.foodie.dto.*;
 import com.lanke.foodie.entity.Order;
 import com.lanke.foodie.entity.OrderItem;
+import com.lanke.foodie.enums.DishStatus;
+import com.lanke.foodie.enums.PayStatus;
 import com.lanke.foodie.enums.Result;
+import com.lanke.foodie.enums.TransferStatus;
 import com.lanke.foodie.service.OrderService;
 import com.lanke.foodie.utils.BaseUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +32,9 @@ public class OrderServiceImpl implements OrderService {
         order.setCreateTime(BaseUtils.getTime());
         order.setOrderNo(BaseUtils.createOrderNo());
 
-
+        order.setIfTransfer(TransferStatus.NotFinish.getIndex());
+        order.setOrderStatus(PayStatus.NotPay.getIndex());
+        order.setDishStatus(DishStatus.NotFinish.getIndex());
 
         int orderId = orderDao.addOrder(order);
 
@@ -63,8 +65,6 @@ public class OrderServiceImpl implements OrderService {
         findOrderParamsDto.setFromTime(findOrderParamsDto.getFromTime()+" 00:00:00");
         findOrderParamsDto.setToTime(findOrderParamsDto.getToTime()+" 23:59:59");
         PageHelper.startPage(pageNum, pageSize);
-
-
         Page<Order> page=   (Page<Order>) BaseUtils.transformTime(orderDao.findOrderByTime(findOrderParamsDto),"yyyy-MM-dd HH:mm"); ;
         return new PageResult(page.getTotal(), page.getResult());
     }
@@ -81,11 +81,48 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
-    public Integer updatOrder(Integer orderStatus, Integer id) {
-        if(orderDao.updatOrder(orderStatus,id)>0)
+    public Integer updateOrderStatus(Integer orderStatus, Integer id) {
+        if(orderDao.updateOrderStatus(orderStatus,id)>0)
             return Result.SUCCESS.getIndex();
         else
             return Result.FAIL.getIndex();
+    }
+
+    public Integer updateDishStatus(Integer dishStatus, Integer id) {
+        if(orderDao.updateDishStatus(dishStatus,id)>0)
+            return Result.SUCCESS.getIndex();
+        else
+            return Result.FAIL.getIndex();
+    }
+
+    public PageResult findTotalOrders(Integer pageNum, Integer pageSize) {
+
+        PageHelper.startPage(pageNum, pageSize);
+        Page<Order> page=   (Page<Order>) BaseUtils.transformTime(orderDao.findTotalOrders(),"yyyy-MM-dd HH:mm");
+        return new PageResult(page.getTotal(), page.getResult());
+
+    }
+
+    public PageResult findOrderByTimeAndValue(Integer pageNum, Integer pageSize, OrderIndexDto orderIndexDto) {
+
+        orderIndexDto.setFromTime(orderIndexDto.getFromTime()+" 00:00:00");
+        orderIndexDto.setToTime(orderIndexDto.getToTime()+" 23:59:59");
+        PageHelper.startPage(pageNum, pageSize);
+        Page<OrderAndShopDto> page=   (Page<OrderAndShopDto>) BaseUtils.transformTimeToOrderAndShopDto(orderDao.findOrderByTimeAndValue(orderIndexDto),"yyyy-MM-dd HH:mm"); ;
+        return new PageResult(page.getTotal(), page.getResult());
+
+    }
+
+    public Integer updatOrderIfTranster(FindOrderParamsDto findOrderParamsDto) {
+        findOrderParamsDto.setFromTime(findOrderParamsDto.getFromTime()+" 00:00:00");
+        findOrderParamsDto.setToTime(findOrderParamsDto.getToTime()+" 23:59:59");
+        return orderDao.updatOrderIfTranster(findOrderParamsDto);
+    }
+
+    public Double findTotalCost(FindOrderParamsDto findOrderParamsDto) {
+        findOrderParamsDto.setFromTime(findOrderParamsDto.getFromTime()+" 00:00:00");
+        findOrderParamsDto.setToTime(findOrderParamsDto.getToTime()+" 23:59:59");
+        return orderDao.findTotalCost(findOrderParamsDto);
     }
 
 

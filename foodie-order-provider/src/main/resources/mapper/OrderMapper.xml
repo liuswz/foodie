@@ -15,6 +15,8 @@
         order_status,
         cost,
         shop_id,
+        if_transfer,
+        dish_status,
         create_time
         )
         values
@@ -24,6 +26,8 @@
         #{orderStatus},
         #{cost},
         #{shopId},
+        #{ifTransfer},
+        #{dishStatus},
         #{createTime}
         )
     </insert>
@@ -55,6 +59,15 @@
         shop_id = #{shopId}
         order by id desc
     </select>
+
+    <select id="findTotalOrders" resultType="com.lanke.foodie.entity.Order" >
+        select
+        *
+        from
+        fd_order
+        order by id desc
+    </select>
+
     <select id="findOrderByTime" parameterType="com.lanke.foodie.dto.FindOrderParamsDto" resultType="com.lanke.foodie.entity.Order" >
          SELECT
             *
@@ -68,6 +81,22 @@
             and  shop_id = #{shopId}
 
     </select>
+
+    <select id="findOrderByTimeAndValue" parameterType="com.lanke.foodie.dto.OrderIndexDto" resultType="com.lanke.foodie.dto.OrderAndShopDto" >
+           SELECT
+            fd_order.*,shop_name
+            FROM
+            fd_order INNER JOIN shop
+            ON fd_order.shop_id=shop.id
+            WHERE
+            fd_order.create_time  BETWEEN
+            #{fromTime}
+            AND
+             #{toTime}
+            AND  shop_name LIKE '%${value}%' OR order_no LIKE '%${value}%'
+
+    </select>
+
     <select id="findOrderItem" resultType="com.lanke.foodie.dto.OrderItemDto">
         SELECT * FROM order_item
         inner JOIN dish
@@ -79,10 +108,10 @@
         from
         fd_order
         where
-        shop_id = #{shopId} and order_status != 3
+        shop_id = #{shopId} and (order_status = 0 or dish_status=0)
         order by id desc
     </select>
-    <update id="updatOrder">
+    <update id="updateOrderStatus">
         update
         fd_order
         set
@@ -90,5 +119,34 @@
         where
         id = #{id}
     </update>
+    <update id="updateDishStatus">
+        update
+        fd_order
+        set
+        dish_status = #{dishStatus}
+        where
+        id = #{id}
+    </update>
+    <update id="updatOrderIfTranster" parameterType="com.lanke.foodie.dto.FindOrderParamsDto">
+        update
+        fd_order
+        set
+        if_transfer = 1
+        WHERE
+          create_time  BETWEEN
+          #{fromTime}
+          AND
+          #{toTime}
+          and  shop_id = #{shopId} and if_transfer=0 and order_status=2
+    </update>
 
+    <select id="findTotalCost" parameterType="com.lanke.foodie.dto.FindOrderParamsDto" resultType="Double">
+        SELECT sum(cost) FROM fd_order
+         WHERE
+          create_time  BETWEEN
+          #{fromTime}
+          AND
+          #{toTime}
+          and  shop_id = #{shopId} and if_transfer=0 and order_status=2
+    </select>
 </mapper>

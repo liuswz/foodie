@@ -134,12 +134,34 @@
         username = #{username}
     </select>
 
-    <select id="getAuthorityByUsername" resultType="String">
-        select
-        authority
-        from
-        shop
-        where
-        username = #{username}
+    <!--<select id="getAuthorityByUsername" resultType="String">-->
+        <!--select-->
+        <!--authority-->
+        <!--from-->
+        <!--shop-->
+        <!--where-->
+        <!--username = #{username}-->
+    <!--</select>-->
+
+
+    <select id="findAllShop" resultType="com.lanke.foodie.entity.Shop">
+        SELECT * FROM shop
+       WHERE   username like '%${value}%' or shop_name like '%${value}%'
     </select>
+
+
+    <delete id="deleteShop" >
+       delete from shop
+       where id = #{id}
+    </delete>
+
+    <update id="updateStatus" >
+      update shop set shop_status = 1 where id = #{id}
+    </update>
+
+    <select id="findPayPhoto" resultType="String">
+        SELECT pay_photo FROM shop
+        where id = #{id}
+    </select>
+
 </mapper>

@@ -4,9 +4,9 @@
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$/foodie-detail-provider" />
     <file type="web" url="file://$PROJECT_DIR$/foodie-dishes-provider" />
+    <file type="web" url="file://$PROJECT_DIR$/foodie-operater-consumer" />
     <file type="web" url="file://$PROJECT_DIR$/foodie-order-provider" />
     <file type="web" url="file://$PROJECT_DIR$/foodie-shop-consumer" />
-    <file type="web" url="file://$PROJECT_DIR$/foodie-shop-detail-consumer" />
     <file type="web" url="file://$PROJECT_DIR$/foodie-user-consumer" />
   </component>
   <component name="MavenProjectsManager">

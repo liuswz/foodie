@@ -74,10 +74,10 @@ public class OrderController {
 //    public PageResult findNotFinishOrder(@PathVariable("page") Integer page, @PathVariable("size") Integer size, @PathVariable("shopId") Integer shopId){
 //        return orderService.findNotFinishOrder(page,size,shopId);
 //    }
-    @RequestMapping(value = "/consumer/shoporder/updatOrder/{orderStatus}/{id}",method = RequestMethod.GET)
-    public BaseJson  updatOrder( @PathVariable("orderStatus") Integer orderStatus,@PathVariable("id") Integer id){
+    @RequestMapping(value = "/consumer/shoporder/updateOrderStatus/{orderStatus}/{id}",method = RequestMethod.GET)
+    public BaseJson  updateOrderStatus( @PathVariable("orderStatus") Integer orderStatus,@PathVariable("id") Integer id){
 
-        int flag = orderService.updatOrder(orderStatus,id);
+        int flag = orderService.updateOrderStatus(orderStatus,id);
 
         BaseJson baseJson = new BaseJson();
         if(flag == Result.SUCCESS.getIndex()){

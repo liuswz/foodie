@@ -12,9 +12,9 @@
         <module name="foodie-detail-provider" />
         <module name="foodie-dishes-provider" />
         <module name="foodie-eureka-sever" />
+        <module name="foodie-operater-consumer" />
         <module name="foodie-order-provider" />
         <module name="foodie-shop-consumer" />
-        <module name="foodie-shop-detail-consumer" />
         <module name="foodie-static-service" />
         <module name="foodie-user-consumer" />
         <module name="foodie-zuul" />

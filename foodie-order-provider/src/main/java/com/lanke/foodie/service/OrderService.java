@@ -1,9 +1,6 @@
 package com.lanke.foodie.service;
 
-import com.lanke.foodie.dto.OrderAndItemDto;
-import com.lanke.foodie.dto.OrderItemDto;
-import com.lanke.foodie.dto.PageResult;
-import com.lanke.foodie.dto.FindOrderParamsDto;
+import com.lanke.foodie.dto.*;
 import com.lanke.foodie.entity.Order;
 import org.apache.ibatis.annotations.Param;
 
@@ -17,5 +14,11 @@ public interface OrderService {
     public List<OrderItemDto> findOrderItem(Integer orderId, Integer shopId);
 
     public PageResult findNotFinishOrder(Integer pageNum, Integer pageSize, Integer shopId);
-    public Integer  updatOrder( Integer orderStatus, Integer id);
+    public Integer  updateOrderStatus( Integer orderStatus, Integer id);
+    public Integer  updateDishStatus( Integer dishStatus, Integer id);
+    public PageResult findTotalOrders(Integer pageNum, Integer pageSize);
+    public PageResult findOrderByTimeAndValue(Integer pageNum, Integer pageSize,OrderIndexDto orderIndexDto);
+
+    public Integer updatOrderIfTranster (FindOrderParamsDto findOrderParamsDto);
+    public Double findTotalCost(FindOrderParamsDto findOrderParamsDto);
 }

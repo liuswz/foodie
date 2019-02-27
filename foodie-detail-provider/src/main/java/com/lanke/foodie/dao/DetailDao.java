@@ -21,7 +21,7 @@ public interface DetailDao {
     public int checkUsername(@Param("username") String username);
 
     public int checkShopName(@Param("shopName") String shopName);
-    public String getAuthorityByUsername(@Param("username") String username);
+//    public String getAuthorityByUsername(@Param("username") String username);
 
     public int updateShop(Shop shop);
 
@@ -32,4 +32,11 @@ public interface DetailDao {
     public List<Integer> checkShopNameForUpdate(@Param("shopName") String shopName);
     public ShopNameAndIdDto getNameAndIdByUsername(@Param("username") String username);
   //  public PayDetail getShopDetailById(@Param("id") Integer payDetailId);
+
+    public List<Shop> findAllShop(@Param("value") String value);
+    public Integer updateStatus(@Param("id") Integer id);
+    public Integer deleteShop(@Param("id") Integer id);
+
+    public String findPayPhoto(@Param("id") Integer id);
+
 }

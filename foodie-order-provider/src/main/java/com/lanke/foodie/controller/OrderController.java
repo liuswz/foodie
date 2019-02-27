@@ -1,9 +1,6 @@
 package com.lanke.foodie.controller;
 
-import com.lanke.foodie.dto.OrderAndItemDto;
-import com.lanke.foodie.dto.OrderItemDto;
-import com.lanke.foodie.dto.PageResult;
-import com.lanke.foodie.dto.FindOrderParamsDto;
+import com.lanke.foodie.dto.*;
 import com.lanke.foodie.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +40,32 @@ public class OrderController {
     public PageResult findNotFinishOrder(@PathVariable("page") Integer page, @PathVariable("size") Integer size, @PathVariable("shopId") Integer shopId){
         return orderService.findNotFinishOrder(page,size,shopId);
     }
-    @RequestMapping(value = "/shoporder/updatOrder/{orderStatus}/{id}",method = RequestMethod.GET)
-    public Integer  updatOrder( @PathVariable("orderStatus") Integer orderStatus,@PathVariable("id") Integer id){
-        return orderService.updatOrder(orderStatus,id);
+    @RequestMapping(value = "/shoporder/updateOrderStatus/{orderStatus}/{id}",method = RequestMethod.GET)
+    public Integer  updateOrderStatus( @PathVariable("orderStatus") Integer orderStatus,@PathVariable("id") Integer id){
+        return orderService.updateOrderStatus(orderStatus,id);
+    }
+    @RequestMapping(value = "/shoporder/updateDishStatus/{dishStatus}/{id}",method = RequestMethod.GET)
+    public Integer  updateDishStatus( @PathVariable("dishStatus") Integer dishStatus,@PathVariable("id") Integer id){
+        return orderService.updateDishStatus(dishStatus,id);
+    }
+
+    @RequestMapping(value = "/shoporder/findTotalOrders/{page}/{size}",method = RequestMethod.GET)
+    public PageResult findTotalOrders(@PathVariable("page") Integer page, @PathVariable("size") Integer size) {
+        return orderService.findTotalOrders(page,size);
+    }
+
+    @RequestMapping(value = "/shoporder/findOrderByTimeAndValue",method = RequestMethod.POST)
+    public PageResult findOrderByTimeAndValue(@RequestParam("page")  Integer page, @RequestParam("size") Integer size,@RequestBody OrderIndexDto orderIndexDto) {
+        return orderService.findOrderByTimeAndValue(page,size,orderIndexDto);
+    }
+    @RequestMapping(value = "/shoporder/updatOrderIfTranster",method = RequestMethod.GET)
+    public Integer updatOrderIfTranster (@RequestBody FindOrderParamsDto findOrderParamsDto){
+
+        return orderService.updatOrderIfTranster(findOrderParamsDto);
+    }
+
+    @RequestMapping(value = "/shoporder/findTotalCost",method = RequestMethod.GET)
+    public Double findTotalCost(@RequestBody FindOrderParamsDto findOrderParamsDto){
+        return orderService.findTotalCost(findOrderParamsDto);
     }
 }

@@ -1,10 +1,14 @@
 package com.lanke.foodie.service.impl;
 
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.lanke.foodie.dao.DetailDao;
 
+import com.lanke.foodie.dto.PageResult;
 import com.lanke.foodie.dto.ShopNameAndIdDto;
 
+import com.lanke.foodie.entity.DishType;
 import com.lanke.foodie.entity.Shop;
 import com.lanke.foodie.enums.Authority;
 import com.lanke.foodie.service.DetailService;
@@ -84,7 +88,27 @@ public class DetailServiceImpl implements DetailService {
         return detailDao.getNameAndIdByUsername(username);
     }
 
-    public String getAuthorityByUsername(String username) {
-        return detailDao.getAuthorityByUsername(username);
+//    public String getAuthorityByUsername(String username) {
+//        return detailDao.getAuthorityByUsername(username);
+//    }
+
+    public PageResult findAllShop(Integer pageNum, Integer pageSize,String value) {
+
+        PageHelper.startPage(pageNum, pageSize);
+        Page<Shop> page=   (Page<Shop>) detailDao.findAllShop(value);
+        return new PageResult(page.getTotal(), page.getResult());
+
+    }
+
+    public Integer updateStatus(Integer id) {
+        return detailDao.updateStatus(id);
+    }
+
+    public Integer deleteShop(Integer id) {
+        return detailDao.deleteShop(id);
+    }
+
+    public String findPayPhoto(Integer id) {
+        return detailDao.findPayPhoto(id);
     }
 }

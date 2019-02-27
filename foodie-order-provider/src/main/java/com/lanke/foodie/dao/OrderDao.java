@@ -1,6 +1,8 @@
 package com.lanke.foodie.dao;
 
 import com.lanke.foodie.dto.FindOrderParamsDto;
+import com.lanke.foodie.dto.OrderAndShopDto;
+import com.lanke.foodie.dto.OrderIndexDto;
 import com.lanke.foodie.dto.OrderItemDto;
 import com.lanke.foodie.entity.Order;
 import com.lanke.foodie.entity.OrderItem;
@@ -19,5 +21,13 @@ public interface OrderDao {
     public List<OrderItemDto> findOrderItem(@Param("orderId") Integer orderId, @Param("shopId") Integer shopId);
 
     public List<Order> findNotFinishOrder(@Param("shopId")  Integer shopId);
-    public Integer  updatOrder(@Param("orderStatus") Integer orderStatus,@Param("id") Integer id);
+    public Integer  updateOrderStatus(@Param("orderStatus") Integer orderStatus,@Param("id") Integer id);
+    public Integer  updateDishStatus(@Param("dishStatus") Integer dishStatus,@Param("id") Integer id);
+
+    public List<Order> findTotalOrders();
+    public List<OrderAndShopDto> findOrderByTimeAndValue(OrderIndexDto orderIndexDto);
+
+
+    public Integer updatOrderIfTranster (FindOrderParamsDto findOrderParamsDto);
+    public Double findTotalCost(FindOrderParamsDto findOrderParamsDto);
 }

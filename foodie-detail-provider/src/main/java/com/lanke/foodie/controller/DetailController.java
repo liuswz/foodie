@@ -1,6 +1,9 @@
 package com.lanke.foodie.controller;
 
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.lanke.foodie.dto.PageResult;
 import com.lanke.foodie.dto.ShopNameAndIdDto;
 import com.lanke.foodie.entity.Shop;
 import com.lanke.foodie.json.BaseJson;
@@ -41,8 +44,28 @@ public class DetailController {
     public ShopNameAndIdDto getNameAndIdByUsername(@PathVariable("username") String username){
         return detailService.getNameAndIdByUsername(username);
     }
-    @RequestMapping(value = "/shopdetail/getAuthorityByUsername/{username}",method = RequestMethod.GET)
-    public String getAuthorityByUsername(@PathVariable("username") String username) {
-        return detailService.getAuthorityByUsername(username);
+//    @RequestMapping(value = "/shopdetail/getAuthorityByUsername/{username}",method = RequestMethod.GET)
+//    public String getAuthorityByUsername(@PathVariable("username") String username) {
+//        return detailService.getAuthorityByUsername(username);
+//    }
+
+    @RequestMapping(value = "/shopdetail/findAllShop",method = RequestMethod.GET)
+    public PageResult findAllShop(@RequestParam("page") Integer page, @RequestParam("size") Integer size,@RequestParam("value") String value) {
+        return detailService.findAllShop(page,size,value);
+
+    }
+    @RequestMapping(value = "/shopdetail/updateStatus/{id}",method = RequestMethod.GET)
+    public Integer updateStatus(Integer id) {
+        return detailService.updateStatus(id);
+    }
+
+    @RequestMapping(value = "/shopdetail/deleteShop/{id}",method = RequestMethod.GET)
+    public Integer deleteShop(Integer id) {
+        return detailService.deleteShop(id);
+    }
+
+    @RequestMapping(value = "/shopdetail/findPayPhoto/{id}",method = RequestMethod.GET)
+    public String findPayPhoto(Integer id) {
+        return detailService.findPayPhoto(id);
     }
 }
