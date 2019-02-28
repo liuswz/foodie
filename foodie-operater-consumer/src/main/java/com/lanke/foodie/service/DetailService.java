@@ -18,12 +18,12 @@ public interface DetailService {
     @RequestMapping(value = "/shopdetail/findAllShop",method = RequestMethod.GET)
     public PageResult findAllShop(@RequestParam("page") Integer page, @RequestParam("size") Integer size, @RequestParam("value") String value);
     @RequestMapping(value = "/shopdetail/updateStatus/{id}",method = RequestMethod.GET)
-    public Integer updateStatus(Integer id);
+    public Integer updateStatus(@PathVariable("id") Integer id);
 
     @RequestMapping(value = "/shopdetail/deleteShop/{id}",method = RequestMethod.GET)
-    public Integer deleteShop(Integer id);
+    public Integer deleteShop(@PathVariable("id") Integer id);
 
     @RequestMapping(value = "/shopdetail/findPayPhoto/{id}",method = RequestMethod.GET)
-    public String findPayPhoto(Integer id);
+    public String findPayPhoto(@PathVariable("id") Integer id);
 
 }

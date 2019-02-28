@@ -53,7 +53,7 @@ public class DetailController {
 
 
     @RequestMapping(value = "/consumer/shopdetail/updateStatus/{id}",method = RequestMethod.GET)
-    public BaseJson updateStatus(Integer id){
+    public BaseJson updateStatus(@PathVariable("id") Integer id){
 
         int flag = detailService.updateStatus(id);
         BaseJson baseJson = new BaseJson();
@@ -73,7 +73,7 @@ public class DetailController {
 
     }
     @RequestMapping(value = "/consumer/shopdetail/deleteShop/{id}",method = RequestMethod.GET)
-    public BaseJson deleteShop(Integer id){
+    public BaseJson deleteShop(@PathVariable("id") Integer id){
 
         int flag = detailService.deleteShop(id);
         BaseJson baseJson = new BaseJson();
@@ -94,7 +94,7 @@ public class DetailController {
     }
 
     @RequestMapping(value = "/consumer/shopdetail/findPayPhoto/{id}",method = RequestMethod.GET)
-    public BaseJson findPayPhoto(Integer id){
+    public BaseJson findPayPhoto(@PathVariable("id") Integer id){
         String  payPhoto = detailService.findPayPhoto(id);
         BaseJson baseJson = new BaseJson();
         baseJson.setCode(0);

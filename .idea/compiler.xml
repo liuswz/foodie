@@ -12,6 +12,7 @@
         <module name="foodie-detail-provider" />
         <module name="foodie-dishes-provider" />
         <module name="foodie-eureka-sever" />
+        <module name="foodie-hystrix-dashboard" />
         <module name="foodie-operater-consumer" />
         <module name="foodie-order-provider" />
         <module name="foodie-shop-consumer" />
