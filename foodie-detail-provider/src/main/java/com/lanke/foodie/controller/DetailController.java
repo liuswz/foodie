@@ -68,4 +68,6 @@ public class DetailController {
     public String findPayPhoto(Integer id) {
         return detailService.findPayPhoto(id);
     }
+
+
 }
