@@ -10,6 +10,7 @@ import com.lanke.foodie.entity.OrderItem;
 import com.lanke.foodie.enums.Result;
 import com.lanke.foodie.json.BaseJson;
 import com.lanke.foodie.service.OrderService;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,7 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+    @HystrixCommand(fallbackMethod = "processHystrix_Get2")
     @RequestMapping(value = "/consumer/shoporder/addOrder",method = RequestMethod.POST)
     public BaseJson addOrder( Order order , String orderItemList){//Order order,
 
@@ -74,6 +76,7 @@ public class OrderController {
 //    public PageResult findNotFinishOrder(@PathVariable("page") Integer page, @PathVariable("size") Integer size, @PathVariable("shopId") Integer shopId){
 //        return orderService.findNotFinishOrder(page,size,shopId);
 //    }
+    @HystrixCommand(fallbackMethod = "processHystrix_Get")
     @RequestMapping(value = "/consumer/shoporder/updateOrderStatus/{orderStatus}/{id}",method = RequestMethod.GET)
     public BaseJson  updateOrderStatus( @PathVariable("orderStatus") Integer orderStatus,@PathVariable("id") Integer id){
 
@@ -95,4 +98,20 @@ public class OrderController {
         return baseJson;
 
     }
+
+    public BaseJson processHystrix_Get( @PathVariable("orderStatus") Integer orderStatus,@PathVariable("id") Integer id)
+    {
+        BaseJson baseJson = new BaseJson();
+        baseJson.setMessage("该ID：" + id + "没有没有对应的信息,null--@HystrixCommand") ;
+        return baseJson;
+
+    }
+    public BaseJson processHystrix_Get2( Order order , String orderItemList)
+    {
+        BaseJson baseJson = new BaseJson();
+        baseJson.setMessage("添加订单失败") ;
+        return baseJson;
+
+    }
+
 }

@@ -25,9 +25,7 @@ ribbon:
 
   #eureka:
 
-feign:
-  hystrix:
-    enabled=true:
+
 #  client:
 #    register-with-eureka: false
 #    service-url:
