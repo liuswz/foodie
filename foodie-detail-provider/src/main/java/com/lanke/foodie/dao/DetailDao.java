@@ -38,5 +38,5 @@ public interface DetailDao {
     public Integer deleteShop(@Param("id") Integer id);
 
     public String findPayPhoto(@Param("id") Integer id);
-
+    public String getPassword(@Param("username") String username);
 }

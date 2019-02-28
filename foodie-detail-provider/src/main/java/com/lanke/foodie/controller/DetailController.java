@@ -69,5 +69,8 @@ public class DetailController {
         return detailService.findPayPhoto(id);
     }
 
-
+    @RequestMapping(value = "/shopdetail/getPassword/{username}",method = RequestMethod.GET)
+    public String getPassword(@PathVariable("username") String username) {
+        return detailService.getPassword(username);
+    }
 }

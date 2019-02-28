@@ -22,4 +22,6 @@ public interface DetailService {
     public Integer updateStatus(Integer id);
     public Integer deleteShop(Integer id);
     public String findPayPhoto(Integer id);
+
+    public String getPassword( String username);
 }

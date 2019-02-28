@@ -25,5 +25,6 @@ public interface DetailService {
 
     @RequestMapping(value = "/shopdetail/findPayPhoto/{id}",method = RequestMethod.GET)
     public String findPayPhoto(@PathVariable("id") Integer id);
-
+    @RequestMapping(value = "/shopdetail/getPassword/{username}",method = RequestMethod.GET)
+    public String getPassword(@PathVariable("username") String username);
 }

@@ -111,4 +111,8 @@ public class DetailServiceImpl implements DetailService {
     public String findPayPhoto(Integer id) {
         return detailDao.findPayPhoto(id);
     }
+
+    public String getPassword(String username) {
+        return detailDao.getPassword(username);
+    }
 }

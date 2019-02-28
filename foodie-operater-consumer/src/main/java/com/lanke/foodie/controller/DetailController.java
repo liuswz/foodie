@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ser.Serializers;
 
 import com.lanke.foodie.dto.FindOrderParamsDto;
 import com.lanke.foodie.dto.PageResult;
+import com.lanke.foodie.entity.Operater;
 import com.lanke.foodie.entity.Shop;
 import com.lanke.foodie.enums.Result;
 import com.lanke.foodie.json.BaseJson;
@@ -20,6 +21,7 @@ import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -103,6 +105,32 @@ public class DetailController {
         return baseJson;
 
     }
+    @RequestMapping(value = "/consumer/shopdetail/login",method = RequestMethod.POST)
+    public BaseJson login(HttpSession session, Operater operater){
+        BaseJson baseJson = new BaseJson();
+
+        if(detailService.getPassword(operater.getUsername()).equals(operater.getPassword())){
+            baseJson.setCode(0);
+            baseJson.setMessage("成功");
+            baseJson.setResult("登入成功");
+            session.setAttribute("username", operater.getUsername());
+        }else{
+            baseJson.setCode(1);
+            baseJson.setMessage("失败");
+            baseJson.setResult("用户名或密码错误");
+        }
 
 
+        return baseJson;
+    }
+    @RequestMapping(value = "/consumer/shopdetail/logout",method = RequestMethod.POST)
+    public BaseJson logout(HttpSession session){
+        BaseJson baseJson = new BaseJson();
+        session.invalidate();
+        baseJson.setCode(0);
+        baseJson.setMessage("成功");
+        baseJson.setResult("登出成功");
+
+        return baseJson;
+    }
 }
