@@ -26,7 +26,7 @@ public interface OrderDao {
 
     public List<Order> findTotalOrders();
     public List<OrderAndShopDto> findOrderByTimeAndValue(OrderIndexDto orderIndexDto);
-
+    public Double findCostByTimeAndValue(OrderIndexDto orderIndexDto);
 
     public Integer updatOrderIfTranster (FindOrderParamsDto findOrderParamsDto);
     public Double findTotalCost(FindOrderParamsDto findOrderParamsDto);

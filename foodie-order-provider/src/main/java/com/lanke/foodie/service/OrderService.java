@@ -17,7 +17,7 @@ public interface OrderService {
     public Integer  updateOrderStatus( Integer orderStatus, Integer id);
     public Integer  updateDishStatus( Integer dishStatus, Integer id);
     public PageResult findTotalOrders(Integer pageNum, Integer pageSize);
-    public PageResult findOrderByTimeAndValue(Integer pageNum, Integer pageSize,OrderIndexDto orderIndexDto);
+    public PageResultAndCost findOrderByTimeAndValue(Integer pageNum, Integer pageSize,OrderIndexDto orderIndexDto);
 
     public Integer updatOrderIfTranster (FindOrderParamsDto findOrderParamsDto);
     public Double findTotalCost(FindOrderParamsDto findOrderParamsDto);

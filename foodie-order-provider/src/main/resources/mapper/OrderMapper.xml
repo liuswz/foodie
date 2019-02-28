@@ -96,7 +96,20 @@
             AND  shop_name LIKE '%${value}%' OR order_no LIKE '%${value}%'
 
     </select>
+    <select id="findCostByTimeAndValue" parameterType="com.lanke.foodie.dto.OrderIndexDto" resultType="double" >
+           SELECT
+            sum(cost)
+            FROM
+            fd_order INNER JOIN shop
+            ON fd_order.shop_id=shop.id
+            WHERE
+            fd_order.create_time  BETWEEN
+            #{fromTime}
+            AND
+             #{toTime}
+            AND  shop_name LIKE '%${value}%' OR order_no LIKE '%${value}%'
 
+    </select>
     <select id="findOrderItem" resultType="com.lanke.foodie.dto.OrderItemDto">
         SELECT * FROM order_item
         inner JOIN dish
@@ -140,7 +153,7 @@
           and  shop_id = #{shopId} and if_transfer=0 and order_status=2
     </update>
 
-    <select id="findTotalCost" parameterType="com.lanke.foodie.dto.FindOrderParamsDto" resultType="Double">
+    <select id="findTotalCost" parameterType="com.lanke.foodie.dto.FindOrderParamsDto" resultType="double">
         SELECT sum(cost) FROM fd_order
          WHERE
           create_time  BETWEEN

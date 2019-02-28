@@ -1,9 +1,6 @@
 package com.lanke.foodie.controller;
 
-import com.lanke.foodie.dto.FindOrderParamsDto;
-import com.lanke.foodie.dto.OrderIndexDto;
-import com.lanke.foodie.dto.OrderItemDto;
-import com.lanke.foodie.dto.PageResult;
+import com.lanke.foodie.dto.*;
 import com.lanke.foodie.enums.Result;
 import com.lanke.foodie.json.BaseJson;
 import com.lanke.foodie.service.OrderService;
@@ -27,7 +24,7 @@ public class OrderController {
         return orderService.findTotalOrders(page,size);
     }
     @RequestMapping(value = "/consumer/shoporder/findOrderByTimeAndValue",method = RequestMethod.POST)
-    public PageResult findOrderByTimeAndValue(@RequestParam("page")  Integer page, @RequestParam("size") Integer size,OrderIndexDto orderIndexDto){
+    public PageResultAndCost findOrderByTimeAndValue(@RequestParam("page")  Integer page, @RequestParam("size") Integer size, OrderIndexDto orderIndexDto){
 //log.info(page+size+findOrderParamsDto.getFromTime()+findOrderParamsDto.getToTime());
         return orderService.findOrderByTimeAndValue(page,size,orderIndexDto);
     }
