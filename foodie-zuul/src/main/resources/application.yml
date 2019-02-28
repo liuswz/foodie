@@ -27,9 +27,9 @@ zuul:
     shop:
       serviceId: foodie-shop-consumer
       path: /shop/**
-    operator:
-      serviceId: foodie-operator-consumer
-      path: /operator/**
+    operater:
+      serviceId: foodie-operater-consumer
+      path: /operater/**
 
 #    dishes:
 #      serviceId: foodie-shopdishes

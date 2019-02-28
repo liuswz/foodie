@@ -8,13 +8,13 @@ import feign.Param;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-@FeignClient(value = "FOODIE-SHOPDETAIL")
+@FeignClient(value = "FOODIE-DETAIL")
 public interface DetailService {
 
 
 
-    @RequestMapping(value = "/shopdetail/getById",method = RequestMethod.GET)
-    public Shop getById(@RequestParam("id") Integer id);
+    @RequestMapping(value = "/shopdetail/getById/{id}",method = RequestMethod.GET)
+    public Shop getById(@PathVariable("id") Integer id);
     @RequestMapping(value = "/shopdetail/findAllShop",method = RequestMethod.GET)
     public PageResult findAllShop(@RequestParam("page") Integer page, @RequestParam("size") Integer size, @RequestParam("value") String value);
     @RequestMapping(value = "/shopdetail/updateStatus/{id}",method = RequestMethod.GET)
