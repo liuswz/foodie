@@ -1,10 +1,13 @@
 package com.lanke.foodie.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.lanke.foodie.dto.DishAndTypeDto;
 import com.lanke.foodie.dto.DishesDto;
 import com.lanke.foodie.dto.PageResult;
 import com.lanke.foodie.entity.Dish;
 import com.lanke.foodie.entity.DishType;
+import com.lanke.foodie.entity.OrderItem;
 import com.lanke.foodie.json.BaseJson;
 import com.lanke.foodie.service.DishService;
 import lombok.extern.slf4j.Slf4j;
@@ -29,13 +32,16 @@ public class DishesController {
     @Autowired
     private DishService dishService;
 
-    @RequestMapping(value = "/consumer/shopdishes/adddishtype",method = RequestMethod.POST)
-    public  BaseJson adddishtype(DishType dishType ){
+    @RequestMapping(value = "/consumer/shopdishes/adddishtype/{typeName}/{shopId}",method = RequestMethod.GET)
+    public  BaseJson adddishtype(@PathVariable("typeName") String typeName,@PathVariable("shopId") Integer shopId){
        //   log.info("测试{}，日志级别{}，输出{}", "demo1aaaaaaaaaaaaaaaaaaaaaa", dishType.getTypeName(), "info level log");
         BaseJson baseJson = new BaseJson();
         // log.info("测试{}，日志级别{}，输出{}", registDto.getMchId(), "info", "info level log");
         // int flag =detailService.regist(registDto);
       //  dishType.setShopId(1);
+        DishType dishType = new DishType();
+        dishType.setTypeName(typeName);
+        dishType.setShopId(shopId);
         //int flag = restTemplate.postForObject(REST_URL_PREFIX + "/shopdishes/adddishtype", dishType, Integer.class);
         int flag = dishService.addDishType(dishType);
         if(flag == 0){
@@ -52,15 +58,16 @@ public class DishesController {
         return baseJson;
     }
 
-    @RequestMapping(value = "/consumer/shopdishes/adddishes",method = RequestMethod.POST)
-    public  BaseJson adddishes(Dish dish ){
+    @RequestMapping(value = "/consumer/shopdishes/adddishes",method = RequestMethod.GET)
+    public  BaseJson adddishes(String dish ){
     //    log.info("测试{}，日志级别{}，输出{}", "demo1aaaaaaaaaaaaaaaaaaaaaa", dish.getName(), "info level log");
         BaseJson baseJson = new BaseJson();
         // log.info("测试{}，日志级别{}，输出{}", registDto.getMchId(), "info", "info level log");
         // int flag =detailService.regist(registDto);
 
+        Dish dishes = JSON.parseObject(dish, Dish.class);
         //int flag = restTemplate.postForObject(REST_URL_PREFIX + "/shopdishes/adddishtype", dishType, Integer.class);
-        int flag = dishService.addDish(dish);
+        int flag = dishService.addDish(dishes);
         if(flag == 0){
             baseJson.setCode(1);
             baseJson.setMessage("失败");
