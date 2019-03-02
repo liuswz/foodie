@@ -123,13 +123,25 @@ public class DetailController {
 
         return baseJson;
     }
-    @RequestMapping(value = "/consumer/shopdetail/logout",method = RequestMethod.POST)
+    @RequestMapping(value = "/consumer/shopdetail/logout",method = RequestMethod.GET)
     public BaseJson logout(HttpSession session){
         BaseJson baseJson = new BaseJson();
         session.invalidate();
         baseJson.setCode(0);
         baseJson.setMessage("成功");
         baseJson.setResult("登出成功");
+
+        return baseJson;
+    }
+
+    @RequestMapping(value = "/consumer/shopdetail/getUsername",method = RequestMethod.GET)
+    public BaseJson getUsername(HttpSession session){
+        BaseJson baseJson = new BaseJson();
+
+
+        baseJson.setCode(0);
+        baseJson.setMessage("成功");
+        baseJson.setResult(session.getAttribute("username"));
 
         return baseJson;
     }

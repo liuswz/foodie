@@ -10,6 +10,7 @@ import com.lanke.foodie.entity.DishType;
 import com.lanke.foodie.entity.OrderItem;
 import com.lanke.foodie.json.BaseJson;
 import com.lanke.foodie.service.DishService;
+import feign.Param;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -59,15 +60,16 @@ public class DishesController {
     }
 
     @RequestMapping(value = "/consumer/shopdishes/adddishes",method = RequestMethod.GET)
-    public  BaseJson adddishes(String dish ){
+    public  BaseJson adddishes( Dish dish ){
     //    log.info("测试{}，日志级别{}，输出{}", "demo1aaaaaaaaaaaaaaaaaaaaaa", dish.getName(), "info level log");
         BaseJson baseJson = new BaseJson();
         // log.info("测试{}，日志级别{}，输出{}", registDto.getMchId(), "info", "info level log");
         // int flag =detailService.regist(registDto);
-
-        Dish dishes = JSON.parseObject(dish, Dish.class);
+        log.info(dish.getName());
+       // List<Dish> dishList = (List<Dish>)JSONArray.parseArray(dishes, Dish.class);
+      //  Dish dishs = JSON.parseObject(dish, Dish.class);
         //int flag = restTemplate.postForObject(REST_URL_PREFIX + "/shopdishes/adddishtype", dishType, Integer.class);
-        int flag = dishService.addDish(dishes);
+        int flag = dishService.addDish(dish);
         if(flag == 0){
             baseJson.setCode(1);
             baseJson.setMessage("失败");
