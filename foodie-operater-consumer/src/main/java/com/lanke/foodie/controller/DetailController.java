@@ -105,6 +105,7 @@ public class DetailController {
         return baseJson;
 
     }
+  //  @CrossOrigin(origins="http://localhost:82",allowCredentials = "true")
     @RequestMapping(value = "/consumer/shopdetail/login",method = RequestMethod.POST)
     public BaseJson login(HttpSession session, Operater operater){
         BaseJson baseJson = new BaseJson();
@@ -113,7 +114,11 @@ public class DetailController {
             baseJson.setCode(0);
             baseJson.setMessage("成功");
             baseJson.setResult("登入成功");
+
             session.setAttribute("username", operater.getUsername());
+            System.out.println( session.getId()+"------------------");
+
+
         }else{
             baseJson.setCode(1);
             baseJson.setMessage("失败");
@@ -126,14 +131,15 @@ public class DetailController {
     @RequestMapping(value = "/consumer/shopdetail/logout",method = RequestMethod.GET)
     public BaseJson logout(HttpSession session){
         BaseJson baseJson = new BaseJson();
-        session.invalidate();
+        System.out.println( session.getId()+"------------------");
+        //session.invalidate();
         baseJson.setCode(0);
         baseJson.setMessage("成功");
         baseJson.setResult("登出成功");
 
         return baseJson;
     }
-
+    //@CrossOrigin(origins="http://localhost:82",allowCredentials = "true")
     @RequestMapping(value = "/consumer/shopdetail/getUsername",method = RequestMethod.GET)
     public BaseJson getUsername(HttpSession session){
         BaseJson baseJson = new BaseJson();
@@ -145,4 +151,14 @@ public class DetailController {
 
         return baseJson;
     }
+    @RequestMapping(value = "/consumer/shopdetail/redirect",method = RequestMethod.GET)
+    public BaseJson redirect(){
+        BaseJson baseJson = new BaseJson();
+        baseJson.setCode(1);
+        baseJson.setMessage("失败");
+        baseJson.setResult("请登入");
+
+        return baseJson;
+    }
+
 }

@@ -24,13 +24,15 @@ zuul:
     user:
       serviceId: foodie-user-consumer
       path: /user/**
+      sensitiveHeaders: "*"
     shop:
       serviceId: foodie-shop-consumer
       path: /shop/**
+      sensitiveHeaders: "*"
     operater:
       serviceId: foodie-operater-consumer
       path: /operater/**
-
+      sensitiveHeaders: "*"
 #    dishes:
 #      serviceId: foodie-shopdishes
 #      path: /dishes/**
@@ -40,3 +42,4 @@ info:
   company.name: www.lanke.com
   build.artifactId: $project.artifactId$
   build.version: $project.version$
+

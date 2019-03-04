@@ -23,6 +23,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="foodie-operater-web" target="1.5" />
       <module name="foodie-shop-detail" target="1.5" />
       <module name="foodie-shop-dishes" target="1.5" />
       <module name="foodie-shop-order" target="1.5" />

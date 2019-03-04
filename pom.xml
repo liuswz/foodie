@@ -26,6 +26,7 @@
         <module>foodie-operater-consumer</module>
         <module>foodie-hystrix-dashboard</module>
 
+
     </modules>
 
     <properties>
