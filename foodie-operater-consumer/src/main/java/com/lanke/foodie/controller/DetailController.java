@@ -60,12 +60,12 @@ public class DetailController {
         int flag = detailService.updateStatus(id);
         BaseJson baseJson = new BaseJson();
         if(flag >0){
-            baseJson.setCode(flag);
+            baseJson.setCode(Result.SUCCESS.getIndex());
             baseJson.setMessage("成功");
             baseJson.setResult("更改成功");
         }else {
 
-            baseJson.setCode(flag);
+            baseJson.setCode(Result.FAIL.getIndex());
             baseJson.setMessage("失败");
             baseJson.setResult("更改失败");
 
@@ -80,12 +80,12 @@ public class DetailController {
         int flag = detailService.deleteShop(id);
         BaseJson baseJson = new BaseJson();
         if(flag >0){
-            baseJson.setCode(flag);
+            baseJson.setCode(Result.SUCCESS.getIndex());
             baseJson.setMessage("成功");
             baseJson.setResult("删除成功");
         }else {
 
-            baseJson.setCode(flag);
+            baseJson.setCode(Result.FAIL.getIndex());
             baseJson.setMessage("失败");
             baseJson.setResult("删除失败");
 

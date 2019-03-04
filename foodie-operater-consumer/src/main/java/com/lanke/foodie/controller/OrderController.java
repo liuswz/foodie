@@ -60,8 +60,10 @@ public class OrderController {
         return baseJson;
 
     }
-    @RequestMapping(value = "/consumer/shoporder/findTotalCost",method = RequestMethod.GET)
-    public BaseJson findTotalCost( FindOrderParamsDto findOrderParamsDto){
+    @RequestMapping(value = "/consumer/shoporder/findTotalCost")
+    public BaseJson findTotalCost(FindOrderParamsDto findOrderParamsDto){
+
+     //  log.info(findOrderParamsDto.getFromTime()+findOrderParamsDto.getToTime()+findOrderParamsDto.getShopId());
         Double totalcost  = orderService.findTotalCost(findOrderParamsDto);
         if(totalcost==null) totalcost=0.0;
 

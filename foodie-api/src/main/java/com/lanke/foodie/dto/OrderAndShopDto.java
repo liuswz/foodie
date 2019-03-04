@@ -12,5 +12,5 @@ import lombok.experimental.Accessors;
 public class OrderAndShopDto extends Order {
 
     private String shopName;
-    private Integer totalCost;
+ //   private Integer totalCost;
 }

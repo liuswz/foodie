@@ -108,10 +108,13 @@ public class OrderServiceImpl implements OrderService {
 
         orderIndexDto.setFromTime(orderIndexDto.getFromTime()+" 00:00:00");
         orderIndexDto.setToTime(orderIndexDto.getToTime()+" 23:59:59");
-        PageHelper.startPage(pageNum, pageSize);
+
         Double totalCost = orderDao.findCostByTimeAndValue(orderIndexDto);
+
         if(totalCost==null) totalCost=0.0;
+        PageHelper.startPage(pageNum, pageSize);
         Page<OrderAndShopDto> page=   (Page<OrderAndShopDto>) BaseUtils.transformTimeToOrderAndShopDto(orderDao.findOrderByTimeAndValue(orderIndexDto),"yyyy-MM-dd HH:mm");
+      //  Page<OrderAndShopDto> page=   (Page<OrderAndShopDto>) orderDao.findOrderByTimeAndValue(orderIndexDto);
         return new PageResultAndCost(page.getTotal(), page.getResult(),totalCost);
 
     }
@@ -125,6 +128,7 @@ public class OrderServiceImpl implements OrderService {
     public Double findTotalCost(FindOrderParamsDto findOrderParamsDto) {
         findOrderParamsDto.setFromTime(findOrderParamsDto.getFromTime()+" 00:00:00");
         findOrderParamsDto.setToTime(findOrderParamsDto.getToTime()+" 23:59:59");
+
         return orderDao.findTotalCost(findOrderParamsDto);
     }
 

@@ -54,9 +54,9 @@ public class OrderController {
         return orderService.findTotalOrders(page,size);
     }
 
-    @RequestMapping(value = "/shoporder/findOrderByTimeAndValue",method = RequestMethod.POST)
+    @RequestMapping(value = "/shoporder/findOrderByTimeAndValue")
     public PageResultAndCost findOrderByTimeAndValue(@RequestParam("page")  Integer page, @RequestParam("size") Integer size,@RequestBody OrderIndexDto orderIndexDto) {
-        log.info(orderIndexDto.getValue()+"---------------------------");
+
         return orderService.findOrderByTimeAndValue(page,size,orderIndexDto);
     }
     @RequestMapping(value = "/shoporder/updatOrderIfTranster",method = RequestMethod.GET)
@@ -65,8 +65,9 @@ public class OrderController {
         return orderService.updatOrderIfTranster(findOrderParamsDto);
     }
 
-    @RequestMapping(value = "/shoporder/findTotalCost",method = RequestMethod.GET)
+    @RequestMapping(value = "/shoporder/findTotalCost")
     public Double findTotalCost(@RequestBody FindOrderParamsDto findOrderParamsDto){
+        log.info(findOrderParamsDto.getFromTime()+findOrderParamsDto.getToTime()+findOrderParamsDto.getShopId());
         return orderService.findTotalCost(findOrderParamsDto);
     }
 }
