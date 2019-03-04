@@ -105,6 +105,7 @@ public class OrderServiceImpl implements OrderService {
 
     public PageResultAndCost findOrderByTimeAndValue(Integer pageNum, Integer pageSize, OrderIndexDto orderIndexDto) {
 
+
         orderIndexDto.setFromTime(orderIndexDto.getFromTime()+" 00:00:00");
         orderIndexDto.setToTime(orderIndexDto.getToTime()+" 23:59:59");
         PageHelper.startPage(pageNum, pageSize);

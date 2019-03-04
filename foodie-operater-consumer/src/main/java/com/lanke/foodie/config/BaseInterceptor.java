@@ -39,7 +39,7 @@ public class BaseInterceptor implements HandlerInterceptor {
 
 
 		HttpSession session =request.getSession();
-		System.out.println( session.getId()+"**********************");
+	//	System.out.println( session.getId()+"**********************");
 
 		if(session.getAttribute("username")!=null){
 

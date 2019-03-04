@@ -23,9 +23,10 @@ public class OrderController {
 
         return orderService.findTotalOrders(page,size);
     }
-    @RequestMapping(value = "/consumer/shoporder/findOrderByTimeAndValue",method = RequestMethod.POST)
+    @RequestMapping(value = "/consumer/shoporder/findOrderByTimeAndValue",method = RequestMethod.GET)
     public PageResultAndCost findOrderByTimeAndValue(@RequestParam("page")  Integer page, @RequestParam("size") Integer size, OrderIndexDto orderIndexDto){
 //log.info(page+size+findOrderParamsDto.getFromTime()+findOrderParamsDto.getToTime());
+        log.info(orderIndexDto.getValue()+"---------------------------");
         return orderService.findOrderByTimeAndValue(page,size,orderIndexDto);
     }
 

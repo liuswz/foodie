@@ -56,6 +56,7 @@ public class OrderController {
 
     @RequestMapping(value = "/shoporder/findOrderByTimeAndValue",method = RequestMethod.POST)
     public PageResultAndCost findOrderByTimeAndValue(@RequestParam("page")  Integer page, @RequestParam("size") Integer size,@RequestBody OrderIndexDto orderIndexDto) {
+        log.info(orderIndexDto.getValue()+"---------------------------");
         return orderService.findOrderByTimeAndValue(page,size,orderIndexDto);
     }
     @RequestMapping(value = "/shoporder/updatOrderIfTranster",method = RequestMethod.GET)
