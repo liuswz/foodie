@@ -17,7 +17,7 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-
+//restful
     @RequestMapping(value = "/consumer/shoporder/findTotalOrders/{page}/{size}",method = RequestMethod.GET)
     public PageResult findTotalOrders(@PathVariable("page") Integer page, @PathVariable("size") Integer size){
 

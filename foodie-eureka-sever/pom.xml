@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>foodie-eurekasever</artifactId>
+    <artifactId>foodie-eureka-sever</artifactId>
     <dependencies>
         <!--eureka-server服务端 -->
         <dependency>
