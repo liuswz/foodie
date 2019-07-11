@@ -15,11 +15,11 @@
         <module name="foodie-hystrix-dashboard" />
         <module name="foodie-operater-consumer" />
         <module name="foodie-order-provider" />
+        <module name="foodie-security" />
         <module name="foodie-shop-consumer" />
         <module name="foodie-static-service" />
         <module name="foodie-user-consumer" />
         <module name="foodie-zuul" />
-        <module name="test" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -28,6 +28,7 @@
       <module name="foodie-shop-dishes" target="1.5" />
       <module name="foodie-shop-order" target="1.5" />
       <module name="sso-master" target="1.5" />
+      <module name="test" target="6" />
     </bytecodeTargetLevel>
   </component>
 </project>

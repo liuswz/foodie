@@ -1,7 +1,6 @@
 package com.lanke.foodie.config;
 
-import com.netflix.loadbalancer.IRule;
-import com.netflix.loadbalancer.RetryRule;
+import org.springframework.amqp.core.Queue;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +15,13 @@ public class ConfigBean //boot -->spring   applicationContext.xml --- @Configura
 	{
 		return new RestTemplate();
 	}
-	
+
+
+	@Bean
+	public Queue helloQueue() {
+		return new Queue("statics");
+	}
+
 	/*@Bean
 	public IRule myRule()
 	{

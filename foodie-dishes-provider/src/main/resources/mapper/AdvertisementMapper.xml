@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lanke.foodie.dao.AdvertisementDao">
+
+    <select id="findAllAdvertisement" resultType="com.lanke.foodie.entity.Advertisement">
+        SELECT * FROM advertisement
+    </select>
+
+    <insert id="addAdvertisement" parameterType="com.lanke.foodie.entity.Advertisement">
+        insert
+        into
+        advertisement
+        (
+        city,
+        photo_url1,
+        type1,
+        redirect_id1,
+        photo_url2,
+        type2,
+        redirect_id2,
+        photo_url3,
+        type3,
+        redirect_id3,
+        photo_url4,
+        type4,
+        redirect_id4,
+        photo_url5,
+        type5,
+        redirect_id5,
+        create_time
+        )
+        values
+        (
+        #{city},
+        #{photoUrl1},
+        #{type1},
+        #{redirectId1},
+        #{photoUrl2},
+        #{type2},
+        #{redirectId2},
+        #{photoUrl3},
+        #{type3},
+        #{redirectId3},
+        #{photoUrl4},
+        #{type4},
+        #{redirectId4},
+        #{photoUrl5},
+        #{type5},
+        #{redirectId5},
+        #{createTime}
+        )
+    </insert>
+    <select id="checkAdvertisement" resultType="int">
+        select
+        count(*)
+        from
+        advertisement
+        where
+        city = #{city}
+    </select>
+    <delete id="delAdvertisementById"  parameterType = "int">
+        delete
+        from
+        advertisement
+        where
+        id = #{id}
+    </delete>
+
+    <select id="getAdvertisementById" resultType="Advertisement">
+        select
+        *
+        from
+        advertisement
+        where
+        id = #{id}
+    </select>
+
+    <update id="updateAdvertisement">
+        update
+        advertisement
+        set
+        photo_url1 = #{photoUrl1},
+        type1 = #{type1},
+        redirect_id1 = #{redirectId1},
+        photo_url2 = #{photoUrl2},
+        type2 = #{type2},
+        redirect_id2 = #{redirectId2},
+        photo_url3 = #{photoUrl3},
+        type3 = #{type3},
+        redirect_id3 = #{redirectId3},
+        photo_url4 = #{photoUrl4},
+        type4 = #{type4},
+        redirect_id4 = #{redirectId4},
+        photo_url5 = #{photoUrl5},
+        type5 = #{type5},
+        redirect_id5 = #{redirectId5},
+        create_time = #{createTime}
+        where
+        id = #{id}
+    </update>
+</mapper>

@@ -13,15 +13,16 @@
         username,
         password,
         shop_name,
+        shop_type_id,
+        shop_city,
         shop_address,
         shop_email,
         shop_phone,
         shop_status,
-        shop_notice,
         photo_url,
         business_photo,
         pay_photo,
-
+        operate_status,
         idcard_photo,
         create_time
         )
@@ -30,37 +31,80 @@
         #{username},
         #{password},
         #{shopName},
+        #{shopTypeId},
+        #{shopCity},
         #{shopAddress},
         #{shopEmail},
         #{shopPhone},
         #{shopStatus},
-        #{shopNotice},
         #{photoUrl},
         #{businessPhoto},
         #{payPhoto},
-
+        #{operateStatus},
         #{idcardPhoto},
         #{createTime}
         )
     </insert>
 
-    <!--<insert id="addPay" useGeneratedKeys="true" keyProperty="id">-->
-        <!--insert-->
-        <!--into-->
-        <!--pay_detail-->
-        <!--(-->
-        <!--mch_id,-->
-        <!--api_key,-->
-        <!--create_time-->
-        <!--)-->
-        <!--values-->
-        <!--(-->
-        <!--#{mchId},-->
-        <!--#{apiKey},-->
-        <!--#{createTime}-->
-        <!--)-->
 
-    <!--</insert>-->
+
+    <insert id="addShopDetails">
+        insert
+        into
+        shop_detail
+        (
+        shop_id,
+        shop_intro,
+        shop_notice,
+        longitude,
+        latitude,
+        shop_mark,
+        comment_num,
+        shop_sales,
+        money_off_ids,
+        shop_photo1,
+        shop_photo2,
+        shop_photo3,
+        shop_photo4,
+        shop_photo5,
+        create_time
+        )
+        values
+        (
+        #{shopId},
+        #{shopIntro},
+        #{shopNotice},
+        #{longitude},
+        #{latitude},
+        #{shopMark},
+        #{commentNum},
+        #{shopSales},
+        #{moneyOffIds},
+        #{shopPhoto1},
+        #{shopPhoto2},
+        #{shopPhoto3},
+        #{shopPhoto4},
+        #{shopPhoto5},
+        #{createTime}
+        )
+    </insert>
+
+    <insert id="addShopType">
+        insert
+        into
+        shop_type
+        (
+        type_name,
+        create_time
+        )
+        values
+        (
+        #{typeName},
+        #{createTime}
+        )
+    </insert>
+
+
     <select id="checkUsername" resultType="int">
         select
         count(*)
@@ -82,24 +126,44 @@
         shop
         set
         shop_name = #{shopName},
+        password = #{password},
+        shop_type_id = #{shopTypeId},
+        shop_city = #{shopCity},
         shop_address = #{shopAddress},
         shop_email = #{shopEmail},
         shop_phone = #{shopPhone},
-        shop_notice = #{shopNotice},
         photo_url = #{photoUrl},
         pay_photo = #{payPhoto}
         where
         id = #{id}
     </update>
-    <!--<update id="updatePay">-->
-        <!--update-->
-        <!--pay_detail-->
-        <!--set-->
-        <!--mch_id = #{mchId},-->
-        <!--api_key = #{apiKey}-->
-        <!--where-->
-        <!--id = #{payDetailId}-->
-    <!--</update>-->
+    <update id="updateShopDetails">
+        update
+        shop_detail
+        set
+        shop_intro = #{shopIntro},
+        shop_notice = #{shopNotice},
+        longitude = #{longitude},
+        latitude = #{latitude},
+        money_off_ids = #{moneyOffIds},
+        shop_photo1 = #{shopPhoto1},
+        shop_photo2 = #{shopPhoto2},
+        shop_photo3 = #{shopPhoto3},
+        shop_photo4 = #{shopPhoto4},
+        shop_photo5 = #{shopPhoto5},
+        create_time = #{createTime}
+        where
+        shop_id = #{shopId}
+    </update>
+    <update id="updateDiscountDetails">
+        update
+        shop_detail
+        set
+        shop_notice = #{shopNotice},
+        money_off_ids = #{moneyOffIds},
+        where
+        shop_id = #{shopId}
+    </update>
     <select id="getShopById" resultType="Shop">
         select
         *
@@ -108,14 +172,23 @@
         where
         id = #{id}
     </select>
-    <!--<select id="getShopDetailById" resultType="PayDetail">-->
-        <!--select-->
-        <!--*-->
-        <!--from-->
-        <!--pay_detail-->
-        <!--where-->
-        <!--id = #{id}-->
-    <!--</select>-->
+    <select id="getShopStatusById" resultType="int">
+        select
+        shop_status
+        from
+        shop
+        where
+        id = #{id}
+    </select>
+    <select id="getShopDetailsById" resultType="ShopDetails">
+        select
+        *
+        from
+        shop_detail
+        where
+        shop_id = #{shopId}
+    </select>
+
     <select id="checkShopNameForUpdate" resultType="int">
         select
         id
@@ -134,18 +207,8 @@
         username = #{username}
     </select>
 
-    <!--<select id="getAuthorityByUsername" resultType="String">-->
-        <!--select-->
-        <!--authority-->
-        <!--from-->
-        <!--shop-->
-        <!--where-->
-        <!--username = #{username}-->
-    <!--</select>-->
-
-
     <select id="findAllShop" resultType="com.lanke.foodie.entity.Shop">
-        SELECT * FROM shop
+        SELECT id,shop_name,shop_city,shop_phone,shop_status,operate_status FROM shop
        WHERE   username like '%${value}%' or shop_name like '%${value}%'
     </select>
 
@@ -155,9 +218,30 @@
        where id = #{id}
     </delete>
 
-    <update id="updateStatus" >
+    <delete id="deleteShopDetails" >
+       delete from shop_detail
+       where shop_id = #{shopId}
+    </delete>
+
+    <update id="updateShopStatus" >
       update shop set shop_status = 1 where id = #{id}
     </update>
+    <update id="updateOperaterStatus" >
+      update shop set operate_status = #{value} where id = #{id}
+    </update>
+    <select id="getOperaterStatus" resultType="int" >
+        SELECT operate_status FROM shop
+        where  id = #{id}
+    </select>
+
+    <select id="findShopByStatus" resultType="com.lanke.foodie.entity.Shop" >
+        SELECT id,shop_name,shop_city,shop_phone,shop_status,operate_status FROM shop
+        where shop_status = #{shopStatus} and operate_status = #{operateStatus}
+    </select>
+    <select id="findShopByStatusAndCity" resultType="com.lanke.foodie.entity.Shop">
+        SELECT id,shop_name,shop_city,shop_phone,shop_status,operate_status FROM shop
+        where shop_status = #{shopStatus} and  operate_status = #{operateStatus} and shop_city= #{shopCity}
+    </select>
 
     <select id="findPayPhoto" resultType="String">
         SELECT pay_photo FROM shop
@@ -168,4 +252,61 @@
         SELECT password FROM operater
         where username = #{username}
     </select>
+
+    <select id="getShopPassword" resultType="String">
+        SELECT password FROM shop
+        where username = #{username} and shop_status=1
+    </select>
+
+    <select id="checkShopType" resultType="int">
+        select
+        count(*)
+        from
+        shop_type
+        where
+        type_name=#{typeName}
+    </select>
+    <select id="findAllShopType" resultType="com.lanke.foodie.entity.ShopType" >
+        select
+        *
+        from
+        shop_type
+    </select>
+    <delete id="delShopTypeById"  parameterType = "String">
+        delete
+        from
+        shop_type
+        where
+        id in
+        ${ids}
+    </delete>
+    <select id="getIfShopByTypeId" resultType="int">
+        select
+        count(*)
+        from
+        shop
+        where
+        shop_type_id
+        in
+        ${ids}
+
+    </select>
+
+    <select id="getShopNameById" resultType="String">
+        select
+        shop_name
+        from
+        shop
+        where
+        id = #{id}
+    </select>
+    <select id="getIdAndCityByUsername" resultType="com.lanke.foodie.dto.ShopIdAndCityDto">
+        select
+        id,username,shop_city
+        from
+        shop
+        where
+        username = #{username}
+    </select>
+
 </mapper>

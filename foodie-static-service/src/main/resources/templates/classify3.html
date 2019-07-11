@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+    <title>商品分类、购物车</title>
+    <link rel="stylesheet" type="text/css" href="css/base.css"/>
+    <link rel="stylesheet" href="css/classify.css"/>
+    <script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="js/add.js"></script>
+    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <div class="header"  >
+    
+        <div class="content-wrapper">
+            <div class="avatar">
+                <img width="64" height="64" v-bind:src="shop.photoUrl"/>
+            </div>
+            <div class="content">
+                <div class="content_title">
+                    <span class="brand"></span>
+                    <span class="name">{{shop.shopName}}</span>
+                </div>
+                
+                <!--<div class="description"> {{shop.shopNotice}} </div>-->
+                <!--<div class="description"> {{shop.shopIntro}} </div>-->
+            </div>
+        </div>
+        <div class="background">
+            <img width="100%" height="100%" v-bind:src="shop.photoUrl" />
+        </div>
+
+    </div>
+   <div class="main" >
+    <div class="left-menu" id="left">
+
+        <ul >
+
+            <li v-for="t in typeToDishList"><span >{{t.dishType.typeName}}</span></li>
+
+        </ul>
+    </div>
+    <div class="con" >
+        <div class="right-con "  v-for="dishes in typeToDishList">
+            <ul >
+                <li v-for="d in dishes.dishList" >
+                    <div class="menu-img"><img v-bind:src="d.photoUrl" /></div>
+                    <div class="menu-txt">
+                        <h4 data-icon="00" >{{d.name}}</h4>
+                        <!--<p class="list1" >{{d.introduction}}</p>-->
+                        <p class="list2">
+                            <b>￥</b><b >{{d.price}}</b>
+                        </p>
+                        <div class="btn">
+                            <button class="minus" @click="minux_num(d)"></button>
+                            <i v-model="d.num">{{d.num}}</i>
+                            <button class="add" @click="add_num(d)"></button>
+                            <i class="price" >{{d.price}}</i>
+                        </div>
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+
+    </div>
+
+
+    <div class="up1"></div>
+    <div class="shopcart-list fold-transition">
+        <div class="list-header">
+            <h1 class="title">购物车</h1>
+            <span class="empty" @click="remove">清空所有</span>
+        </div>
+        <div class="list-content">
+            <ul>
+       
+                <li class="food" v-model="orderItem" v-for="o in orderItem" >
+                        <div>
+                            <span class="accountName" data-icon="00">{{o.name}}</span>
+                          
+                        </div>
+                        <div>
+                            <span>￥</span>
+                            <span class="accountPrice">{{o.price*o.num}}</span>
+                        </div>
+                        <div class="btn">
+                            <button class="ms2" style="display: inline-block;" @click="minux_num(o)"></button>
+                            <i class="li_acount">{{o.num}}</i>
+                            <button class="ad2"  @click="add_num(o)"></button>
+                           
+                        </div>
+                    </li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="left">
+        	<div class="count_num"><span id="totalcountshow" v-model="totalNum">{{totalNum}}</span></div>
+            <span id="cartN" class="nowrap">总计：<span id="totalpriceshow" v-model="totalCost">{{totalCost}}</span>元</span>
+        </div>
+        <div class="right">
+            <a id="btnselect" class="xhlbtn disable" @click="account" :style="pay_button">去结算</a>
+        </div>
+    </div>
+    </div>
+
+
+
+</div>
+
+<script type="text/javascript" th:inline="javascript">
+
+    //var typeToDishList = [{'dishList':[{'createTime':'2019-02-16 13:13:22.0','id':9,'introduction':'123','name':'\u732A\u8033\u6735','num':0,'photoUrl':'https://lanke-foodie.oss-cn-beijing.aliyuncs.com/dishes/15502897555691332','price':123.0,'remark':'123','shopId':23,'typeId':10},{'createTime':'2019-02-16 13:10:34.0','id':11,'introduction':'\u9E21\u817F','name':'\u9E21\u817F','num':0,'photoUrl':'https://lanke-foodie.oss-cn-beijing.aliyuncs.com//dishes/15502935284174445','price':11.0,'remark':'\u9E21','shopId':23,'typeId':10}],'dishType':{'createTime':'2019-02-15 10:53:51.0','id':10,'shopId':23,'typeName':'\u719F\u98DF'}},{'dishList':[{'createTime':'2019-02-17 00:22:16.0','id':3,'introduction':'1','name':'1','num':0,'photoUrl':'https://lanke-foodie.oss-cn-beijing.aliyuncs.com//dishes/15502245897947129','price':1.0,'remark':'1','shopId':23,'typeId':11},{'createTime':'2019-02-16 13:13:39.0','id':5,'introduction':'\u9E21\u722A','name':'\u9E21\u722A','num':0,'photoUrl':'https://lanke-foodie.oss-cn-beijing.aliyuncs.com/dishes/1550294017888744','price':1.0,'remark':'\u9E21\u722A','shopId':23,'typeId':11}],'dishType':{'createTime':'2019-02-15 10:54:37.0','id':11,'shopId':23,'typeName':'\u51C9\u83DC'}},{'dishList':[{'createTime':'2019-02-16 23:57:03.0','id':12,'introduction':'\u9505\u5305\u8089','name':'\u9505\u5305\u8089','num':0,'photoUrl':'https://lanke-foodie.oss-cn-beijing.aliyuncs.com/dishes/15503326168714407','price':12.0,'remark':'\u9505\u5305\u8089','shopId':23,'typeId':12}],'dishType':{'createTime':'2019-02-15 10:56:47.0','id':12,'shopId':23,'typeName':'\u70ED\u83DC'}}];
+   // var shop = {'createTime':'2019-02-12 15:48:20.0','id':23,'password':'123456','photoUrl':'https://lanke-foodie.oss-cn-beijing.aliyuncs.com/dishes/15503331928989667','shopAddress':'\u56DB\u9A6C\u8DEF','shopEmail':'1152652353@qq.com','shopName':'\u559C\u5BB6\u5FB7\u6C34\u997A','shopNotice':'\u56DB\u9A6C','shopPhone':'13100001111','shopStatus':0,'username':'bbb222'};
+    var typeToDishList = [[${typeToDishList}]];
+    var shop = [[${shop}]];
+    new Vue({
+        el: "#app",
+        //data用于存放数据或者变量
+        data: {
+            typeToDishList:typeToDishList,
+            shop:shop,
+            orderItem:{},
+            totalNum:0,
+            totalCost:0,
+            order:{},
+            tableNum:0,
+            pay_button:{
+                background:'#dbdbdb'
+            }
+            //	dish_photo:null,
+
+        },
+        //用于数据初始化
+
+        created: function () {
+            var loc = location.href;
+            var n1 = loc.length;//地址的总长度
+            var n2 = loc.indexOf("=");//取得=号的位置
+            var id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
+            // console.info(JSON.stringify(id.cost));
+            this.tableNum = id.split("&")[0];
+           // this.shopId = id.split("&shopId=")[1];
+
+            // var loc = location.href;
+            // var n1 = loc.length;//地址的总长度
+            // var n2 = loc.indexOf("=");//取得=号的位置
+            // this.tableNum = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
+
+        },
+        //用于存放所有的事件方法集合
+        methods: {
+            minux_num(dish)
+            {               
+                if(dish.num!=0){
+                    dish.num--;
+                    this.totalNum--;
+                    this.totalCost-=dish.price;
+                    if(dish.num==0){
+                        delete this.orderItem[dish.id];
+                      
+                    }               
+                }
+                if(this.totalNum<1){
+                    this.pay_button.background='#dbdbdb';
+                }
+                              
+            },
+            add_num(dish){
+              
+                dish.num++;
+                if(dish.num==1){
+                    this.orderItem[dish.id]=dish;               
+                }
+                this.totalNum++;
+                this.totalCost+=dish.price;
+                if(this.totalNum==1){
+                    this.pay_button.background='#f63';
+                }
+            },
+            account(){
+                this.order["shopId"]=this.shop.id; 
+                this.order["cost"]=this.totalCost;
+                this.order["orderStatus"]=0;
+                this.order["username"]=this.shop.username;
+                this.order["tableNum"]=this.tableNum;
+                location.href="http://localhost/user/order_notes.html?"+"order="+encodeURI(JSON.stringify(this.order))+"&orderItem="+encodeURI(JSON.stringify(this.orderItem));
+            },
+            remove(){
+               
+                this.orderItem=null;
+                this.pay_button.background='#dbdbdb';
+
+            }
+
+
+
+
+        }
+
+    })
+</script>
+</body>
+</html>

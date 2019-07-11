@@ -4,7 +4,8 @@ import com.lanke.foodie.dto.FindOrderParamsDto;
 import com.lanke.foodie.dto.OrderAndItemDto;
 import com.lanke.foodie.dto.OrderItemDto;
 import com.lanke.foodie.dto.PageResult;
-import org.springframework.cloud.netflix.feign.FeignClient;
+
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

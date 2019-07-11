@@ -2,13 +2,11 @@ package com.lanke.sms.service.impl;
 
 
 import com.lanke.foodie.dto.DishesDto;
-import com.lanke.foodie.dto.PageResult;
+import com.lanke.foodie.simpleEntity.SimpleShop;
 import com.lanke.foodie.dto.TypeToDishDto;
 import com.lanke.foodie.entity.Dish;
 import com.lanke.foodie.entity.DishType;
 
-import com.lanke.foodie.entity.Shop;
-import com.lanke.foodie.utils.BaseUtils;
 import com.lanke.sms.dao.DishesDao;
 import com.lanke.sms.service.DishesService;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +45,7 @@ public class DishesServiceImpl  implements DishesService {
         return typeToDishDtoList;
     }
 
-    public Shop getShopById(Integer shopId) {
+    public SimpleShop getShopById(Integer shopId) {
         return dishesDao.getShopById(shopId);
     }
 

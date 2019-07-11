@@ -1,11 +1,15 @@
 package com.lanke.sms;
 
 
-import com.aliyun.oss.OSSClient;
+
+import com.alibaba.fastjson.JSON;
+import com.lanke.foodie.simpleEntity.SimpleShop;
 import com.lanke.sms.service.DishesService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.annotation.RabbitHandler;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jms.annotation.JmsListener;
+
 import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -18,13 +22,15 @@ import java.util.Map;
 
 @Slf4j
 @Component
+@RabbitListener(queues = "statics")
 public class SmsListener {
     @Autowired
     private DishesService dishesService;
 
-    private final  String localUrl="H:\\吃货项目\\用户端\\";
-    @JmsListener(destination="statics")
-    public void sendSms(Map<String,String> map) throws IOException {
+    private final  String localUrl="D:\\nginx-1.10.3\\nginx-1.10.3\\html\\user\\";
+   // @JmsListener(destination="statics")
+    @RabbitHandler
+    public void sendSms(Integer id) throws IOException {
 
 
 //构造模板引擎
@@ -42,16 +48,15 @@ public class SmsListener {
 
         Context context = new Context();
 
-        context.setVariable("typeToDishList", dishesService.getTypeToDish(Integer.parseInt(map.get("id"))));
+        context.setVariable("typeToDishList", dishesService.getTypeToDish(id));
       //  log.info( dishesService.getTypeToDish(Integer.parseInt(map.get("id"))).get(0).getDishType().getTypeName()+"---------------------------------");
-        context.setVariable("shop", dishesService.getShopById(Integer.parseInt(map.get("id"))));
-
-
+       // log.info(JSON.toJSONString(dishesService.getTypeToDish(Integer.parseInt(map.get("id")))));
+        SimpleShop simpleShop = dishesService.getShopById(id);
+        context.setVariable("shop", simpleShop);
         //渲染模板
+        FileWriter write = new FileWriter(localUrl+simpleShop.getUsername()+".html");
 
-        FileWriter write = new FileWriter(localUrl+map.get("username")+".html");
-
-        templateEngine.process("classify", context, write);
+        templateEngine.process("classify3", context, write);
 
 
 

@@ -9,6 +9,12 @@ import lombok.experimental.Accessors;
 //@AllArgsConstructor
 @Data
 @Accessors(chain=true)
-public class DishStaticDto extends Dish {
+public class DishStaticDto{
+
+    private Integer id;
+    private String name;
+    private double price;
+    private String photoUrl;
+    private Integer typeId;
     private Integer num=0;
 }

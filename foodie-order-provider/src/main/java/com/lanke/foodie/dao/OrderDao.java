@@ -6,6 +6,7 @@ import com.lanke.foodie.dto.OrderIndexDto;
 import com.lanke.foodie.dto.OrderItemDto;
 import com.lanke.foodie.entity.Order;
 import com.lanke.foodie.entity.OrderItem;
+import com.lanke.foodie.entity.ShopCar;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -15,6 +16,7 @@ import java.util.List;
 public interface OrderDao {
     public Integer addOrder(Order order);
     public Integer addOrderItem(OrderItem orderItem);
+    public Integer addShopCar(ShopCar shopCar);
 
     public List<Order> findAllOrder(@Param("shopId")  Integer shopId);
     public List<Order> findOrderByTime(FindOrderParamsDto findOrderParamsDto);

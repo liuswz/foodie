@@ -76,6 +76,15 @@
         name=#{name} and
         shop_id=#{shopId}
     </select>
+    <select id="checkDishByShopId" resultType="int">
+        select
+        count(*)
+        from
+        dish
+        where
+        shop_id = #{shopId}
+    </select>
+
     <delete id="delDishTypeById"  parameterType = "String">
         delete
         from
@@ -84,13 +93,34 @@
         id in
         ${ids}
     </delete>
-
+    <delete id="delDishTypeByShopId"  parameterType = "int">
+        delete
+        from
+        dish_type
+        where
+        shop_id = ${shopId}
+    </delete>
+    <delete id="delDishByShopId"  parameterType = "int">
+        delete
+        from
+        dish
+        where
+        shop_id = ${shopId}
+    </delete>
     <delete id="delDishById"  parameterType = "String">
         delete
         from
         dish
         where
         id in
+        ${ids}
+    </delete>
+    <delete id="delDishByTypeId"  parameterType = "String">
+        delete
+        from
+        dish
+        where
+        type_id in
         ${ids}
     </delete>
     <select id="getDishById" resultType="Dish">
@@ -130,7 +160,8 @@
         and
         type_id
         in
-        (${ids})
+        ${ids}
 
     </select>
+
 </mapper>

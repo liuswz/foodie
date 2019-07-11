@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lanke.foodie.dao.ProductDao">
+    <select id="checkProductById" resultType="int">
+        select
+        id
+        from
+        product
+        where
+        product_name = #{productName}
+
+    </select>
+    <delete id="delProductTypeById"  parameterType = "String">
+        delete
+        from
+        product_type
+        where
+        id in
+        ${ids}
+    </delete>
+
+    <select id="getIfProductByTypeId" resultType="int">
+        select
+        count(*)
+        from
+        product
+        where
+        product_type_id
+        in
+        ${ids}
+
+    </select>
+
+
+
+    <insert id="addShopVoucher">
+        insert
+        into
+        voucher
+        (
+        shop_id,
+        money,
+        start_date,
+        dead_line,
+        city,
+        create_time
+        )
+        values
+        (
+        #{shopId},
+        #{money},
+        #{startDate},
+        #{deadLine},
+        #{city},
+        #{createTime}
+        )
+    </insert>
+    <select id="getVoucherByCity" resultType="Voucher">
+        select
+        *
+        from
+        voucher
+        where
+        city = #{city} order by money desc
+    </select>
+    <select id="getVoucherById" resultType="Voucher">
+        select
+        *
+        from
+        voucher
+        where
+        shop_id = #{shopId}
+    </select>
+    <select id="checkVoucher" resultType="int">
+        select
+        count(*)
+        from
+        voucher
+        where
+        shop_id = #{shopId}
+    </select>
+    <delete id="delVoucherById"  parameterType = "int">
+        delete
+        from
+        voucher
+        where
+        shop_id = #{shopId}
+    </delete>
+    <update id="updateVoucher" >
+        update
+        voucher
+        set
+        money = #{money},
+        start_date = #{startDate},
+        dead_line = #{deadLine},
+        city = #{city}
+        where
+        shop_id = #{shopId}
+    </update>
+
+
+
+
+
+
+    <insert id="addVoucherForShop" parameterType="java.util.List">
+        insert
+        into
+        voucherfor_shop
+        (
+        shop_id,
+        money,
+        start_date,
+        dead_line,
+        create_time
+        )
+        values
+        <foreach collection ="list" item="voucher" separator =",">
+            (
+            #{voucher.shopId},
+            #{voucher.money},
+            #{voucher.startDate},
+            #{voucher.deadLine},
+            #{voucher.createTime}
+            )
+        </foreach >
+
+    </insert>
+    <select id="getVoucherForShopById" resultType="VoucherForShop">
+        select
+        *
+        from
+        voucherfor_shop
+        where
+        shop_id = #{shopId}
+    </select>
+
+    <select id="checkProductType" resultType="int">
+        select
+        count(*)
+        from
+        product_type
+        where
+        type_name=#{typeName}
+    </select>
+    <insert id="addProductType">
+        insert
+        into
+        product_type
+        (
+        type_name,
+        create_time
+        )
+        values
+        (
+        #{typeName},
+        #{createTime}
+        )
+    </insert>
+    <select id="findAllProductType" resultType="com.lanke.foodie.entity.ProductType" >
+        select
+        *
+        from
+        product_type
+    </select>
+
+
+    <insert id="addMoneyOff">
+        insert
+        into
+        money_off
+        (
+        full_num,
+        minus_num,
+        create_time
+        )
+        values
+        (
+        #{fullNum},
+        #{minusNum},
+        #{createTime}
+        )
+    </insert>
+    <delete id="delMoneyOffById"  parameterType = "String">
+        delete
+        from
+        money_off
+        where
+        id in
+        ${ids}
+    </delete>
+    <select id="findAllMoneyOff" resultType="com.lanke.foodie.entity.MoneyOff" >
+        select
+        *
+        from
+        money_off
+    </select>
+
+    <select id="getIfMoneyOffInProduct" resultType="int">
+        select
+        count(*)
+        from
+        product
+        where
+        money_off_ids
+        in
+        ${ids}
+
+    </select>
+    <select id="checkMoneyOff" resultType="int">
+        select
+        count(*)
+        from
+        money_off
+        where
+        full_num = #{fullNum} and minus_num = #{minusNum}
+    </select>
+
+
+    <insert id="addProduct">
+        insert
+        into
+        product
+        (
+        product_name,
+        product_intro,
+        product_type_id,
+        product_sales,
+        money_off_ids,
+        price_for_shop,
+        price_for_user,
+        photo_url,
+        create_time
+        )
+        values
+        (
+        #{productName},
+        #{productIntro},
+        #{productTypeId},
+        #{productSales},
+        #{moneyOffIds},
+        #{priceForShop},
+        #{priceForUser},
+        #{photoUrl},
+        #{createTime}
+        )
+    </insert>
+    <select id="checkProduct" resultType="int">
+        select
+        count(*)
+        from
+        product
+        where
+        product_name = #{productName}
+    </select>
+    <delete id="delProductById"  parameterType = "String">
+        delete
+        from
+        product
+        where
+        id in
+        ${ids}
+    </delete>
+    <select id="getProductById" resultType="Product">
+        select
+        *
+        from
+        product
+        where
+        id = #{id}
+    </select>
+    <select id="getProductNameById" resultType="String">
+        select
+        product_name
+        from
+        product
+        where
+        id = #{id}
+    </select>
+    <select id="findAllProduct" resultType="com.lanke.foodie.dto.ProductDto">
+        SELECT id,product_name,product_type_id,product_sales,price_for_shop,price_for_user,photo_url FROM product
+        inner JOIN product_type
+        ON product.product_type_id=product_type.id WHERE type_name like '%${value}%' or product_name like '%${value}%'
+    </select>
+
+    <select id="findAllProductWithMoneyOff" resultType="com.lanke.foodie.dto.ProductWithMoneyOffDto">
+         SELECT product.id,product_name,product_type_id,product_sales,price_for_shop,price_for_user,photo_url,GROUP_CONCAT( money_off.full_num) AS full_num,GROUP_CONCAT( money_off.minus_num ) AS minus_num
+         FROM product,money_off WHERE FIND_IN_SET (money_off.id,product.money_off_ids) AND product_name  like '%${value}%' GROUP BY product.id
+    </select>
+    <select id="findAllProductWithMoneyOffByType" resultType="com.lanke.foodie.dto.ProductWithMoneyOffDto">
+         SELECT product.id,product_name,product_type_id,product_sales,price_for_shop,price_for_user,photo_url,GROUP_CONCAT( money_off.full_num) AS full_num,GROUP_CONCAT( money_off.minus_num ) AS minus_num
+         FROM product,money_off WHERE FIND_IN_SET   (money_off.id,product.money_off_ids) AND product_type_id  = #{productTypeId} GROUP BY product.id
+    </select>
+    <update id="updateProduct" >
+        update
+        product
+        set
+        product_name = #{productName},
+        product_intro = #{productIntro},
+        product_type_id = #{productTypeId},
+        money_off_ids = #{moneyOffIds},
+        price_for_shop = #{priceForShop},
+        price_for_user = #{priceForUser},
+        photo_url = #{photoUrl},
+        create_time = #{createTime}
+        where
+        id = #{id}
+    </update>
+</mapper>

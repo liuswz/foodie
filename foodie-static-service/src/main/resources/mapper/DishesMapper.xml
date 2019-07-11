@@ -36,15 +36,15 @@
 
     <select id="getDishByTypeId" resultType="com.lanke.foodie.dto.DishStaticDto">
         select
-        *
+        id,name,price,photo_url,type_id
         from
         dish
         where
         type_id = #{typeId}
     </select>
-    <select id="getShopById" resultType="com.lanke.foodie.entity.Shop">
+    <select id="getShopById" resultType="com.lanke.foodie.simpleEntity.SimpleShop">
         select
-        *
+        id,username,shop_name,shop_type_id,photo_url
         from
         shop
         where

@@ -34,7 +34,7 @@ public class OrderServiceImpl implements OrderService {
 
         order.setIfTransfer(TransferStatus.NotFinish.getIndex());
         order.setOrderStatus(PayStatus.NotPay.getIndex());
-        order.setDishStatus(DishStatus.NotFinish.getIndex());
+        order.setGoodStatus(DishStatus.NotFinish.getIndex());
 
         int orderId = orderDao.addOrder(order);
 

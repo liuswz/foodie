@@ -8,16 +8,33 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/liuswz/foodie/  #git@github.com:liuswz/foodie.git #GitHub上面的git仓库名字
+          uri: https://github.com/liuswz/foodie.git  #git@github.com:liuswz/foodie.git #GitHub上面的git仓库名字
           search-paths: foodie_config                          # git仓库地址下的相对地址，可以配置多个，用,分割。
           username: 2639147439@qq.com                                            # git仓库的账号
           password: lwz0216
+    bus:
+      trace:
+        enabled: true
+  rabbitmq:
+    host: localhost
+    port: 5672    # RabbitMQ的监听端口
+    username: guest  # 用户名
+    password: guest # 密码
+  security:
+    user:
+      name: admin
+      password: 123
 
 eureka:
   client: #客户端注册进eureka服务列表内
     service-url:
-      defaultZone: http://127.0.0.1:7001/eureka
+      defaultZone: http://admin:123@localhost:7001/eureka
       #defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
   instance:
     instance-id: foodie-config
     prefer-ip-address: true     #访问路径可以显示IP地址
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

@@ -12,6 +12,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@RequestMapping("/operaterconsumer")
 public class OrderController {
 
     @Autowired
@@ -26,7 +27,7 @@ public class OrderController {
     @RequestMapping(value = "/consumer/shoporder/findOrderByTimeAndValue",method = RequestMethod.GET)
     public PageResultAndCost findOrderByTimeAndValue(@RequestParam("page")  Integer page, @RequestParam("size") Integer size, OrderIndexDto orderIndexDto){
 //log.info(page+size+findOrderParamsDto.getFromTime()+findOrderParamsDto.getToTime());
-        log.info(orderIndexDto.getValue()+"---------------------------");
+       // log.info(orderIndexDto.getValue()+"---------------------------");
         return orderService.findOrderByTimeAndValue(page,size,orderIndexDto);
     }
 

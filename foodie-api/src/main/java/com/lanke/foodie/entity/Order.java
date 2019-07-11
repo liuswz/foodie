@@ -18,8 +18,11 @@ public class Order implements Serializable {
     private Integer orderStatus;
     private double cost;
     private Integer tableNum;
-    private Integer shopId;
-    private Integer dishStatus;
+
+    private Integer userType;
+    private Integer userId;
+
+    private Integer goodStatus;
     private Integer ifTransfer;
     private String createTime;
 }

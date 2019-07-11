@@ -1,5 +1,7 @@
 package com.lanke.foodie.Test;
 
+import com.lanke.foodie.entity.Dish;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -12,7 +14,8 @@ public class DateTest {
         SimpleDateFormat ft =
                 new SimpleDateFormat ("HH:mm");
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.0");
-
+        Dish d2 =new Dish();
+        
         Date d = sdf1.parse(datetime);
 
         System.out.println("Current Date: " + ft.format(d));

@@ -14,9 +14,10 @@
         table_num,
         order_status,
         cost,
-        shop_id,
+        user_type,
+        user_id,
         if_transfer,
-        dish_status,
+        good_status,
         create_time
         )
         values
@@ -25,9 +26,10 @@
         #{tableNum},
         #{orderStatus},
         #{cost},
-        #{shopId},
+        #{userType},
+        #{userId},
         #{ifTransfer},
-        #{dishStatus},
+        #{goodStatus},
         #{createTime}
         )
     </insert>
@@ -35,18 +37,39 @@
         insert
         order_item
         (
-        dish_id,
-        dish_num,
+        good_id,
+        good_num,
         total_cost,
         order_id,
         create_time
         )
         values
         (
-        #{dishId},
-        #{dishNum},
+        #{goodId},
+        #{goodNum},
         #{totalCost},
         #{orderId},
+        #{createTime}
+        )
+    </insert>
+    <insert id="addShopCar">
+        insert
+        shopcar
+        (
+        good_id,
+        good_num,
+        total_cost,
+        user_type,
+        user_id,
+        create_time
+        )
+        values
+        (
+        #{goodId},
+        #{goodNum},
+        #{totalCost},
+        #{userType},
+        #{userId},
         #{createTime}
         )
     </insert>

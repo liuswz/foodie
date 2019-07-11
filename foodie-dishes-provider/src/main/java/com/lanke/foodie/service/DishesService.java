@@ -2,29 +2,36 @@ package com.lanke.foodie.service;
 
 import com.lanke.foodie.dto.DishesDto;
 import com.lanke.foodie.dto.PageResult;
-import com.lanke.foodie.entity.Dish;
-import com.lanke.foodie.entity.DishType;
+import com.lanke.foodie.dto.ProductDto;
+import com.lanke.foodie.entity.*;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface DishesService {
 
-    public int addDishType(DishType dishType);
+    public Integer addDishType(DishType dishType);
+    public Integer addDish(Dish dish);
 
-    public int addDish(Dish dish);
-    public PageResult findAllDishType(Integer pageNum, Integer pageSize, Integer shopId);
+
+
+    public PageResult findAllDishType(Integer shopId,Integer pageNum, Integer pageSize );
     public List<DishType>  findAllDishType(Integer shopId);
+
+
     public PageResult findAllDishes(Integer pageNum, Integer pageSize, Integer shopId, String value);
 
     public Integer delDishTypeById(String ids);
-    public Integer delDishById(String ids);
 
+    public Integer delDishById(String ids);
+    public Integer delDishTypeByShopId(Integer shopId);
+    public Integer delDishByShopId(Integer shopId);
     public Dish getDishById(Integer id);
 
     public Integer updateDish(Dish dish);
 
     public Integer getIfDishByTypeId(DishesDto dishesDto);
-//    public Integer checkDishType(int shopId,String name);
-//    public Integer checkDishes(String name);
+
+    public Integer checkDishByShopId(Integer shopId);
+
 }

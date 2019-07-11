@@ -3,7 +3,42 @@ spring:
     config:
       name: mybatis #需要从github上读取的资源名称，注意没有yml后缀名
       profile: dev   #本次访问的配置项
-      label: master   
-      uri: http://127.0.0.1:3344 #本微服务启动后先去找3344号服务，通过SpringCloudConfig获取GitHub的服务地址
- 
+      label: master
+      username: admin # 连接的用户名
+      password: 123 # 连接的密码
+
+      # uri: http://127.0.0.1:3344 #本微服务启动后先去找3344号服务，通过SpringCloudConfig获取GitHub的服务地址
+      discovery:
+        enabled: true #启用发现服务功能
+        service-id: foodie-config #指定服务名称
+  rabbitmq:
+    host: localhost
+    port: 5672    # RabbitMQ的监听端口
+    username: guest  # 用户名
+    password: guest # 密码
+#  security:
+#    user:
+#      name: admin
+#      password: 123
+
+eureka:
+  client: #客户端注册进eureka服务列表内
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://admin:123@localhost:7001/eureka
+      #defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
+  instance:
+    instance-id: foodie-static-service
+    prefer-ip-address: true     #访问路径可以显示IP地址
+
+info:
+  app.name: lanke-foodie
+  company.name: www.lanke.com
+  build.artifactId: $project.artifactId$
+  build.version: $project.version$
+
+logging:
+  level:
+    com.lanke.foodie.dao : debug
+
 

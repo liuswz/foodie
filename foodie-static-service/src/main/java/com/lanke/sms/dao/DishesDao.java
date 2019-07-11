@@ -2,9 +2,9 @@ package com.lanke.sms.dao;
 
 import com.lanke.foodie.dto.DishStaticDto;
 import com.lanke.foodie.dto.DishesDto;
+import com.lanke.foodie.simpleEntity.SimpleShop;
 import com.lanke.foodie.entity.Dish;
 import com.lanke.foodie.entity.DishType;
-import com.lanke.foodie.entity.Shop;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -21,6 +21,6 @@ public interface DishesDao {
 
     public List<DishStaticDto> getDishByTypeId(@Param("typeId") Integer typeId);
 
-    public Shop getShopById(@Param("id") Integer id);
+    public SimpleShop getShopById(@Param("id") Integer id);
 
 }

@@ -4,13 +4,18 @@ server:
 spring:
   application:
     name: foodie-shop-consumer
+  rabbitmq:
+    host: localhost
+    port: 5672    # RabbitMQ的监听端口
+    username: guest  # 用户名
+    password: guest # 密码
 eureka:
   client: #客户端注册进eureka服务列表内
     service-url:
-      defaultZone: http://127.0.0.1:7001/eureka
+      defaultZone: http://admin:123@localhost:7001/eureka
       #defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
   instance:
-    instance-id: foodie-orders
+    instance-id: foodie-shop-consumer
     prefer-ip-address: true     #访问路径可以显示IP地址
 
 info:
@@ -22,18 +27,17 @@ ribbon:
   ReadTimeout: 3000
   ConnectTimeout: 3000
 
-
-#security:
-#  cas:
-#    server:
-#      host: http://127.0.0.1:8088/cas
-#      login: ${security.cas.server.host}/login
-#      logout: ${security.cas.server.host}/logout
-#    service:
-#      host: http://localhost:9002
-#      login: /login/cas
-#      logout: /logout
-
+feign:
+  compression:
+    request:
+      enabled: true
+      mime-types: # 可以被压缩的类型
+        - text/xml
+        - application/xml
+        - application/json
+      min-request-size: 2048 # 超过2048的字节进行压缩
+  httpclient:
+    enabled: true
 #eureka:
 #  client:
 #    register-with-eureka: false

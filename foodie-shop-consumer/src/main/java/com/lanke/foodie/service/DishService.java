@@ -5,7 +5,10 @@ import com.lanke.foodie.dto.DishesDto;
 import com.lanke.foodie.dto.PageResult;
 import com.lanke.foodie.entity.Dish;
 import com.lanke.foodie.entity.DishType;
-import org.springframework.cloud.netflix.feign.FeignClient;
+
+import com.lanke.foodie.entity.MoneyOff;
+import com.lanke.foodie.entity.Voucher;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,9 +25,10 @@ public interface DishService {
 
     @RequestMapping(value = "/shopdishes/getAllDishType/{shopId}/{page}/{size}",method = RequestMethod.GET)
     public PageResult findAllDishType(
+            @PathVariable("shopId") Integer shopId,
             @PathVariable("page") Integer page,
-            @PathVariable("size") Integer size,
-            @PathVariable("shopId") Integer shopId);
+            @PathVariable("size") Integer size
+         );
     @RequestMapping(value = "/shopdishes/getAllDishType/{shopId}",method = RequestMethod.GET)
     public List<DishType> findAllDishType( @PathVariable("shopId") Integer shopId);
     @RequestMapping(value = "/shopdishes/getAllDishes",method = RequestMethod.GET)
@@ -44,5 +48,24 @@ public interface DishService {
     @RequestMapping(value = "/shopdishes/getIfDishByTypeId",method = RequestMethod.POST)
     public Integer getIfDishByTypeId(@RequestBody DishesDto dishesDto );
 
+
+    @RequestMapping(value = "/product/findAllMoneyOff",method = RequestMethod.GET)
+    public List<MoneyOff> findAllMoneyOff();
+
+    //商品
+    @RequestMapping(value = "/product/findAllProductWithMoneyOff",method = RequestMethod.GET)
+    public PageResult findAllProductWithMoneyOff(@RequestParam("page") Integer page, @RequestParam("size") Integer size, @RequestParam("value") String value);
+    @RequestMapping(value = "/product/findAllProductWithMoneyOffByType",method = RequestMethod.GET)
+    public PageResult findAllProductWithMoneyOffByType(@RequestParam("page") Integer page, @RequestParam("size") Integer size, @RequestParam("productTypeId") Integer productTypeId);
+    //优惠卷
+    @RequestMapping(value = "/product/addShopVoucher",method = RequestMethod.POST)
+    public Integer addShopVoucher(@RequestBody Voucher voucher  );
+    @RequestMapping(value = "/product/getVoucherById/{shopId}",method = RequestMethod.GET)
+    public Voucher getVoucherById(@PathVariable("shopId") Integer shopId);
+    @RequestMapping(value = "/product/delVoucherById/{shopId}",method = RequestMethod.GET)
+    public Integer delVoucherById(@PathVariable("shopId") Integer shopId );
+
+    @RequestMapping(value = "/shopdishes/checkDishByShopId/{shopId}",method = RequestMethod.GET)
+    public Integer checkDishByShopId(@PathVariable("shopId") Integer shopId);
 
 }

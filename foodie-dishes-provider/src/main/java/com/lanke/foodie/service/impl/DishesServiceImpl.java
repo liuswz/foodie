@@ -5,14 +5,15 @@ import com.github.pagehelper.PageHelper;
 import com.lanke.foodie.dao.DishesDao;
 import com.lanke.foodie.dto.DishesDto;
 import com.lanke.foodie.dto.PageResult;
-import com.lanke.foodie.entity.Dish;
-import com.lanke.foodie.entity.DishType;
+import com.lanke.foodie.dto.ProductDto;
+import com.lanke.foodie.entity.*;
 import com.lanke.foodie.service.DishesService;
 import com.lanke.foodie.utils.BaseUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 @Slf4j
 @Service
@@ -22,11 +23,11 @@ public class DishesServiceImpl  implements DishesService {
     private DishesDao dishesDao;
 
 
-    public int addDishType(DishType dishType) {
+    public Integer addDishType(DishType dishType) {
 
         dishType.setCreateTime(BaseUtils.getTime());
 
-        if(dishesDao.checkDishType(1,dishType.getTypeName())==0){
+        if(dishesDao.checkDishType(dishType.getShopId(),dishType.getTypeName())==0){
             return dishesDao.addDishType(dishType);
         }else{
 
@@ -35,7 +36,8 @@ public class DishesServiceImpl  implements DishesService {
 
     }
 
-    public int addDish(Dish dish) {
+    public Integer addDish(Dish dish) {
+        dish.setDishSales(0);
 
         dish.setCreateTime(BaseUtils.getTime());
 
@@ -49,10 +51,13 @@ public class DishesServiceImpl  implements DishesService {
     }
 
 
-    public PageResult findAllDishType(Integer pageNum, Integer pageSize,Integer shopId) {
+
+
+    public PageResult findAllDishType(Integer shopId,Integer pageNum, Integer pageSize) {
 
         PageHelper.startPage(pageNum, pageSize);
         Page<DishType> page=   (Page<DishType>) dishesDao.findAllDishType(shopId);
+
         return new PageResult(page.getTotal(), page.getResult());
 
     }
@@ -62,6 +67,9 @@ public class DishesServiceImpl  implements DishesService {
         return dishesDao.findAllDishType(shopId);
 
     }
+
+
+
     public PageResult findAllDishes(Integer pageNum, Integer pageSize,Integer shopId, String value){
 
         PageHelper.startPage(pageNum, pageSize);
@@ -74,12 +82,23 @@ public class DishesServiceImpl  implements DishesService {
 
     public Integer delDishTypeById(String ids ) {
         ids = "("+ids.substring(0,ids.length() - 1)+")";
-        log.info(ids);
+        dishesDao.delDishByTypeId(ids);
         return dishesDao.delDishTypeById(ids);
     }
+
+
+
     public Integer delDishById(String ids) {
         ids = "("+ids.substring(0,ids.length() - 1)+")";
         return dishesDao.delDishById(ids);
+    }
+
+    public Integer delDishTypeByShopId(Integer shopId) {
+        return dishesDao.delDishTypeByShopId(shopId);
+    }
+
+    public Integer delDishByShopId(Integer shopId) {
+        return dishesDao.delDishByShopId(shopId);
     }
 
     public Dish getDishById(Integer id) {
@@ -105,10 +124,16 @@ public class DishesServiceImpl  implements DishesService {
 
     public Integer getIfDishByTypeId(DishesDto dishesDto) {
         String ids = dishesDto.getIds();
-        dishesDto.setIds(ids.substring(0,ids.length() - 1));
+        ids = "("+ids.substring(0,ids.length() - 1)+")";
+        dishesDto.setIds(ids);
 
         return dishesDao.getIfDishByTypeId(dishesDto);
     }
+
+    public Integer checkDishByShopId(Integer shopId) {
+        return dishesDao.checkDishByShopId(shopId);
+    }
+
 
 //    public Integer checkDishType(int shopId, String name) {
 //        return dishesDao.checkDishType(shopId,name);

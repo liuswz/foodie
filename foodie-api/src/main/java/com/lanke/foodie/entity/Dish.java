@@ -20,6 +20,9 @@ public class Dish implements Serializable {
     private String remark;
     private String photoUrl;
     private Integer typeId;
-    private String createTime;
+    private Integer dishSales;
+
     private Integer shopId;
+    private String createTime;
+
 }

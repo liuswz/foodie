@@ -16,6 +16,8 @@ public class DishType implements Serializable {
     private Integer id;
     private String typeName;
     private Integer shopId;
+
+
     private String createTime;
 
 }
