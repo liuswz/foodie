@@ -31,6 +31,8 @@ public interface OrderDao {
     public List<ProductForGoShopOrder> findNotFinishOrderGetProductInShop(@Param("shopId")  Integer shopId);
 
     public List<Order> findDishOrderByTime(FindOrderParamsDto findOrderParamsDto);
+    public Double findDishOrderCostByTime(FindOrderParamsDto findOrderParamsDto);
+
 //运营商查询
 
     public List<Order> findDishOrderByTimeAndValue(OrderIndexDto orderIndexDto);
@@ -43,6 +45,8 @@ public interface OrderDao {
     public Order findOrderById(@Param("orderId") Integer orderId);
 
     public Integer  updateFinishStatus(@Param("ifFinish") Integer ifFinish,@Param("id") Integer id);
+    public Integer  updateIfGoodHadReach(@Param("id") Integer id);
+
     public Integer updatOrderIfTranster (FindOrderParamsDto findOrderParamsDto);
     public Double findTotalCost(FindOrderParamsDto findOrderParamsDto);
 

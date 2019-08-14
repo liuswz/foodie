@@ -75,13 +75,16 @@ public class OrderServiceImpl implements OrderService {
         return new PageResult(page.getTotal(), page.getResult());
     }
 
-    public PageResult findDishOrderByTime(Integer pageNum, Integer pageSize, FindOrderParamsDto findOrderParamsDto) {
+    public PageResultAndCost findDishOrderByTime(Integer pageNum, Integer pageSize, FindOrderParamsDto findOrderParamsDto) {
 
         findOrderParamsDto.setFromTime(findOrderParamsDto.getFromTime()+" 00:00:00");
         findOrderParamsDto.setToTime(findOrderParamsDto.getToTime()+" 23:59:59");
+        Double totalCost = orderDao.findDishOrderCostByTime(findOrderParamsDto);
+        if(totalCost==null) totalCost=0.0;
+
         PageHelper.startPage(pageNum, pageSize);
         Page<Order> page=   (Page<Order>) BaseUtils.transformTime(orderDao.findDishOrderByTime(findOrderParamsDto),"yyyy-MM-dd HH:mm"); ;
-        return new PageResult(page.getTotal(), page.getResult());
+        return new PageResultAndCost(page.getTotal(), page.getResult(),totalCost);
     }
 
     public PageResultAndCost findDishOrderByTimeAndValue(Integer pageNum, Integer pageSize, OrderIndexDto orderIndexDto) {
@@ -121,6 +124,10 @@ public class OrderServiceImpl implements OrderService {
 
     public Integer updateFinishStatus( Integer id) {
         return orderDao.updateFinishStatus(OrderFinishStatus.HadFinish.getIndex(),id);
+    }
+
+    public Integer updateIfGoodHadReach(Integer id) {
+        return orderDao.updateIfGoodHadReach(id);
     }
 
     public Integer updatOrderIfTranster(FindOrderParamsDto findOrderParamsDto) {

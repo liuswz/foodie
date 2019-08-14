@@ -96,7 +96,19 @@
             and  good_id = #{shopId} and good_type = 0
 
     </select>
+    <select id="findDishOrderCostByTime" parameterType="com.lanke.foodie.dto.FindOrderParamsDto" resultType="double" >
+         SELECT
+            sum(cost)
+            FROM
+            fd_order
+            WHERE
+            create_time  BETWEEN
+            #{fromTime}
+            AND
+             #{toTime} and
+            and  good_id = #{shopId} and good_type = 0
 
+    </select>
 
     <!--运营商查询-->
     <select id="findDishOrderByTimeAndValue" parameterType="com.lanke.foodie.dto.OrderIndexDto" resultType="com.lanke.foodie.entity.Order" >
@@ -174,6 +186,15 @@
         fd_order
         set
         if_finish = #{ifFinish}
+        where
+        id = #{id}
+    </update>
+
+    <update id="updateIfGoodHadReach">
+        update
+        fd_order
+        set
+        if_good_had_reach = 1
         where
         id = #{id}
     </update>

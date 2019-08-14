@@ -53,9 +53,11 @@ public class OrderController {
         return orderService.findNotFinishOrderGetProductInShop(page,size,shopId);
     }
     @RequestMapping(value = "/order/findDishOrderByTime")
-    public PageResult findDishOrderByTime(@RequestParam("page")  Integer page, @RequestParam("size") Integer size,@RequestBody FindOrderParamsDto findOrderParamsDto){
+    public PageResultAndCost findDishOrderByTime(@RequestParam("page")  Integer page, @RequestParam("size") Integer size,@RequestBody FindOrderParamsDto findOrderParamsDto){
         return orderService.findDishOrderByTime(page,size,findOrderParamsDto);
-    }//运营商查询
+    }
+
+    //运营商查询
     @RequestMapping(value = "/order/findDishOrderByTimeAndValue")
     public PageResultAndCost findDishOrderByTimeAndValue(@RequestParam("page")  Integer page, @RequestParam("size") Integer size,@RequestBody OrderIndexDto orderIndexDto){
         return orderService.findDishOrderByTimeAndValue(page,size,orderIndexDto);
@@ -64,8 +66,8 @@ public class OrderController {
     public PageResultAndCost findProductOrderByTimeAndValue(@RequestParam("page")  Integer page, @RequestParam("size") Integer size,@RequestBody OrderIndexDto orderIndexDto){
         return orderService.findProductOrderByTimeAndValue(page,size,orderIndexDto);
 
-    }//    public Double findDishCostByTimeAndValue(OrderIndexDto orderIndexDto);
-//    public Double findProductCostByTimeAndValue(OrderIndexDto orderIndexDto);
+    }
+
 
     @RequestMapping(value = "/order/findOrderItem/{orderId}",method = RequestMethod.GET)
     public List<OrderItem> findOrderItem(@PathVariable("orderId") Integer orderId){
@@ -79,6 +81,11 @@ public class OrderController {
     public Integer  updateFinishStatus(@PathVariable("id") Integer id){
         return orderService.updateFinishStatus(id);
     }
+    @RequestMapping(value = "/order/updateIfGoodHadReach/{id}",method = RequestMethod.GET)
+    public Integer updateIfGoodHadReach(@PathVariable("id") Integer id) {
+        return orderService.updateIfGoodHadReach(id);
+    }
+
     @RequestMapping(value = "/order/updatOrderIfTranster",method = RequestMethod.POST)
     public Integer updatOrderIfTranster (@RequestBody FindOrderParamsDto findOrderParamsDto){
         return orderService.updatOrderIfTranster(findOrderParamsDto);

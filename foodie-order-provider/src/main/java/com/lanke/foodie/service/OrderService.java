@@ -24,7 +24,7 @@ public interface OrderService {
     public PageResult findOrderGetProductInShop(Integer pageNum, Integer pageSize, Integer shopId);
     public PageResult findNotFinishOrderGetProductInShop(Integer pageNum, Integer pageSize,Integer shopId);
 
-    public PageResult findDishOrderByTime(Integer pageNum, Integer pageSize,FindOrderParamsDto findOrderParamsDto);
+    public PageResultAndCost findDishOrderByTime(Integer pageNum, Integer pageSize,FindOrderParamsDto findOrderParamsDto);
 //运营商查询
 
     public PageResultAndCost findDishOrderByTimeAndValue(Integer pageNum, Integer pageSize,OrderIndexDto orderIndexDto);
@@ -37,6 +37,7 @@ public interface OrderService {
     public Order findOrderById( Integer orderId);
 
     public Integer  updateFinishStatus(Integer id);
+    public Integer  updateIfGoodHadReach(Integer id);
     public Integer updatOrderIfTranster (FindOrderParamsDto findOrderParamsDto);
     public Double findTotalCost(FindOrderParamsDto findOrderParamsDto);
 
