@@ -8,6 +8,7 @@ import com.lanke.foodie.dto.ProductDto;
 import com.lanke.foodie.dto.ProductWithMoneyOffDto;
 import com.lanke.foodie.entity.*;
 import com.lanke.foodie.service.ProductService;
+import com.lanke.foodie.userdto.*;
 import com.lanke.foodie.utils.BaseUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,9 +43,9 @@ public class ProductServiceImpl implements ProductService {
         return productDao.delProductTypeById(ids);
     }
 
-    public Integer getIfProductByTypeId(String ids) {
+    public Integer getIfProductByTypeIds(String ids) {
         ids = "("+ids.substring(0,ids.length() - 1)+")";
-        return productDao.getIfProductByTypeId(ids);
+        return productDao.getIfProductByTypeIds(ids);
     }
 
     public Integer addVoucherForShop(String ids, VoucherForShop voucherForShop) {
@@ -72,6 +73,16 @@ public class ProductServiceImpl implements ProductService {
         return productDao.getVoucherForShopById(shopId);
     }
 
+    @Override
+    public List<VoucherForUserDto> getVoucherForUserById(Integer shopId, Integer userId) {
+        return productDao.getVoucherForUserById(shopId,userId);
+    }
+
+    @Override
+    public Integer delVoucherForUserById(Integer id) {
+        return productDao.delVoucherForUserById(id);
+    }
+
     public Integer addMoneyOff(MoneyOff moneyOff) {
         moneyOff.setCreateTime(BaseUtils.getTime());
         if(productDao.checkMoneyOff(moneyOff.getFullNum(),moneyOff.getMinusNum())==0){
@@ -84,6 +95,12 @@ public class ProductServiceImpl implements ProductService {
     public Integer delMoneyOffById(String ids) {
         ids = "("+ids.substring(0,ids.length() - 1)+")";
         return productDao.delMoneyOffById(ids);
+    }
+
+    @Override
+    public List<MoneyOff> findMoneyOffByIds(String ids) {
+        ids = "("+ids.substring(0,ids.length() - 1)+")";
+        return productDao.findMoneyOffByIds(ids);
     }
 
     public List<MoneyOff> findAllMoneyOff() {
@@ -119,18 +136,34 @@ public class ProductServiceImpl implements ProductService {
         return new PageResult(page.getTotal(), page.getResult());
     }
 
-    public PageResult findAllProductWithMoneyOff(Integer pageNum, Integer pageSize, String value) {
+    @Override
+    public List<String> getProductNamesByValue(String value) {
+        return productDao.getProductNamesByValue(value);
+    }
+
+    public PageResults findAllProductWithMoneyOff(Integer pageNum, Integer pageSize, String value) {
         PageHelper.startPage(pageNum, pageSize);
+
+        //Page<ProductWithMoneyOffDto> page=   (Page<ProductWithMoneyOffDto>) productDao.findAllProductWithMoneyOff(value);
 
 
         Page<ProductWithMoneyOffDto> page=   (Page<ProductWithMoneyOffDto>) productDao.findAllProductWithMoneyOff(value);
-        return new PageResult(page.getTotal(), page.getResult());
+        PageResults pageResults = new PageResults();
+        pageResults.setTotal(page.getTotal());
+        pageResults.setRows(page.getResult());
+        return pageResults;
+
     }
 
-    public PageResult findAllProductWithMoneyOffByType(Integer pageNum, Integer pageSize, Integer productTypeId) {
+    public PageResults findAllProductWithMoneyOffByType(Integer pageNum, Integer pageSize, String productType) {
         PageHelper.startPage(pageNum, pageSize);
-        Page<ProductWithMoneyOffDto> page=   (Page<ProductWithMoneyOffDto>) productDao.findAllProductWithMoneyOffByType(productTypeId);
-        return new PageResult(page.getTotal(), page.getResult());
+
+        Page<ProductWithMoneyOffDto> page=   (Page<ProductWithMoneyOffDto>) productDao.findAllProductWithMoneyOffByType(productType);
+
+        PageResults pageResults = new PageResults();
+        pageResults.setTotal(page.getTotal());
+        pageResults.setRows(page.getResult());
+        return pageResults;
     }
 
 
@@ -160,11 +193,26 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-    public PageResult getVoucherByCity(Integer pageNum, Integer pageSize, String city) {
+    public PageResults getVoucherByCity(Integer pageNum, Integer pageSize, String city) {
         PageHelper.startPage(pageNum, pageSize);
-        Page<Voucher> page=   (Page<Voucher>) productDao.getVoucherByCity(city);
-        return new PageResult(page.getTotal(), page.getResult());
+        Page<VoucherDto> page=   (Page<VoucherDto>) productDao.getVoucherByCity(city);
 
+
+        PageResults pageResults = new PageResults();
+        pageResults.setTotal(page.getTotal());
+        pageResults.setRows(page.getResult());
+        return pageResults;
+
+    }
+
+    @Override
+    public PageResults getVoucherForUserByUserId(Integer pageNum, Integer pageSize, Integer userId) {
+        PageHelper.startPage(pageNum, pageSize);
+        Page<VoucherDto> page=   (Page<VoucherDto>) productDao.getVoucherForUserByUserId(userId);
+        PageResults pageResults = new PageResults();
+        pageResults.setTotal(page.getTotal());
+        pageResults.setRows(page.getResult());
+        return pageResults;
     }
 
     public Voucher getVoucherById(Integer shopId) {
@@ -177,5 +225,40 @@ public class ProductServiceImpl implements ProductService {
     }
     public Integer delVoucherById(Integer shopId) {
         return productDao.delVoucherById(shopId);
+    }
+
+    @Override
+    public Integer addShopVoucherForUser(VoucherForUser voucher) {
+        if(productDao.checkVoucherForUser(voucher.getShopId(),voucher.getUserId(),voucher.getVoucherId())>0){
+            return 0;
+        }else{
+            voucher.setCreateTime(BaseUtils.getTime());
+            voucher.setHadUse(0);
+            return productDao.addShopVoucherForUser(voucher);
+
+        }
+    }
+
+    @Override
+    public Integer checkVoucherForUser(Integer shopId, Integer userId, Integer voucherId) {
+        return productDao.checkVoucherForUser(shopId,userId,voucherId);
+    }
+
+    @Override
+    public ProductUserDto getProductDetailForUser(Integer id) {
+        ProductUserDto productUserDto = productDao.getProductDetailForUser(id);
+        String ids = productUserDto.getMoneyOffIds();
+        String fullNum="",minusNum="";
+        if(ids!=null) {
+            ids = "(" + ids.substring(0, ids.length() - 1) + ")";
+            List<MoneyOff> moneyOffs = productDao.findMoneyOffByIds(ids);
+            for (MoneyOff m : moneyOffs) {
+                fullNum += m.getFullNum().toString() + ",";
+                minusNum += m.getMinusNum().toString() + ",";
+            }
+        }
+        productUserDto.setFullNum(fullNum);
+        productUserDto.setMinusNum(minusNum);
+        return productUserDto;
     }
 }

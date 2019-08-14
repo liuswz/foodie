@@ -4,10 +4,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 @NoArgsConstructor
 @Data
 @Accessors(chain=true)
-public class ShopDetails {
+public class ShopDetails implements Serializable {
     private Integer id;
     private Integer shopId;
 
@@ -28,8 +30,10 @@ public class ShopDetails {
     private String shopPhoto4;
     private String shopPhoto5;
 
-
-  //  private Double voucher;
-
     private String createTime;
+    private Integer operateStatus;
+    private String shopName;
+    private String shopCity;
+    private String shopTypeName;
+    private String photoUrl;
 }

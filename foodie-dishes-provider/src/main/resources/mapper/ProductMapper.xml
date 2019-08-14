@@ -22,7 +22,7 @@
         ${ids}
     </delete>
 
-    <select id="getIfProductByTypeId" resultType="int">
+    <select id="getIfProductByTypeIds" resultType="int">
         select
         count(*)
         from
@@ -58,13 +58,21 @@
         #{createTime}
         )
     </insert>
-    <select id="getVoucherByCity" resultType="Voucher">
+    <select id="getVoucherByCity" resultType="com.lanke.foodie.userdto.VoucherDto">
         select
-        *
+        voucher.*,shop_name
         from
-        voucher
+        voucher,shop
         where
-        city = #{city} order by money desc
+        city = #{city} and voucher.shop_id = shop.id order by money desc
+    </select>
+    <select id="getVoucherForUserByUserId" resultType="com.lanke.foodie.userdto.VoucherDto">
+        SELECT
+        voucherfor_user.*,shop_name
+        FROM
+        voucherfor_user,shop
+        WHERE
+        voucherfor_user.shop_id = shop.id  AND voucherfor_user.user_id =#{userId} AND  had_use = 0 ORDER BY voucherfor_user.id desc
     </select>
     <select id="getVoucherById" resultType="Voucher">
         select
@@ -137,7 +145,21 @@
         where
         shop_id = #{shopId}
     </select>
-
+    <select id="getVoucherForUserById" resultType="com.lanke.foodie.userdto.VoucherForUserDto">
+        select
+        *
+        from
+        voucherfor_user
+        where
+        shop_id = #{shopId} and user_id = #{userId} and had_use = 0
+    </select>
+    <delete id="delVoucherForUserById"  parameterType = "int">
+        update
+        voucherfor_user
+        set had_use = 1
+        where
+        id = #{id}
+    </delete>
     <select id="checkProductType" resultType="int">
         select
         count(*)
@@ -162,7 +184,7 @@
     </insert>
     <select id="findAllProductType" resultType="com.lanke.foodie.entity.ProductType" >
         select
-        *
+        id,type_name
         from
         product_type
     </select>
@@ -198,7 +220,15 @@
         from
         money_off
     </select>
-
+    <select id="findMoneyOffByIds" resultType="com.lanke.foodie.entity.MoneyOff" >
+        select
+         full_num,minus_num
+        from
+        money_off
+        where
+        id in
+        ${ids}
+    </select>
     <select id="getIfMoneyOffInProduct" resultType="int">
         select
         count(*)
@@ -228,6 +258,7 @@
         product_name,
         product_intro,
         product_type_id,
+        product_type_name,
         product_sales,
         money_off_ids,
         price_for_shop,
@@ -240,6 +271,7 @@
         #{productName},
         #{productIntro},
         #{productTypeId},
+        #{productTypeName},
         #{productSales},
         #{moneyOffIds},
         #{priceForShop},
@@ -281,18 +313,23 @@
         id = #{id}
     </select>
     <select id="findAllProduct" resultType="com.lanke.foodie.dto.ProductDto">
-        SELECT id,product_name,product_type_id,product_sales,price_for_shop,price_for_user,photo_url FROM product
-        inner JOIN product_type
-        ON product.product_type_id=product_type.id WHERE type_name like '%${value}%' or product_name like '%${value}%'
+        SELECT id,product_name,product_type_name,product_sales,price_for_shop,price_for_user,photo_url FROM product
+        WHERE product_type_name like '%${value}%' or product_name like '%${value}%'
+    </select>
+    <select id="getProductNamesByValue" resultType="String">
+        SELECT product_name FROM product
+        WHERE product_type_name like '%${value}%' or product_name like '%${value}%' limit 20
     </select>
 
     <select id="findAllProductWithMoneyOff" resultType="com.lanke.foodie.dto.ProductWithMoneyOffDto">
-         SELECT product.id,product_name,product_type_id,product_sales,price_for_shop,price_for_user,photo_url,GROUP_CONCAT( money_off.full_num) AS full_num,GROUP_CONCAT( money_off.minus_num ) AS minus_num
-         FROM product,money_off WHERE FIND_IN_SET (money_off.id,product.money_off_ids) AND product_name  like '%${value}%' GROUP BY product.id
+         SELECT product.id,product_name,product_type_name,product_sales,price_for_shop,price_for_user,photo_url,money_off_ids,GROUP_CONCAT( money_off.full_num) AS full_num,GROUP_CONCAT( money_off.minus_num ) AS minus_num
+         FROM product  LEFT JOIN money_off ON  FIND_IN_SET (money_off.id,product.money_off_ids)
+         where product_name  like '%${value}%' or product_type_name  like '%${value}%'  GROUP BY product.id
     </select>
     <select id="findAllProductWithMoneyOffByType" resultType="com.lanke.foodie.dto.ProductWithMoneyOffDto">
-         SELECT product.id,product_name,product_type_id,product_sales,price_for_shop,price_for_user,photo_url,GROUP_CONCAT( money_off.full_num) AS full_num,GROUP_CONCAT( money_off.minus_num ) AS minus_num
-         FROM product,money_off WHERE FIND_IN_SET   (money_off.id,product.money_off_ids) AND product_type_id  = #{productTypeId} GROUP BY product.id
+         SELECT product.id,product_name,product_type_name,product_sales,price_for_shop,price_for_user,photo_url,money_off_ids,GROUP_CONCAT( money_off.full_num) AS full_num,GROUP_CONCAT( money_off.minus_num ) AS minus_num
+         FROM product LEFT JOIN money_off ON  FIND_IN_SET (money_off.id,product.money_off_ids)
+         where product_type_name  = #{productType} GROUP BY product.id
     </select>
     <update id="updateProduct" >
         update
@@ -300,7 +337,8 @@
         set
         product_name = #{productName},
         product_intro = #{productIntro},
-        product_type_id = #{productTypeId},
+        product_type_Id = #{productTypeId},
+        product_type_name = #{productTypeName},
         money_off_ids = #{moneyOffIds},
         price_for_shop = #{priceForShop},
         price_for_user = #{priceForUser},
@@ -309,4 +347,90 @@
         where
         id = #{id}
     </update>
+
+    <insert id="addShopVoucherForUser">
+        insert
+        into
+        voucherfor_user
+        (
+        shop_id,
+        user_id,
+        voucher_id,
+        money,
+        start_date,
+        dead_line,
+        had_use,
+        create_time
+        )
+        values
+        (
+        #{shopId},
+        #{userId},
+        #{voucherId},
+        #{money},
+        #{startDate},
+        #{deadLine},
+        #{hadUse},
+        #{createTime}
+        )
+    </insert>
+    <select id="checkVoucherForUser" resultType="int">
+        select
+        count(*)
+        from
+        voucherfor_user
+        where
+        shop_id = #{shopId} and user_id = #{userId} and voucher_id = #{voucherId}
+    </select>
+    <!--<delete id="delHotSearchForProductById"  parameterType = "String">-->
+        <!--DELETE-->
+        <!--FROM-->
+        <!--hotsearchfor_product-->
+        <!--WHERE-->
+        <!--id IN-->
+        <!--${ids}-->
+    <!--</delete>-->
+
+    <!--<select id="checkHotSearchForProduct" resultType="int">-->
+        <!--SELECT-->
+        <!--COUNT(*)-->
+        <!--FROM-->
+        <!--hotsearchfor_product-->
+        <!--WHERE-->
+        <!--search_name=#{searchName}-->
+    <!--</select>-->
+    <!--<insert id="addHotSearchForProduct">-->
+        <!--INSERT-->
+        <!--INTO-->
+        <!--hotsearchfor_product-->
+        <!--(-->
+        <!--search_name,-->
+        <!--create_time-->
+        <!--)-->
+        <!--VALUES-->
+        <!--(-->
+        <!--#{searchName},-->
+        <!--#{createTime}-->
+        <!--)-->
+    <!--</insert>-->
+    <!--<select id="findAllHotSearchForProduct" resultType="com.lanke.foodie.entity.HotSearchForProduct" >-->
+        <!--SELECT-->
+        <!--id,search_name-->
+        <!--FROM-->
+        <!--hotsearchfor_product-->
+    <!--</select>-->
+    <!--<select id="findAllHotSearchForProduct" resultType="com.lanke.foodie.entity.HotSearchForProduct" >-->
+        <!--SELECT-->
+        <!--id,search_name-->
+        <!--FROM-->
+        <!--hotsearchfor_product limit 10-->
+    <!--</select>-->
+    <select id="getProductDetailForUser" resultType="com.lanke.foodie.userdto.ProductUserDto">
+        select
+        *
+        from
+        product
+        where
+        id = #{id}
+    </select>
 </mapper>

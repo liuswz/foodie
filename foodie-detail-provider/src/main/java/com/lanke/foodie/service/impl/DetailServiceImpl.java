@@ -10,11 +10,10 @@ import com.lanke.foodie.dto.ShopIdAndCityDto;
 import com.lanke.foodie.dto.ShopNameAndIdDto;
 
 import com.lanke.foodie.dto.ShopSearchPropertyDto;
-import com.lanke.foodie.entity.DishType;
 import com.lanke.foodie.entity.Shop;
 import com.lanke.foodie.entity.ShopDetails;
 import com.lanke.foodie.entity.ShopType;
-import com.lanke.foodie.enums.Authority;
+
 import com.lanke.foodie.service.DetailService;
 
 import com.lanke.foodie.utils.BaseUtils;
@@ -22,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.List;
@@ -31,6 +31,8 @@ public class DetailServiceImpl implements DetailService {
 
     @Autowired
     private DetailDao detailDao;
+
+
 
     public Integer regist(Shop shop) {
 
@@ -65,6 +67,8 @@ public class DetailServiceImpl implements DetailService {
     }
 
     public Integer addShopDetails(ShopDetails shopDetails) {
+        shopDetails.setShopMark(0D);
+        shopDetails.setCommentNum(0);
         return detailDao.addShopDetails(shopDetails);
     }
 
@@ -84,7 +88,7 @@ public class DetailServiceImpl implements DetailService {
         return detailDao.findAllShopType();
     }
 
-
+    @Transactional
     public Integer updateShop(Shop shop) {
 
         //校验店名是否存在
@@ -94,8 +98,20 @@ public class DetailServiceImpl implements DetailService {
         }
         shop.setPassword(DigestUtils.md5Hex(shop.getPassword()));
         int flag = detailDao.updateShop(shop);
+
+        ShopDetails shopDetails = new ShopDetails();
+        shopDetails.setShopTypeName(shop.getShopTypeName());
+        shopDetails.setShopName(shop.getShopName());
+        shopDetails.setPhotoUrl(shop.getPhotoUrl());
+        shopDetails.setShopCity(shop.getShopCity());
+        detailDao.updateShopInDetails(shopDetails);
        // int flag2 = detailDao.updatePay(shop);
       //  int flag = flag1 + flag2;
+//        if(detailDao.getOperaterStatus(shop.getId())==1){
+//            ShopDetails shopDetails2 = detailDao.getShopDetailsById(shop.getId());
+//            SearchShop searchShop = ESUtils.setSearchShop(shopDetails);
+//            shopRepository.save(searchShop);
+//        }
         return flag;
     }
 
@@ -163,27 +179,42 @@ public class DetailServiceImpl implements DetailService {
         return new PageResult(page.getTotal(), page.getResult());
 
     }
-
+    @Transactional
     public Integer updateShopStatus(Integer id) {
-        ShopDetails shopDetails = new ShopDetails();
-        shopDetails.setCommentNum(0);
-        shopDetails.setShopSales(0);
-        shopDetails.setLatitude(0d);
-        shopDetails.setLongitude(0d);
-        shopDetails.setShopId(id);
-        shopDetails.setCreateTime(BaseUtils.getTime());
+        Integer shopStatus = detailDao.getShopStatusById(id);
+        if(shopStatus==1){
+            return 0 ;
+        }else{
+            ShopDetails shopDetails = new ShopDetails();
+            shopDetails.setCommentNum(0);
+            shopDetails.setShopSales(0);
+            shopDetails.setLatitude(0d);
+            shopDetails.setLongitude(0d);
+            shopDetails.setShopId(id);
+            shopDetails.setCreateTime(BaseUtils.getTime());
 
-        return detailDao.updateShopStatus(id)+detailDao.addShopDetails(shopDetails);
+            Shop shop = detailDao.getShopById(id);
+            shopDetails.setShopName(shop.getShopName());
+            shopDetails.setPhotoUrl(shop.getPhotoUrl());
+            shopDetails.setShopCity(shop.getShopCity());
+            shopDetails.setShopTypeName(shop.getShopTypeName());
+
+
+            return detailDao.updateShopStatus(id)+addShopDetails(shopDetails);
+        }
+
     }
 
+    @Transactional
     public Integer updateOperaterStatus(Integer id, Integer value) {
+        detailDao.updateOperaterStatusInShopDetail(id,value);
         return detailDao.updateOperaterStatus(id,value);
     }
 
     public Integer getOperaterStatus(Integer id) {
         return detailDao.getOperaterStatus(id);
     }
-
+    @Transactional
     public Integer deleteShop(Integer id) {
         detailDao.deleteShopDetails(id);
         return detailDao.deleteShop(id);
@@ -213,9 +244,9 @@ public class DetailServiceImpl implements DetailService {
         return detailDao.delShopTypeById(ids);
     }
 
-    public Integer getIfShopByTypeId(String ids) {
+    public Integer getIfShopByTypeIds(String ids) {
         ids = "("+ids.substring(0,ids.length() - 1)+")";
-        return detailDao.getIfShopByTypeId(ids);
+        return detailDao.getIfShopByTypeIds(ids);
     }
 
     public String getShopNameById(Integer id) {

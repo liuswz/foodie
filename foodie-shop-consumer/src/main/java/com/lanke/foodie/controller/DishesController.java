@@ -5,14 +5,15 @@ import com.alibaba.fastjson.JSONArray;
 import com.lanke.foodie.dto.DishAndTypeDto;
 import com.lanke.foodie.dto.DishesDto;
 import com.lanke.foodie.dto.PageResult;
-import com.lanke.foodie.entity.Dish;
-import com.lanke.foodie.entity.DishType;
-import com.lanke.foodie.entity.OrderItem;
-import com.lanke.foodie.entity.Voucher;
+import com.lanke.foodie.entity.*;
 import com.lanke.foodie.enums.OperateStatus;
 import com.lanke.foodie.json.BaseJson;
+
+import com.lanke.foodie.repository.ShopRepository;
+import com.lanke.foodie.searchEntity.SearchShop;
 import com.lanke.foodie.service.DetailService;
 import com.lanke.foodie.service.DishService;
+import com.lanke.foodie.utils.ESUtils;
 import feign.Param;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.AmqpTemplate;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +41,11 @@ public class DishesController {
 
     @Autowired
     private AmqpTemplate rabbitTemplate;
+//    @Autowired
+//    private DishRepository dishRepository;
 
+    @Autowired
+    private ShopRepository shopRepository;
 
     @RequestMapping(value = "/shopdishes/adddishtype",method = RequestMethod.POST)
     public  BaseJson adddishtype(@RequestBody DishType dishType ){
@@ -67,26 +73,32 @@ public class DishesController {
 
     @RequestMapping(value = "/shopdishes/adddishes",method = RequestMethod.POST)
     public  BaseJson adddishes(@RequestBody Dish dish ){
-    //    log.info("测试{}，日志级别{}，输出{}", "demo1aaaaaaaaaaaaaaaaaaaaaa", dish.getName(), "info level log");
         BaseJson baseJson = new BaseJson();
-        // log.info("测试{}，日志级别{}，输出{}", registDto.getMchId(), "info", "info level log");
-        // int flag =detailService.regist(registDto);
-        log.info(dish.getName());
-       // List<Dish> dishList = (List<Dish>)JSONArray.parseArray(dishes, Dish.class);
-      //  Dish dishs = JSON.parseObject(dish, Dish.class);
-        //int flag = restTemplate.postForObject(REST_URL_PREFIX + "/shopdishes/adddishtype", dishType, Integer.class);
-        int flag = dishService.addDish(dish);
+
+
+        Integer flag = dishService.addDish(dish);
         if(flag == 0){
             baseJson.setCode(1);
             baseJson.setMessage("失败");
             baseJson.setResult("菜品已存在");
         }else {
 
+            if(detailService.getOperaterStatus(dish.getShopId())==OperateStatus.HadOperate.getIndex()){
+
+
+                shopRepository.save(ESUtils.setSearchDishAndId(detailService.getShopDetailsById(dish.getShopId()),dish,flag));
+                Map<String,Integer> map = new HashMap<String, Integer>();
+                map.put("id",dish.getShopId());
+                map.put("flag",0);
+                rabbitTemplate.convertAndSend("statics", map);
+
+            }
+
             baseJson.setCode(0);
             baseJson.setMessage("成功");
             baseJson.setResult("添加成功");
 
-            rabbitTemplate.convertAndSend("statics", dish.getShopId());
+
         }
         return baseJson;
     }
@@ -115,13 +127,21 @@ public class DishesController {
     public BaseJson delDishTypeById(@PathVariable("ids") String ids,@PathVariable("shopId") Integer shopId) {
 
         BaseJson baseJson = new BaseJson();
-        if(dishService.delDishTypeById(ids) > 0){
+        int flag = dishService.delDishTypeById(ids);
+
+        if(flag > 0){
             baseJson.setCode(0);
             baseJson.setMessage("成功");
-            rabbitTemplate.convertAndSend("statics",shopId);
+            baseJson.setResult("删除成功");
+
+        }else if(flag==0){
+            baseJson.setCode(1);
+            baseJson.setMessage("失败");
+            baseJson.setResult("有此类别下的菜品，无法删除");
         }else{
             baseJson.setCode(1);
             baseJson.setMessage("失败");
+            baseJson.setResult("删除失败");
         }
         return baseJson;
 
@@ -133,7 +153,19 @@ public class DishesController {
         if(dishService.delDishById(ids) > 0){
             baseJson.setCode(0);
             baseJson.setMessage("成功");
-            rabbitTemplate.convertAndSend("statics",shopId);
+
+            if(detailService.getOperaterStatus(shopId)==OperateStatus.HadOperate.getIndex()){
+                String idss[] = ids.split(",");
+                for(String id:idss){
+                    shopRepository.deleteById(ESUtils.getDishId(Integer.parseInt(id)));
+                }
+                Map<String,Integer> map = new HashMap<String, Integer>();
+                map.put("id",shopId);
+                map.put("flag",0);
+                rabbitTemplate.convertAndSend("statics", map);
+            }
+
+
         }else{
             baseJson.setCode(1);
             baseJson.setMessage("失败");
@@ -160,7 +192,18 @@ public class DishesController {
             baseJson.setCode(0);
             baseJson.setMessage("成功");
             baseJson.setResult("更改成功");
-            rabbitTemplate.convertAndSend("statics",dish.getShopId());
+            if(detailService.getOperaterStatus(dish.getShopId())==OperateStatus.HadOperate.getIndex()){
+
+                SearchShop searchShop  = ESUtils.setSearchDish(detailService.getShopDetailsById(dish.getShopId()),dish);
+                shopRepository.save(searchShop);
+
+                Map<String,Integer> map = new HashMap<String, Integer>();
+                map.put("id",dish.getShopId());
+                map.put("flag",0);
+                rabbitTemplate.convertAndSend("statics", map);
+
+            }
+
         }else {
 
             baseJson.setCode(1);
@@ -171,21 +214,21 @@ public class DishesController {
 
     }
 
-    @RequestMapping(value = "/shopdishes/getIfDishByTypeId",method = RequestMethod.POST)
-    public BaseJson getIfDishByTypeId( DishesDto dishesDto ){
-        BaseJson baseJson = new BaseJson();
-
-
-        int flag = dishService.getIfDishByTypeId(dishesDto);
-        if(flag > 0){
-            baseJson.setCode(0);
-
-        }else {
-            baseJson.setCode(1);
-        }
-        return baseJson;
-
-    }
+//    @RequestMapping(value = "/shopdishes/getIfDishByTypeId",method = RequestMethod.POST)
+//    public BaseJson getIfDishByTypeId( DishesDto dishesDto ){
+//        BaseJson baseJson = new BaseJson();
+//
+//
+//        int flag = dishService.getIfDishByTypeId(dishesDto);
+//        if(flag > 0){
+//            baseJson.setCode(0);
+//
+//        }else {
+//            baseJson.setCode(1);
+//        }
+//        return baseJson;
+//
+//    }
 
 
     //商品
@@ -201,8 +244,8 @@ public class DishesController {
     public PageResult findAllProductWithMoneyOffByType(
             @RequestParam("page") Integer page,
             @RequestParam("size") Integer size,
-            @RequestParam("productTypeId") Integer productTypeId) {
-        return dishService.findAllProductWithMoneyOffByType(page,size,productTypeId);
+            @RequestParam("productType") String productType) {
+        return dishService.findAllProductWithMoneyOffByType(page,size,productType);
     }
 
     //代金卷
@@ -266,5 +309,25 @@ public class DishesController {
 
         return baseJson;
 
+    }
+
+    @RequestMapping(value = "/shopdishes/updateIfHotDish/{id}/{value}",method = RequestMethod.GET)
+    public BaseJson updateIfHotDish(@PathVariable("id") Integer id,@PathVariable("value") Integer value) {
+        Integer flag = dishService.updateIfHotDish(id,value);
+        BaseJson baseJson = new BaseJson();
+        if(flag==0){
+            baseJson.setCode(0);
+            baseJson.setMessage("成功");
+            baseJson.setResult("更改热门菜品成功");
+        }else if(flag==1){
+            baseJson.setCode(1);
+            baseJson.setMessage("失败");
+            baseJson.setResult("已经是热门菜品");
+        }else{
+            baseJson.setCode(2);
+            baseJson.setMessage("失败");
+            baseJson.setResult("本身不是热门菜品");
+        }
+        return baseJson;
     }
 }

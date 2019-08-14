@@ -13,6 +13,6 @@ public class SimpleShop {
     private Integer id;
     private String username;
     private String shopName;
-    private String shopTypeId;
+    private String shopTypeName;
     private String photoUrl;
 }

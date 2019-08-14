@@ -6,19 +6,19 @@ import com.lanke.foodie.dao.OrderDao;
 import com.lanke.foodie.dto.*;
 import com.lanke.foodie.entity.Order;
 import com.lanke.foodie.entity.OrderItem;
-import com.lanke.foodie.enums.DishStatus;
-import com.lanke.foodie.enums.PayStatus;
+import com.lanke.foodie.enums.OrderFinishStatus;
 import com.lanke.foodie.enums.Result;
-import com.lanke.foodie.enums.TransferStatus;
 import com.lanke.foodie.service.OrderService;
+import com.lanke.foodie.userdto.DishForAppointOrder;
+import com.lanke.foodie.userdto.DishForGoShopOrder;
+import com.lanke.foodie.userdto.ProductForGoShopOrder;
 import com.lanke.foodie.utils.BaseUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 
 import java.util.List;
+
 @Slf4j
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -26,111 +26,108 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderDao orderDao;
 
-    @Transactional
-    public Integer add_order(OrderAndItemDto orderAndItemDto) {
-        Order order = orderAndItemDto.getOrder();
-        order.setCreateTime(BaseUtils.getTime());
-        order.setOrderNo(BaseUtils.createOrderNo());
 
-        order.setIfTransfer(TransferStatus.NotFinish.getIndex());
-        order.setOrderStatus(PayStatus.NotPay.getIndex());
-        order.setGoodStatus(DishStatus.NotFinish.getIndex());
-
-        int orderId = orderDao.addOrder(order);
-
-        if(orderId<1) return Result.FAIL.getIndex();
-        List<OrderItem> orderItemList = orderAndItemDto.getOrderItemList();
-        for(OrderItem orderItem:orderItemList){
-            orderItem.setOrderId(order.getId());
-
-            orderItem.setCreateTime(BaseUtils.getTime());
-            int flag = orderDao.addOrderItem(orderItem);
-            if(flag<1) return Result.FAIL.getIndex();
-        }
-
-        return Result.SUCCESS.getIndex();
-    }
-
-    public PageResult findAllOrder(Integer pageNum, Integer pageSize, Integer shopId) {
+    public PageResult findTotalDishOrders(Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        Page<Order> page=   (Page<Order>) BaseUtils.transformTime(orderDao.findAllOrder(shopId),"yyyy-MM-dd HH:mm");
+        Page<Order> page=   (Page<Order>) BaseUtils.transformTime(orderDao.findTotalDishOrders(),"yyyy-MM-dd HH:mm");
         return new PageResult(page.getTotal(), page.getResult());
-
     }
 
-    public PageResult findOrderByTime(Integer pageNum, Integer pageSize, FindOrderParamsDto findOrderParamsDto) {
-//        String fromTime = FindOrderParamsDto.getFromTime();
-//        String toTime = FindOrderParamsDto.getToTime();
-     //   log.info(FindOrderParamsDto.getFromTime());
+    public PageResult findTotalProductOrders(Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        Page<Order> page=   (Page<Order>) BaseUtils.transformTime(orderDao.findTotalProductOrders(),"yyyy-MM-dd HH:mm");
+        return new PageResult(page.getTotal(), page.getResult());
+    }
+
+    public PageResult findProductNotFinishOrders(Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        Page<Order> page=   (Page<Order>) BaseUtils.transformTime(orderDao.findProductNotFinishOrders(),"yyyy-MM-dd HH:mm");
+        return new PageResult(page.getTotal(), page.getResult());
+    }
+
+    public PageResult findAllDishOrderByShopId(Integer pageNum, Integer pageSize, Integer shopId) {
+        PageHelper.startPage(pageNum, pageSize);
+        Page<Order> page=   (Page<Order>) BaseUtils.transformTime(orderDao.findAllDishOrderByShopId(shopId),"yyyy-MM-dd HH:mm");
+        return new PageResult(page.getTotal(), page.getResult());
+    }
+
+    public PageResult findGoToShopOrderByShopId(Integer pageNum, Integer pageSize, Integer shopId) {
+        PageHelper.startPage(pageNum, pageSize);
+        Page<DishForGoShopOrder> page=   (Page<DishForGoShopOrder>) BaseUtils.transformTimeForDishForGoShopOrder(orderDao.findGoToShopOrderByShopId(shopId),"yyyy-MM-dd HH:mm");
+        return new PageResult(page.getTotal(), page.getResult());
+    }
+
+    public PageResult findAppointOrderByShopId(Integer pageNum, Integer pageSize, Integer shopId) {
+        PageHelper.startPage(pageNum, pageSize);
+        Page<DishForAppointOrder> page=   (Page<DishForAppointOrder>) BaseUtils.transformTimeForDishForAppointOrder(orderDao.findAppointOrderByShopId(shopId),"yyyy-MM-dd HH:mm");
+        return new PageResult(page.getTotal(), page.getResult());
+    }
+
+    public PageResult findOrderGetProductInShop(Integer pageNum, Integer pageSize, Integer shopId) {
+        PageHelper.startPage(pageNum, pageSize);
+        Page<ProductForGoShopOrder> page=   (Page<ProductForGoShopOrder>) BaseUtils.transformTimeForProductForGoShopOrder(orderDao.findOrderGetProductInShop(shopId),"yyyy-MM-dd HH:mm");
+        return new PageResult(page.getTotal(), page.getResult());
+    }
+
+    public PageResult findNotFinishOrderGetProductInShop(Integer pageNum, Integer pageSize, Integer shopId) {
+        PageHelper.startPage(pageNum, pageSize);
+        Page<ProductForGoShopOrder> page=   (Page<ProductForGoShopOrder>) BaseUtils.transformTimeForProductForGoShopOrder(orderDao.findNotFinishOrderGetProductInShop(shopId),"yyyy-MM-dd HH:mm");
+        return new PageResult(page.getTotal(), page.getResult());
+    }
+
+    public PageResult findDishOrderByTime(Integer pageNum, Integer pageSize, FindOrderParamsDto findOrderParamsDto) {
+
         findOrderParamsDto.setFromTime(findOrderParamsDto.getFromTime()+" 00:00:00");
         findOrderParamsDto.setToTime(findOrderParamsDto.getToTime()+" 23:59:59");
         PageHelper.startPage(pageNum, pageSize);
-        Page<Order> page=   (Page<Order>) BaseUtils.transformTime(orderDao.findOrderByTime(findOrderParamsDto),"yyyy-MM-dd HH:mm"); ;
+        Page<Order> page=   (Page<Order>) BaseUtils.transformTime(orderDao.findDishOrderByTime(findOrderParamsDto),"yyyy-MM-dd HH:mm"); ;
         return new PageResult(page.getTotal(), page.getResult());
     }
 
-    public List<OrderItemDto> findOrderItem(Integer orderId, Integer shopId) {
-        return orderDao.findOrderItem(orderId,shopId);
-    }
-
-    public PageResult findNotFinishOrder(Integer pageNum, Integer pageSize, Integer shopId) {
-
-        PageHelper.startPage(pageNum, pageSize);
-        Page<Order> page= (Page<Order>) BaseUtils.transformTime(orderDao.findNotFinishOrder(shopId),"yyyy-MM-dd HH:mm");
-        return new PageResult(page.getTotal(), page.getResult());
-
-    }
-
-    public Integer updateOrderStatus(Integer orderStatus, Integer id) {
-        if(orderDao.updateOrderStatus(orderStatus,id)>0)
-            return Result.SUCCESS.getIndex();
-        else
-            return Result.FAIL.getIndex();
-    }
-
-    public Integer updateDishStatus(Integer dishStatus, Integer id) {
-        if(orderDao.updateDishStatus(dishStatus,id)>0)
-            return Result.SUCCESS.getIndex();
-        else
-            return Result.FAIL.getIndex();
-    }
-
-    public PageResult findTotalOrders(Integer pageNum, Integer pageSize) {
-
-        PageHelper.startPage(pageNum, pageSize);
-        Page<Order> page=   (Page<Order>) BaseUtils.transformTime(orderDao.findTotalOrders(),"yyyy-MM-dd HH:mm");
-        return new PageResult(page.getTotal(), page.getResult());
-
-    }
-
-    public PageResultAndCost findOrderByTimeAndValue(Integer pageNum, Integer pageSize, OrderIndexDto orderIndexDto) {
-
-
+    public PageResultAndCost findDishOrderByTimeAndValue(Integer pageNum, Integer pageSize, OrderIndexDto orderIndexDto) {
         orderIndexDto.setFromTime(orderIndexDto.getFromTime()+" 00:00:00");
         orderIndexDto.setToTime(orderIndexDto.getToTime()+" 23:59:59");
 
-        Double totalCost = orderDao.findCostByTimeAndValue(orderIndexDto);
+        Double totalCost = orderDao.findDishCostByTimeAndValue(orderIndexDto);
 
         if(totalCost==null) totalCost=0.0;
         PageHelper.startPage(pageNum, pageSize);
-        Page<OrderAndShopDto> page=   (Page<OrderAndShopDto>) BaseUtils.transformTimeToOrderAndShopDto(orderDao.findOrderByTimeAndValue(orderIndexDto),"yyyy-MM-dd HH:mm");
-      //  Page<OrderAndShopDto> page=   (Page<OrderAndShopDto>) orderDao.findOrderByTimeAndValue(orderIndexDto);
+        Page<Order> page=   (Page<Order>) BaseUtils.transformTime(orderDao.findDishOrderByTimeAndValue(orderIndexDto),"yyyy-MM-dd HH:mm");
+        //  Page<OrderAndShopDto> page=   (Page<OrderAndShopDto>) orderDao.findOrderByTimeAndValue(orderIndexDto);
         return new PageResultAndCost(page.getTotal(), page.getResult(),totalCost);
+    }
+    public PageResultAndCost findProductOrderByTimeAndValue(Integer pageNum, Integer pageSize, OrderIndexDto orderIndexDto) {
+        orderIndexDto.setFromTime(orderIndexDto.getFromTime()+" 00:00:00");
+        orderIndexDto.setToTime(orderIndexDto.getToTime()+" 23:59:59");
 
+        Double totalCost = orderDao.findProductCostByTimeAndValue(orderIndexDto);
+
+        if(totalCost==null) totalCost=0.0;
+        PageHelper.startPage(pageNum, pageSize);
+        Page<Order> page=   (Page<Order>) BaseUtils.transformTime(orderDao.findProductOrderByTimeAndValue(orderIndexDto),"yyyy-MM-dd HH:mm");
+        //  Page<OrderAndShopDto> page=   (Page<OrderAndShopDto>) orderDao.findOrderByTimeAndValue(orderIndexDto);
+        return new PageResultAndCost(page.getTotal(), page.getResult(),totalCost);
+    }
+
+
+
+    public List<OrderItem> findOrderItem(Integer orderId) {
+        return orderDao.findOrderItem(orderId);
+    }
+
+    public Order findOrderById(Integer orderId) {
+        return orderDao.findOrderById(orderId);
+    }
+
+    public Integer updateFinishStatus( Integer id) {
+        return orderDao.updateFinishStatus(OrderFinishStatus.HadFinish.getIndex(),id);
     }
 
     public Integer updatOrderIfTranster(FindOrderParamsDto findOrderParamsDto) {
-        findOrderParamsDto.setFromTime(findOrderParamsDto.getFromTime()+" 00:00:00");
-        findOrderParamsDto.setToTime(findOrderParamsDto.getToTime()+" 23:59:59");
         return orderDao.updatOrderIfTranster(findOrderParamsDto);
     }
 
     public Double findTotalCost(FindOrderParamsDto findOrderParamsDto) {
-        findOrderParamsDto.setFromTime(findOrderParamsDto.getFromTime()+" 00:00:00");
-        findOrderParamsDto.setToTime(findOrderParamsDto.getToTime()+" 23:59:59");
-
         return orderDao.findTotalCost(findOrderParamsDto);
     }
-
-
 }

@@ -5,53 +5,202 @@
 
 <mapper namespace="com.lanke.foodie.dao.OrderDao">
 
-    <insert id="addOrder" useGeneratedKeys="true" keyProperty="id" parameterType="com.lanke.foodie.entity.Order"  >
-        insert
-        into
+    <select id="findTotalDishOrders" resultType="com.lanke.foodie.entity.Order" >
+        select
+        *
+        from
         fd_order
-        (
-        order_no,
-        table_num,
-        order_status,
-        cost,
-        user_type,
-        user_id,
-        if_transfer,
-        good_status,
-        create_time
-        )
-        values
-        (
-        #{orderNo},
-        #{tableNum},
-        #{orderStatus},
-        #{cost},
-        #{userType},
-        #{userId},
-        #{ifTransfer},
-        #{goodStatus},
-        #{createTime}
-        )
-    </insert>
-    <insert id="addOrderItem">
-        insert
-        order_item
-        (
-        good_id,
-        good_num,
-        total_cost,
-        order_id,
-        create_time
-        )
-        values
-        (
-        #{goodId},
-        #{goodNum},
-        #{totalCost},
-        #{orderId},
-        #{createTime}
-        )
-    </insert>
+        where good_type = 0
+        order by id desc
+    </select>
+    <select id="findTotalProductOrders" resultType="com.lanke.foodie.entity.Order" >
+        select
+        *
+        from
+        fd_order
+        where good_type = 1
+        order by id desc
+    </select>
+    <select id="findProductNotFinishOrders" resultType="com.lanke.foodie.entity.Order" >
+        select
+        *
+        from
+        fd_order
+        where good_type = 1 and if_finish = 0
+        order by id desc
+    </select>
+
+
+    <!--商户端-->
+
+    <select id="findAllDishOrderByShopId" resultType="com.lanke.foodie.entity.Order" >
+        select
+        *
+        from
+        fd_order
+        where
+        good_id = #{shopId} and good_type = 0
+        order by id desc
+    </select>
+
+    <select id="findGoToShopOrderByShopId" resultType="com.lanke.foodie.userdto.DishForGoShopOrder" >
+        select
+        *
+        from
+        fd_order
+        where
+        good_id = #{shopId} and good_type = 0 and get_way = 0 and if_finish = 0
+        order by id desc
+    </select>
+
+    <select id="findAppointOrderByShopId" resultType="com.lanke.foodie.userdto.DishForAppointOrder" >
+        select
+        *
+        from
+        fd_order
+        where
+        good_id = #{shopId} and good_type = 0 and get_way = 1 and if_finish = 0
+        order by id desc
+    </select>
+
+    <select id="findOrderGetProductInShop" resultType="com.lanke.foodie.userdto.ProductForGoShopOrder" >
+        select
+        *
+        from
+        fd_order
+        where
+        get_in_shop_id = #{shopId} and good_type = 1 and get_way = 3
+        order by id desc
+    </select>
+    <select id="findNotFinishOrderGetProductInShop" resultType="com.lanke.foodie.userdto.ProductForGoShopOrder" >
+        select
+        *
+        from
+        fd_order
+        where
+        get_in_shop_id = #{shopId} and good_type = 1 and get_way = 3 if_finish = 0
+        order by id desc
+    </select>
+
+
+    <select id="findDishOrderByTime" parameterType="com.lanke.foodie.dto.FindOrderParamsDto" resultType="com.lanke.foodie.entity.Order" >
+         SELECT
+            *
+            FROM
+            fd_order
+            WHERE
+            create_time  BETWEEN
+            #{fromTime}
+            AND
+             #{toTime} and
+            and  good_id = #{shopId} and good_type = 0
+
+    </select>
+
+
+    <!--运营商查询-->
+    <select id="findDishOrderByTimeAndValue" parameterType="com.lanke.foodie.dto.OrderIndexDto" resultType="com.lanke.foodie.entity.Order" >
+           SELECT
+            fd_order.*
+            FROM
+            fd_order ,shop
+            WHERE fd_order.good_id=shop.id and good_type = 0
+            and
+            fd_order.create_time  BETWEEN
+            #{fromTime}
+            AND
+             #{toTime}
+            AND  shop_name LIKE '%${value}%' OR order_no LIKE '%${value}%'
+
+    </select>
+    <select id="findProductOrderByTimeAndValue" parameterType="com.lanke.foodie.dto.OrderIndexDto" resultType="com.lanke.foodie.entity.Order" >
+           SELECT
+            *
+            FROM
+            fd_order
+            WHERE
+            good_type = 1
+            and
+            fd_order.create_time  BETWEEN
+            #{fromTime}
+            AND
+             #{toTime}
+            AND  order_no LIKE '%${value}%'
+
+    </select>
+
+    <select id="findDishCostByTimeAndValue" parameterType="com.lanke.foodie.dto.OrderIndexDto" resultType="double" >
+           SELECT
+            sum(cost)
+            FROM
+            fd_order ,shop
+            WHERE fd_order.good_id=shop.id and good_type = 0
+            and
+            fd_order.create_time  BETWEEN
+            #{fromTime}
+            AND
+             #{toTime}
+            AND  shop_name LIKE '%${value}%' OR order_no LIKE '%${value}%'
+    </select>
+    <select id="findProductCostByTimeAndValue" parameterType="com.lanke.foodie.dto.OrderIndexDto" resultType="double" >
+           SELECT
+            sum(cost)
+            FROM
+            fd_order
+            WHERE
+            good_type = 1
+            and
+            fd_order.create_time  BETWEEN
+            #{fromTime}
+            AND
+             #{toTime}
+            AND  order_no LIKE '%${value}%'
+    </select>
+
+
+
+    <select id="findOrderItem" resultType="com.lanke.foodie.entity.OrderItem">
+        SELECT * FROM order_item
+        WHERE order_item.order_id= #{orderId}
+    </select>
+
+    <select id="findOrderById" resultType="com.lanke.foodie.entity.Order">
+        SELECT * FROM fd_order
+        WHERE id= #{orderId}
+    </select>
+
+    <update id="updateFinishStatus">
+        update
+        fd_order
+        set
+        if_finish = #{ifFinish}
+        where
+        id = #{id}
+    </update>
+
+    <update id="updatOrderIfTranster" parameterType="com.lanke.foodie.dto.FindOrderParamsDto">
+        update
+        fd_order
+        set
+        if_transfer = 1
+        WHERE
+          create_time  BETWEEN
+          #{fromTime}
+          AND
+          #{toTime}
+          and  good_id = #{shopId} and good_type = 0 and if_transfer=0
+    </update>
+
+    <select id="findTotalCost" parameterType="com.lanke.foodie.dto.FindOrderParamsDto" resultType="double">
+        SELECT sum(cost) FROM fd_order
+         WHERE
+          create_time  BETWEEN
+          #{fromTime}
+          AND
+          #{toTime}
+          and  good_id = #{shopId} and good_type = 0 and if_transfer=0
+    </select>
+
     <insert id="addShopCar">
         insert
         shopcar
@@ -73,116 +222,5 @@
         #{createTime}
         )
     </insert>
-    <select id="findAllOrder" resultType="com.lanke.foodie.entity.Order" >
-        select
-        *
-        from
-        fd_order
-        where
-        shop_id = #{shopId}
-        order by id desc
-    </select>
 
-    <select id="findTotalOrders" resultType="com.lanke.foodie.entity.Order" >
-        select
-        *
-        from
-        fd_order
-        order by id desc
-    </select>
-
-    <select id="findOrderByTime" parameterType="com.lanke.foodie.dto.FindOrderParamsDto" resultType="com.lanke.foodie.entity.Order" >
-         SELECT
-            *
-            FROM
-            fd_order
-            WHERE
-            create_time  BETWEEN
-            #{fromTime}
-            AND
-             #{toTime}
-            and  shop_id = #{shopId}
-
-    </select>
-
-    <select id="findOrderByTimeAndValue" parameterType="com.lanke.foodie.dto.OrderIndexDto" resultType="com.lanke.foodie.dto.OrderAndShopDto" >
-           SELECT
-            fd_order.*,shop_name
-            FROM
-            fd_order INNER JOIN shop
-            ON fd_order.shop_id=shop.id
-            WHERE
-            fd_order.create_time  BETWEEN
-            #{fromTime}
-            AND
-             #{toTime}
-            AND  shop_name LIKE '%${value}%' OR order_no LIKE '%${value}%'
-
-    </select>
-    <select id="findCostByTimeAndValue" parameterType="com.lanke.foodie.dto.OrderIndexDto" resultType="double" >
-           SELECT
-            sum(cost)
-            FROM
-            fd_order INNER JOIN shop
-            ON fd_order.shop_id=shop.id
-            WHERE
-            fd_order.create_time  BETWEEN
-            #{fromTime}
-            AND
-             #{toTime}
-            AND  shop_name LIKE '%${value}%' OR order_no LIKE '%${value}%'
-
-    </select>
-    <select id="findOrderItem" resultType="com.lanke.foodie.dto.OrderItemDto">
-        SELECT * FROM order_item
-        inner JOIN dish
-        ON order_item.dish_id=dish.id WHERE order_item.order_id= #{orderId} and dish.shop_id = #{shopId}
-    </select>
-    <select id="findNotFinishOrder" resultType="com.lanke.foodie.entity.Order" >
-        select
-        *
-        from
-        fd_order
-        where
-        shop_id = #{shopId} and (order_status = 0 or dish_status=0)
-        order by id desc
-    </select>
-    <update id="updateOrderStatus">
-        update
-        fd_order
-        set
-        order_status = #{orderStatus}
-        where
-        id = #{id}
-    </update>
-    <update id="updateDishStatus">
-        update
-        fd_order
-        set
-        dish_status = #{dishStatus}
-        where
-        id = #{id}
-    </update>
-    <update id="updatOrderIfTranster" parameterType="com.lanke.foodie.dto.FindOrderParamsDto">
-        update
-        fd_order
-        set
-        if_transfer = 1
-        WHERE
-          create_time  BETWEEN
-          #{fromTime}
-          AND
-          #{toTime}
-          and  shop_id = #{shopId} and if_transfer=0 and order_status=2
-    </update>
-
-    <select id="findTotalCost" parameterType="com.lanke.foodie.dto.FindOrderParamsDto" resultType="double">
-        SELECT sum(cost) FROM fd_order
-         WHERE
-          create_time  BETWEEN
-          #{fromTime}
-          AND
-          #{toTime}
-          and  shop_id = #{shopId} and if_transfer=0 and order_status=2
-    </select>
 </mapper>

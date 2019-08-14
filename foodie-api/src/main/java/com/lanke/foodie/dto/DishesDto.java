@@ -19,5 +19,6 @@ public class DishesDto {
     private Integer typeId;
     private String typeName;
     private Integer shopId;
+    private Integer ifHotDish;
     private String ids;
 }

@@ -8,6 +8,7 @@ import com.lanke.foodie.entity.DishType;
 
 import com.lanke.foodie.entity.MoneyOff;
 import com.lanke.foodie.entity.Voucher;
+import com.lanke.foodie.userdto.PageResults;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,18 +46,19 @@ public interface DishService {
     @RequestMapping(value = "/shopdishes/updateDish",method = RequestMethod.POST)
     public Integer updateDish(@RequestBody Dish dish );
 
-    @RequestMapping(value = "/shopdishes/getIfDishByTypeId",method = RequestMethod.POST)
-    public Integer getIfDishByTypeId(@RequestBody DishesDto dishesDto );
+//    @RequestMapping(value = "/shopdishes/getIfDishByTypeId",method = RequestMethod.POST)
+//    public Integer getIfDishByTypeId(@RequestBody DishesDto dishesDto );
 
 
     @RequestMapping(value = "/product/findAllMoneyOff",method = RequestMethod.GET)
     public List<MoneyOff> findAllMoneyOff();
-
+    @RequestMapping(value = "/product/findMoneyOffByIds/{ids}",method = RequestMethod.GET)
+    public List<MoneyOff> findMoneyOffByIds(@PathVariable("ids") String ids);
     //商品
     @RequestMapping(value = "/product/findAllProductWithMoneyOff",method = RequestMethod.GET)
     public PageResult findAllProductWithMoneyOff(@RequestParam("page") Integer page, @RequestParam("size") Integer size, @RequestParam("value") String value);
     @RequestMapping(value = "/product/findAllProductWithMoneyOffByType",method = RequestMethod.GET)
-    public PageResult findAllProductWithMoneyOffByType(@RequestParam("page") Integer page, @RequestParam("size") Integer size, @RequestParam("productTypeId") Integer productTypeId);
+    public PageResult findAllProductWithMoneyOffByType(@RequestParam("page") Integer page, @RequestParam("size") Integer size, @RequestParam("productType") String productType);
     //优惠卷
     @RequestMapping(value = "/product/addShopVoucher",method = RequestMethod.POST)
     public Integer addShopVoucher(@RequestBody Voucher voucher  );
@@ -67,5 +69,6 @@ public interface DishService {
 
     @RequestMapping(value = "/shopdishes/checkDishByShopId/{shopId}",method = RequestMethod.GET)
     public Integer checkDishByShopId(@PathVariable("shopId") Integer shopId);
-
+    @RequestMapping(value = "/shopdishes/updateIfHotDish/{id}/{value}",method = RequestMethod.GET)
+    public Integer updateIfHotDish(@PathVariable("id") Integer id,@PathVariable("value") Integer value);
 }

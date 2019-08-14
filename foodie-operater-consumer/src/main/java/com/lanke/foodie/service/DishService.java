@@ -2,6 +2,7 @@ package com.lanke.foodie.service;
 
 
 
+import com.lanke.foodie.dto.PageMapResult;
 import com.lanke.foodie.dto.PageResult;
 import com.lanke.foodie.entity.*;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -26,8 +27,8 @@ public interface DishService {
     public List<ProductType> findAllProductType();
     @RequestMapping(value = "/product/delProductTypeById/{ids}",method = RequestMethod.GET)
     public Integer delProductTypeById(@PathVariable("ids") String ids );
-    @RequestMapping(value = "/product/getIfProductByTypeId/{ids}",method = RequestMethod.GET)
-    public Integer getIfProductByTypeId(@PathVariable("ids") String ids );
+    @RequestMapping(value = "/product/getIfProductByTypeIds/{ids}",method = RequestMethod.GET)
+    public Integer getIfProductByTypeIds(@PathVariable("ids") String ids );
 
     @RequestMapping(value = "/product/findAllMoneyOff",method = RequestMethod.GET)
     public List<MoneyOff> findAllMoneyOff();
@@ -59,15 +60,21 @@ public interface DishService {
 
     //广告
     @RequestMapping(value = "/advertisement/findAllAdvertisement/{page}/{size}",method = RequestMethod.GET)
-    public PageResult findAllAdvertisement(@PathVariable("page") Integer page, @PathVariable("size") Integer size);
+    public PageMapResult findAllAdvertisement(@PathVariable("page") Integer page, @PathVariable("size") Integer size);
 
     @RequestMapping(value = "/advertisement/addAdvertisement",method = RequestMethod.POST)
     public Integer addAdvertisement(@RequestBody Advertisement advertisement );
+
     @RequestMapping(value = "/advertisement/delAdvertisementById/{id}",method = RequestMethod.GET)
     public Integer delAdvertisementById(@PathVariable("id") Integer id);
+    @RequestMapping(value = "/advertisement/delAdvertisementByCity/{city}",method = RequestMethod.GET)
+    public Integer delAdvertisementByCity(@PathVariable("city") String city);
 
     @RequestMapping(value = "/advertisement/getAdvertisementById/{id}",method = RequestMethod.GET)
     public Advertisement getAdvertisementById(@PathVariable("id") Integer id);
+    @RequestMapping(value = "/advertisement/getAdvertisementByCity/{city}",method = RequestMethod.GET)
+    public List<Advertisement> getAdvertisementByCity(@PathVariable("city") String city);
+
     @RequestMapping(value = "/advertisement/updateAdvertisement",method = RequestMethod.POST)
     public Integer updateAdvertisement(@RequestBody Advertisement advertisement);
 

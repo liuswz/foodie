@@ -89,9 +89,9 @@ public class DishesController {
         return baseJson;
 
     }
-    @RequestMapping(value = "/product/getIfProductByTypeId/{ids}",method = RequestMethod.GET)
-    public Integer getIfProductByTypeId(@PathVariable("ids") String ids ){
-        return dishService.getIfProductByTypeId(ids);
+    @RequestMapping(value = "/product/getIfProductByTypeIds/{ids}",method = RequestMethod.GET)
+    public Integer getIfProductByTypeIds(@PathVariable("ids") String ids ){
+        return dishService.getIfProductByTypeIds(ids);
     }
 
 
@@ -242,7 +242,7 @@ public class DishesController {
 
 //广告
     @RequestMapping(value = "/advertisement/findAllAdvertisement/{page}/{size}",method = RequestMethod.GET)
-    public PageResult findAllAdvertisement(@PathVariable("page") Integer page, @PathVariable("size") Integer size) {
+    public PageMapResult findAllAdvertisement(@PathVariable("page") Integer page, @PathVariable("size") Integer size) {
         return dishService.findAllAdvertisement(page,size);
     }
 
@@ -251,14 +251,14 @@ public class DishesController {
         BaseJson baseJson = new BaseJson();
         if(CheckShopAndProductId(advertisement)){
             int flag = dishService.addAdvertisement(advertisement);
-            if(flag == 0){
+            if(flag == -1){
                 baseJson.setCode(1);
                 baseJson.setMessage("失败");
-                baseJson.setResult("更改失败");
+                baseJson.setResult("对不起一个城市只能有5个广告");
             }else {
                 baseJson.setCode(0);
                 baseJson.setMessage("成功");
-                baseJson.setResult("更改成功");
+                baseJson.setResult("添加成功");
             }
         }else{
             baseJson.setCode(1);
@@ -288,11 +288,32 @@ public class DishesController {
         return baseJson;
 
     }
+    @RequestMapping(value = "/advertisement/delAdvertisementByCity/{city}",method = RequestMethod.GET)
+    public BaseJson delAdvertisementByCity(@PathVariable("city") String city){
+        BaseJson baseJson = new BaseJson();
+
+        int flag = dishService.delAdvertisementByCity(city);
+        if(flag == 0){
+            baseJson.setCode(1);
+            baseJson.setMessage("失败");
+            baseJson.setResult("删除失败");
+        }else {
+            baseJson.setCode(0);
+            baseJson.setMessage("成功");
+            baseJson.setResult("删除成功");
+        }
+        return baseJson;
+    }
 
     @RequestMapping(value = "/advertisement/getAdvertisementById/{id}",method = RequestMethod.GET)
     public Advertisement getAdvertisementById(@PathVariable("id") Integer id) {
         return dishService.getAdvertisementById(id);
     }
+    @RequestMapping(value = "/advertisement/getAdvertisementByCity/{city}",method = RequestMethod.GET)
+    public List<Advertisement> getAdvertisementByCity(@PathVariable("city") String city){
+        return dishService.getAdvertisementByCity(city);
+    }
+
     @RequestMapping(value = "/advertisement/updateAdvertisement",method = RequestMethod.POST)
     public BaseJson updateAdvertisement(@RequestBody Advertisement advertisement){
 
@@ -322,52 +343,16 @@ public class DishesController {
     public boolean CheckShopAndProductId(Advertisement advertisement) {
 
 
-        if(AdType.Shop.getName().equals(advertisement.getType1())){
-            if(detailService.getShopNameById(advertisement.getRedirectId1())==null){
+        if(AdType.Shop.getIndex()==advertisement.getTypeId()){
+            if(detailService.getShopNameById(advertisement.getRedirectId())==null){
                 return false;
             }
-        }else{
-            if( dishService.getProductNameById(advertisement.getRedirectId1())==null){
-                return false;
-            }
-        }
-        if(AdType.Shop.getName().equals(advertisement.getType2())){
-            if(detailService.getShopNameById(advertisement.getRedirectId2())==null){
-                return false;
-            }
-        }else{
-            if( dishService.getProductNameById(advertisement.getRedirectId2())==null){
+        }else if(AdType.Product.getIndex()==advertisement.getTypeId()){
+            if( dishService.getProductNameById(advertisement.getRedirectId())==null){
                 return false;
             }
         }
 
-        if(AdType.Shop.getName().equals(advertisement.getType3())){
-            if(detailService.getShopNameById(advertisement.getRedirectId3())==null){
-                return false;
-            }
-        }else{
-            if( dishService.getProductNameById(advertisement.getRedirectId3())==null){
-                return false;
-            }
-        }
-        if(AdType.Shop.getName().equals(advertisement.getType4())){
-            if(detailService.getShopNameById(advertisement.getRedirectId4())==null){
-                return false;
-            }
-        }else{
-            if( dishService.getProductNameById(advertisement.getRedirectId4())==null){
-                return false;
-            }
-        }
-        if(AdType.Shop.getName().equals(advertisement.getType5())){
-            if(detailService.getShopNameById(advertisement.getRedirectId5())==null){
-                return false;
-            }
-        }else{
-            if( dishService.getProductNameById(advertisement.getRedirectId5())==null){
-                return false;
-            }
-        }
         return true;
 
 

@@ -2,13 +2,13 @@ package com.lanke.foodie.enums;
 
 public enum PayStatus {
 
-    NotPay("NOTPAY", 0),HadPayShop("HADPAYSHOP", 1),HadPayFoodie("HADPAYFOODIE", 2);
+    NotPay("NOTPAY", 0),PaySome("PAYSOME", 1),HadPay("HADPAY", 2);
 
 
     private String name ;
-    private int index ;
+    private Integer index ;
 
-    private PayStatus( String name , int index ){
+    private PayStatus( String name , Integer index ){
         this.name = name ;
         this.index = index ;
     }
@@ -19,10 +19,10 @@ public enum PayStatus {
     public void setName(String name) {
         this.name = name;
     }
-    public int getIndex() {
+    public Integer getIndex() {
         return index;
     }
-    public void setIndex(int index) {
+    public void setIndex(Integer index) {
         this.index = index;
     }
 }

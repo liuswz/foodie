@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lanke.foodie.dao.UserOrderDao">
+
+    <insert id="addOrder" useGeneratedKeys="true" keyProperty="id" parameterType="com.lanke.foodie.entity.Order"  >
+        insert
+        into
+        fd_order
+        (
+        order_no,
+        cost,
+        num,
+        show_names,
+        shop_name,
+        shop_photo_url,
+        table_num,
+        user_type,
+        user_id,
+        phone_num,
+        go_date,
+        go_time,
+        people_num,
+        get_way,
+        city,
+        address,
+        get_in_shop_id,
+        good_type,
+        pay_status,
+        if_finish,
+        if_transfer,
+        if_comment,
+        pay_way,
+        remark,
+        create_time
+        )
+        values
+        (
+        #{orderNo},
+        #{cost},
+        #{voucherCost},
+        #{moneyOffCost},
+        #{num},
+        #{showNames},
+        #{shopName},
+        #{shopPhotoUrl},
+
+        #{tableNum},
+        #{userType},
+        #{userId},
+        #{phoneNum},
+        #{goDate},
+        #{goTime},
+        #{peopleNum},
+        #{getWay},
+        #{city}
+        #{address},
+        #{getInShopId},
+        #{goodType},
+        #{payStatus},
+        #{ifFinish},
+        #{ifTransfer},
+        #{ifComment},
+        #{payWay},
+        #{remark},
+        #{createTime}
+        )
+    </insert>
+    <insert id="addOrderItem" parameterType="java.util.List">
+        insert
+        order_item
+        (
+        good_id,
+        good_type,
+        good_name,
+        photo_url,
+        good_num,
+        total_cost,
+        order_id,
+        create_time
+        )
+        values
+        <foreach collection ="list" item="orderItem" separator =",">
+            (
+            #{orderItem.goodId},
+            #{orderItem.goodType},
+            #{orderItem.goodName},
+            #{orderItem.photoUrl},
+            #{orderItem.goodNum},
+            #{orderItem.totalCost},
+            #{orderItem.orderId},
+            #{orderItem.createTime}
+            )
+        </foreach >
+    </insert>
+    <insert id="addDishForAppointOrder" useGeneratedKeys="true" keyProperty="id" parameterType="com.lanke.foodie.userdto.DishForAppointOrder"  >
+        insert
+        into
+        fd_order
+        (
+        order_no,
+        cost,
+        voucher_cost,
+        money_off_cost,
+        num,
+        show_names,
+        shop_name,
+        shop_photo_url,
+
+        user_type,
+        user_id,
+        phone_num,
+        go_date,
+        go_time,
+        people_num,
+
+        good_id,
+        get_way,
+        good_type,
+        pay_status,
+        if_finish,
+        if_transfer,
+        if_comment,
+        pay_way,
+        remark,
+        create_time
+        )
+        values
+        (
+        #{orderNo},
+        #{cost},
+        #{voucherCost},
+        #{moneyOffCost},
+        #{num},
+        #{showNames},
+        #{shopName},
+        #{shopPhotoUrl},
+
+        #{userType},
+        #{userId},
+        #{phoneNum},
+        #{goDate},
+        #{goTime},
+        #{peopleNum},
+
+        #{goodId},
+        #{getWay},
+        #{goodType},
+        #{payStatus},
+        #{ifFinish},
+        #{ifTransfer},
+        #{ifComment},
+        #{payWay},
+        #{remark},
+        #{createTime}
+        )
+    </insert>
+
+    <insert id="addDishForGoShopOrder" useGeneratedKeys="true" keyProperty="id" parameterType="com.lanke.foodie.userdto.DishForGoShopOrder"  >
+        insert
+        into
+        fd_order
+        (
+        order_no,
+        cost,
+        voucher_cost,
+        money_off_cost,
+        num,
+        show_names,
+        shop_name,
+        shop_photo_url,
+
+        table_num,
+        user_type,
+        user_id,
+
+        good_id,
+        get_way,
+        good_type,
+        pay_status,
+        if_finish,
+        if_transfer,
+        if_comment,
+        pay_way,
+        remark,
+        create_time
+        )
+        values
+        (
+        #{orderNo},
+        #{cost},
+        #{voucherCost},
+        #{moneyOffCost},
+        #{num},
+        #{showNames},
+        #{shopName},
+        #{shopPhotoUrl},
+
+        #{tableNum},
+        #{userType},
+        #{userId},
+
+        #{goodId},
+        #{getWay},
+        #{goodType},
+        #{payStatus},
+        #{ifFinish},
+        #{ifTransfer},
+        #{ifComment},
+        #{payWay},
+        #{remark},
+        #{createTime}
+        )
+    </insert>
+
+    <insert id="addProductForDeliveryOrder" useGeneratedKeys="true" keyProperty="id" parameterType="com.lanke.foodie.userdto.ProductForDeliveryOrder"  >
+        insert
+        into
+        fd_order
+        (
+        order_no,
+        cost,
+        voucher_cost,
+        money_off_cost,
+        num,
+        show_names,
+        shop_name,
+        shop_photo_url,
+
+        user_type,
+        user_id,
+        phone_num,
+
+
+        get_way,
+        city,
+        address,
+
+        good_type,
+        pay_status,
+        if_finish,
+        if_transfer,
+        if_comment,
+        pay_way,
+        remark,
+        create_time
+        )
+        values
+        (
+        #{orderNo},
+        #{cost},
+        #{voucherCost},
+        #{moneyOffCost},
+        #{num},
+        #{showNames},
+        #{shopName},
+        #{shopPhotoUrl},
+
+        #{userType},
+        #{userId},
+        #{phoneNum},
+
+        #{getWay},
+        #{city},
+        #{address},
+
+        #{goodType},
+        #{payStatus},
+        #{ifFinish},
+        #{ifTransfer},
+        #{ifComment},
+        #{payWay},
+        #{remark},
+        #{createTime}
+        )
+    </insert>
+    <insert id="addProductForGoShopOrder" useGeneratedKeys="true" keyProperty="id" parameterType="com.lanke.foodie.userdto.ProductForGoShopOrder"  >
+        insert
+        into
+        fd_order
+        (
+        order_no,
+        cost,
+        voucher_cost,
+        money_off_cost,
+        num,
+        show_names,
+        shop_name,
+        shop_photo_url,
+
+        user_type,
+        user_id,
+        phone_num,
+
+        get_way,
+
+        get_in_shop_id,
+        if_good_had_reach,
+        good_type,
+        pay_status,
+        if_finish,
+        if_transfer,
+        if_comment,
+
+        pay_way,
+        remark,
+        create_time
+        )
+        values
+        (
+        #{orderNo},
+        #{cost},
+        #{voucherCost},
+        #{moneyOffCost},
+        #{num},
+        #{showNames},
+        #{shopName},
+        #{shopPhotoUrl},
+
+        #{userType},
+        #{userId},
+        #{phoneNum},
+
+
+        #{getWay},
+
+        #{getInShopId},
+        #{ifGoodHadReach},
+        #{goodType},
+        #{payStatus},
+        #{ifFinish},
+        #{ifTransfer},
+        #{ifComment},
+        #{payWay},
+        #{remark},
+        #{createTime}
+        )
+    </insert>
+
+
+
+    <update id="updateShopSales">
+        update
+        shop_detail
+        set
+        shop_sales = shop_sales + #{num}
+        where
+        shop_id = #{id}
+    </update>
+    <update id="updateDishSales">
+        update
+        dish
+        set
+        dish_sales = dish_sales + #{num}
+        where
+        id = #{id}
+    </update>
+    <update id="updateProductSales">
+        update
+        product
+        set
+        product_sales = product_sales + #{num}
+        where
+        id = #{id}
+    </update>
+
+
+
+    <select id="findAllSimpleOrder" resultType="com.lanke.foodie.simpleEntity.SimpleOrder" >
+        select
+        id,order_no,cost,show_names,shop_name,shop_photo_url,pay_status,if_finish,if_comment,get_way,if_good_had_reach,good_type,good_id,create_time
+        from
+        fd_order
+        where
+        user_id = #{userId}
+        order by id desc
+    </select>
+    <select id="findAllNotPayOrder" resultType="com.lanke.foodie.simpleEntity.SimpleOrder" >
+        select
+        id,order_no,cost,show_names,shop_name,shop_photo_url,pay_status,if_finish,if_comment,get_way,if_good_had_reach,good_type,good_id,create_time
+        from
+        fd_order
+        where
+        user_id = #{userId} and pay_status  &lt;&gt; 1
+        order by id desc
+    </select>
+    <select id="findAllHadPayOrder" resultType="com.lanke.foodie.simpleEntity.SimpleOrder" >
+       select
+        id,order_no,cost,show_names,shop_name,shop_photo_url,pay_status,if_finish,if_comment,get_way,if_good_had_reach,good_type,good_id,create_time
+        from
+        fd_order
+        where
+        user_id = #{userId} and pay_status = 1
+        order by id desc
+    </select>
+    <select id="findAllAppointOrder" resultType="com.lanke.foodie.simpleEntity.SimpleOrder" >
+        select
+        id,order_no,cost,show_names,shop_name,shop_photo_url,pay_status,if_finish,if_comment,get_way,if_good_had_reach,good_type,good_id,create_time
+        from
+        fd_order
+        where
+        user_id = #{userId} and get_way = 1
+        order by id desc
+    </select>
+    <select id="getOrderDetails" resultType="com.lanke.foodie.entity.Order" >
+        select
+        *
+        from
+        fd_order
+        where
+        id = #{id}
+    </select>
+
+    <select id="getOrderItems" resultType="com.lanke.foodie.simpleEntity.SimpleOrderItem" >
+        select
+        *
+        from
+        order_item
+        where
+        order_id = #{orderId}
+    </select>
+    <update id="updatePayStatus">
+        update
+        fd_order
+        set
+        pay_status = #{payStatus},pay_way = #{payWay}
+        where
+        id = #{id}
+    </update>
+
+    <update id="updateFinishStatus">
+        update
+        fd_order
+        set
+        if_finish = #{ifFinish}
+        where
+        id = #{id}
+    </update>
+
+    <update id="updateCommentStatus">
+        update
+        fd_order
+        set
+        if_comment = 1
+        where
+        id = #{id}
+    </update>
+    <update id="updateShopMark">
+        update
+        shop_detail
+        set
+        shop_mark = #{shopMark} and comment_num = comment_num+1
+        where
+        shop_id = #{shopId}
+    </update>
+    <select id="getShopMarkDetail" resultType="com.lanke.foodie.userparams.ShopMarkDetail" >
+        select
+        shop_mark,comment_num
+        from
+        shop_detail
+        where
+        shop_id = #{shopId}
+    </select>
+    <update id="updateProductMark">
+        update
+        product
+        set
+        product_mark = #{productMark} and comment_num = comment_num+1
+        where
+        id = #{id}
+    </update>
+    <select id="getProductMarkDetail" resultType="com.lanke.foodie.userparams.ProductMarkDetail" >
+        select
+        product_mark,comment_num
+        from
+        product
+        where
+        id = #{id}
+    </select>
+
+
+</mapper>

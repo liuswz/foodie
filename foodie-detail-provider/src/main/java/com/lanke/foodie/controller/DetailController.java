@@ -119,9 +119,9 @@ public class DetailController {
         return detailService.delShopTypeById(ids);
     }
 
-    @RequestMapping(value = "/shopdetail/getIfShopByTypeId/{ids}",method = RequestMethod.GET)
-    public Integer getIfShopByTypeId(@PathVariable("ids") String ids ){
-        return detailService.getIfShopByTypeId(ids);
+    @RequestMapping(value = "/shopdetail/getIfShopByTypeIds/{ids}",method = RequestMethod.GET)
+    public Integer getIfShopByTypeIds(@PathVariable("ids") String ids ){
+        return detailService.getIfShopByTypeIds(ids);
     }
     @RequestMapping(value = "/shopdetail/getShopNameById/{id}",method = RequestMethod.GET)
     public String getShopNameById(@PathVariable("id") Integer id){

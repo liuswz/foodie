@@ -23,7 +23,7 @@
     </insert>
 
 
-    <insert id="addDish" parameterType="com.lanke.foodie.entity.Dish">
+    <insert id="addDish"  parameterType="com.lanke.foodie.entity.Dish"  useGeneratedKeys="true" keyProperty="id">
         insert
         into
         dish
@@ -47,7 +47,6 @@
         #{typeId},
         #{createTime},
         #{shopId}
-
         )
     </insert>
     <select id="findAllDishType" resultType="com.lanke.foodie.entity.DishType" >
@@ -150,18 +149,69 @@
         where
         id = #{id}
     </update>
+    <!--<select id="getIfDishByTypeId" resultType="int">-->
+        <!--select-->
+        <!--count(*)-->
+        <!--from-->
+        <!--dish-->
+        <!--where-->
+        <!--shop_id = #{shopId}-->
+        <!--and-->
+        <!--type_id-->
+        <!--in-->
+        <!--${ids}-->
+    <!--</select>-->
     <select id="getIfDishByTypeId" resultType="int">
         select
         count(*)
         from
         dish
         where
-        shop_id = #{shopId}
-        and
         type_id
         in
         ${ids}
-
     </select>
+    <update id="updateIfHotDish">
+        update
+        dish
+        set
+        if_hot_dish = #{value}
+        where
+        id = #{id}
+    </update>
+    <select id="getIfHotDish" resultType="int">
+        select
+        if_hot_dish
+        from
+        dish
+        where
+        id = #{id}
+    </select>
+
+
+
+    <select id="getHotDish" resultType="com.lanke.foodie.userdto.DishDto">
+     SELECT
+      *
+      from
+      dish
+      where shop_id=#{shopId} and if_hot_dish=1 ORDER BY id DESC LIMIT 10
+    </select>
+
+    <select id="getDishByTypeId" resultType="com.lanke.foodie.userdto.DishDto">
+        select
+        *
+        from
+        dish
+        where
+        shop_id = #{shopId} and type_id = #{typeId}
+    </select>
+    <!--<select id="getDishByType" resultType="com.lanke.foodie.userdto.DishDto">-->
+     <!--SELECT``-->
+      <!--*-->
+      <!--from-->
+      <!--dish-->
+      <!--where shop_id=#{shopId} and type=-->
+    <!--</select>-->
 
 </mapper>

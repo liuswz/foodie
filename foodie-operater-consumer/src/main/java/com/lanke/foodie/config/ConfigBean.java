@@ -6,7 +6,7 @@ import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
-
+import org.springframework.amqp.core.Queue;
 @Configuration
 public class ConfigBean //boot -->spring   applicationContext.xml --- @Configuration配置   ConfigBean = applicationContext.xml
 { 
@@ -16,7 +16,11 @@ public class ConfigBean //boot -->spring   applicationContext.xml --- @Configura
 	{
 		return new RestTemplate();
 	}
-	
+
+	@Bean
+	public Queue helloQueue() {
+		return new Queue("delete_searchdata",true);
+	}
 	/*@Bean
 	public IRule myRule()
 	{

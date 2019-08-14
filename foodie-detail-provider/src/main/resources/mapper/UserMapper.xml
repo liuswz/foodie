@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lanke.foodie.dao.UserDao">
+    <insert id="addUser" useGeneratedKeys="true" keyProperty="id" parameterType="com.lanke.foodie.entity.User" >
+        insert
+        into
+        f_user
+        (
+        phone_num,
+        username,
+        create_time
+        )
+        values
+        (
+        #{phoneNum},
+        #{username},
+        #{createTime}
+        )
+    </insert>
+
+
+    <select id="getUserByPhoneNum" resultType="com.lanke.foodie.entity.User">
+        select
+        id,phone_num,username,address,photo_url,nickname
+        from
+        f_user
+        where
+        phone_num = #{phoneNum}
+    </select>
+    <update id="updateWechat">
+        update
+        f_user
+        set
+        wechat_id = #{wechatId},
+        photo_url = #{photoUrl}
+        where
+        id = #{id}
+    </update>
+    <update id="updateAddress">
+        update
+        f_user
+        set
+        address = #{address}
+        where
+        id = #{id}
+    </update>
+    <update id="updatePhotoUrl">
+        update
+        f_user
+        set
+        photo_url = #{photoUrl}
+        where
+        id = #{id}
+    </update>
+    <update id="updateUsername">
+        update
+        f_user
+        set
+        username = #{username}
+        where
+        id = #{id}
+    </update>
+    <update id="updateNickname">
+        update
+        f_user
+        set
+        nickname = #{nickname}
+        where
+        id = #{id}
+    </update>
+
+</mapper>

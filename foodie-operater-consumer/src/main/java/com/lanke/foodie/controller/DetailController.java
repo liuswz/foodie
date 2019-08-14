@@ -11,6 +11,7 @@ import com.lanke.foodie.entity.ShopType;
 import com.lanke.foodie.enums.Result;
 import com.lanke.foodie.json.BaseJson;
 
+
 import com.lanke.foodie.service.DetailService;
 import com.lanke.foodie.service.DishService;
 import com.lanke.foodie.service.OrderService;
@@ -19,6 +20,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +42,10 @@ public class DetailController {
     private DishService dishService;
     @Autowired
     private OrderService orderService;
-
+    @Autowired
+    private AmqpTemplate rabbitTemplate;
+//    @Autowired
+//    private ShopRepository shopRepository;
 
     @RequestMapping(value = "/shopdetail/getShopById/{id}",method = RequestMethod.GET)
     public Shop getShopById(@PathVariable("id") Integer id){
@@ -76,14 +81,18 @@ public class DetailController {
         if(flag >1){
             baseJson.setCode(Result.SUCCESS.getIndex());
             baseJson.setMessage("成功");
-            baseJson.setResult("更改成功");
-        }else {
+            baseJson.setResult("授权成功");
+        }else if(flag==0){
 
             baseJson.setCode(Result.FAIL.getIndex());
             baseJson.setMessage("失败");
+            baseJson.setResult("审核已通过");
+
+
+        }else{
+            baseJson.setCode(Result.FAIL.getIndex());
+            baseJson.setMessage("失败");
             baseJson.setResult("更改失败");
-
-
         }
         return baseJson;
 
@@ -96,6 +105,10 @@ public class DetailController {
         dishService.delDishTypeByShopId(id);
         BaseJson baseJson = new BaseJson();
         if(flag >0){
+
+          //  shopRepository.deleteById(id.longValue());
+
+            rabbitTemplate.convertAndSend("delete_searchdata", id);
             baseJson.setCode(Result.SUCCESS.getIndex());
             baseJson.setMessage("成功");
             baseJson.setResult("删除成功");
@@ -218,9 +231,9 @@ public class DetailController {
         return baseJson;
 
     }
-    @RequestMapping(value = "/shopdetail/getIfShopByTypeId/{ids}",method = RequestMethod.GET)
-    public Integer getIfShopByTypeId(@PathVariable("ids") String ids ){
-        return detailService.getIfShopByTypeId(ids);
+    @RequestMapping(value = "/shopdetail/getIfShopByTypeIds/{ids}",method = RequestMethod.GET)
+    public Integer getIfShopByTypeIds(@PathVariable("ids") String ids ){
+        return detailService.getIfShopByTypeIds(ids);
     }
 
     @RequestMapping(value = "/shopdetail/getShopNameById/{id}",method = RequestMethod.GET)

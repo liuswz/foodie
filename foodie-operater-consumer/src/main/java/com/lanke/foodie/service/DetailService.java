@@ -44,8 +44,8 @@ public interface DetailService {
     @RequestMapping(value = "/shopdetail/delShopTypeById/{ids}",method = RequestMethod.GET)
     public Integer delShopTypeById(@PathVariable("ids") String ids ) ;
 
-    @RequestMapping(value = "/shopdetail/getIfShopByTypeId/{ids}",method = RequestMethod.GET)
-    public Integer getIfShopByTypeId(@PathVariable("ids") String ids );
+    @RequestMapping(value = "/shopdetail/getIfShopByTypeIds/{ids}",method = RequestMethod.GET)
+    public Integer getIfShopByTypeIds(@PathVariable("ids") String ids );
 
     @RequestMapping(value = "/shopdetail/getShopNameById/{id}",method = RequestMethod.GET)
     public String getShopNameById(@PathVariable("id") Integer id);

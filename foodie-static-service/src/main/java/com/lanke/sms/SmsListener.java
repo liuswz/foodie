@@ -3,8 +3,13 @@ package com.lanke.sms;
 
 
 import com.alibaba.fastjson.JSON;
+import com.lanke.foodie.entity.ShopDetails;
+import com.lanke.foodie.searchEntity.SearchShop;
 import com.lanke.foodie.simpleEntity.SimpleShop;
+import com.lanke.foodie.utils.ESUtils;
+import com.lanke.sms.repository.ShopRepository;
 import com.lanke.sms.service.DishesService;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -22,18 +27,27 @@ import java.util.Map;
 
 @Slf4j
 @Component
-@RabbitListener(queues = "statics")
+
 public class SmsListener {
     @Autowired
     private DishesService dishesService;
 
     private final  String localUrl="D:\\nginx-1.10.3\\nginx-1.10.3\\html\\user\\";
-   // @JmsListener(destination="statics")
-    @RabbitHandler
-    public void sendSms(Integer id) throws IOException {
 
+
+
+   // @JmsListener(destination="statics")
+    @RabbitListener(queues = "statics",containerFactory="rabbitListenerContainerFactory")
+    @RabbitHandler
+    public void sendSms(Map<String,Integer> map) {
 
 //构造模板引擎
+        Integer id = map.get("id");
+        Integer flag = map.get("flag");
+        if(flag==1){
+            dishesService.takeToES(id);
+        }
+
 
         ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
 
@@ -54,27 +68,23 @@ public class SmsListener {
         SimpleShop simpleShop = dishesService.getShopById(id);
         context.setVariable("shop", simpleShop);
         //渲染模板
-        FileWriter write = new FileWriter(localUrl+simpleShop.getUsername()+".html");
+        FileWriter write = null;
+        try {
+            write = new FileWriter(localUrl+simpleShop.getUsername()+".html");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         templateEngine.process("classify3", context, write);
 
 
 
-     /*   String endpoint = "https://oss-cn-beijing.aliyuncs.com";
-// 阿里云主账号AccessKey拥有所有API的访问权限，风险很高。强烈建议您创建并使用RAM账号进行API访问或日常运维，请登录 https://ram.console.aliyun.com 创建RAM账号。
-        String accessKeyId = "LTAICYbxfcsN4mvc";
-        String accessKeySecret = "Q3JmnUHAV0OvREvyhfpsxDuFEUyQSH";
+    }
 
-// 创建OSSClient实例。
-        OSSClient ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
-
-// 上传文件。<yourLocalFile>由本地文件路径加文件名包括后缀组成，例如/users/local/myfile.txt。
-        ossClient.putObject("foodie-static-website", "classify.html", new File("H:\\吃货项目\\foodie\\classify2.html"));
-
-// 关闭OSSClient。
-        ossClient.shutdown();
-*/
-     //   log.info("接收到消息***********************："+username);
+    @RabbitListener(queues = "delete_searchdata",containerFactory="rabbitListenerContainerFactory")
+    @RabbitHandler
+    public void deleteSearchData(Integer shopId){
+        dishesService.deleteSearchData(shopId);
 
     }
 }

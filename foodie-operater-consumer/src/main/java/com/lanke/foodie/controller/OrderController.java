@@ -19,12 +19,12 @@ public class OrderController {
     private OrderService orderService;
 
 //restful
-    @RequestMapping(value = "/consumer/shoporder/findTotalOrders/{page}/{size}",method = RequestMethod.GET)
+    @RequestMapping(value = "/consumer/order/findTotalOrders/{page}/{size}",method = RequestMethod.GET)
     public PageResult findTotalOrders(@PathVariable("page") Integer page, @PathVariable("size") Integer size){
 
         return orderService.findTotalOrders(page,size);
     }
-    @RequestMapping(value = "/consumer/shoporder/findOrderByTimeAndValue",method = RequestMethod.GET)
+    @RequestMapping(value = "/consumer/order/findOrderByTimeAndValue",method = RequestMethod.GET)
     public PageResultAndCost findOrderByTimeAndValue(@RequestParam("page")  Integer page, @RequestParam("size") Integer size, OrderIndexDto orderIndexDto){
 //log.info(page+size+findOrderParamsDto.getFromTime()+findOrderParamsDto.getToTime());
        // log.info(orderIndexDto.getValue()+"---------------------------");
@@ -32,7 +32,7 @@ public class OrderController {
     }
 
 
-    @RequestMapping(value = "/consumer/shoporder/findOrderItem/{orderId}/{shopId}",method = RequestMethod.GET)
+    @RequestMapping(value = "/consumer/order/findOrderItem/{orderId}/{shopId}",method = RequestMethod.GET)
     public List<OrderItemDto> findOrderItem(@PathVariable("orderId") Integer orderId, @PathVariable("shopId") Integer shopId) {
 
         return orderService.findOrderItem(orderId,shopId);
@@ -40,7 +40,7 @@ public class OrderController {
 
 
 
-    @RequestMapping(value = "/consumer/shoporder/updatOrderIfTranster",method = RequestMethod.GET)
+    @RequestMapping(value = "/consumer/order/updatOrderIfTranster",method = RequestMethod.GET)
     public BaseJson  updatOrderIfTranster( FindOrderParamsDto findOrderParamsDto){
 
         int flag = orderService.updatOrderIfTranster(findOrderParamsDto);
@@ -61,7 +61,7 @@ public class OrderController {
         return baseJson;
 
     }
-    @RequestMapping(value = "/consumer/shoporder/findTotalCost")
+    @RequestMapping(value = "/consumer/order/findTotalCost")
     public BaseJson findTotalCost(FindOrderParamsDto findOrderParamsDto){
 
      //  log.info(findOrderParamsDto.getFromTime()+findOrderParamsDto.getToTime()+findOrderParamsDto.getShopId());

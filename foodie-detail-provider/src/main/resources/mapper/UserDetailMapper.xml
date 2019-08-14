@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lanke.foodie.dao.UserDetailDao">
+
+    <select id="findAllShopDetails" resultType="com.lanke.foodie.userdto.ShopDetailDto" parameterType = "com.lanke.foodie.userparams.ShopInSiteAndTypeParam">
+     SELECT
+      shop_id,shop_name,shop_city,shop_notice,shop_mark,shop_sales,shop_type_name,photo_url,money_off_ids,
+      GROUP_CONCAT( money_off.full_num) AS full_num,GROUP_CONCAT( money_off.minus_num ) AS minus_num,
+      (st_distance (POINT (longitude,latitude),POINT (#{longitude},#{latitude}))*111195/1000 )AS distance
+      FROM
+      shop_detail LEFT JOIN money_off ON  FIND_IN_SET (money_off.id,shop_detail.money_off_ids)
+      WHERE shop_city=#{shopCity} and operate_status=1
+      GROUP BY shop_detail.id
+      ORDER BY distance ASC
+    </select>
+
+    <select id="findAllShopDetailsByMark" resultType="com.lanke.foodie.userdto.ShopDetailDto"  parameterType = "com.lanke.foodie.userparams.ShopInSiteAndTypeParam">
+    SELECT
+     shop_id,shop_name,shop_city,shop_notice,shop_mark,shop_sales,shop_type_name,photo_url,money_off_ids,
+      GROUP_CONCAT( money_off.full_num) AS full_num,GROUP_CONCAT( money_off.minus_num ) AS minus_num,
+      (st_distance (POINT (longitude,latitude),POINT (#{longitude},#{latitude}))*111195/1000 )AS distance
+      FROM
+      shop_detail LEFT JOIN money_off ON  FIND_IN_SET (money_off.id,shop_detail.money_off_ids)
+      where  shop_city=#{shopCity} and operate_status=1
+      GROUP BY shop_detail.id
+      ORDER BY shop_mark DESC
+    </select>
+
+    <select id="findAllShopDetailsByTypeId" resultType="com.lanke.foodie.userdto.ShopDetailDto"  parameterType = "com.lanke.foodie.userparams.ShopInSiteAndTypeParam">
+     SELECT
+      shop_id,shop_name,shop_city,shop_notice,shop_mark,shop_sales,shop_type_name,photo_url,money_off_ids,
+      GROUP_CONCAT( money_off.full_num) AS full_num,GROUP_CONCAT( money_off.minus_num ) AS minus_num,
+      (st_distance (POINT (longitude,latitude),POINT (#{longitude},#{latitude}))*111195/1000 )AS distance
+      FROM
+      shop_detail LEFT JOIN money_off ON  FIND_IN_SET (money_off.id,shop_detail.money_off_ids)
+      where shop_city=#{shopCity} and shop_type_name= #{shopTypeName} and operate_status=1
+      GROUP BY shop_detail.id
+      ORDER BY distance ASC
+    </select>
+
+    <select id="findAllShopDetailsByMarkAndTypeId" resultType="com.lanke.foodie.userdto.ShopDetailDto"  parameterType = "com.lanke.foodie.userparams.ShopInSiteAndTypeParam">
+     SELECT
+        shop_id,shop_name,shop_city,shop_notice,shop_mark,shop_sales,shop_type_name,photo_url,money_off_ids,
+      GROUP_CONCAT( money_off.full_num) AS full_num,GROUP_CONCAT( money_off.minus_num ) AS minus_num,
+      (st_distance (POINT (longitude,latitude),POINT (#{longitude},#{latitude}))*111195/1000 )AS distance
+      FROM
+      shop_detail LEFT JOIN money_off ON  FIND_IN_SET (money_off.id,shop_detail.money_off_ids)
+      where shop_city=#{shopCity} and shop_type_name= #{shopTypeName} and operate_status=1
+      GROUP BY shop_detail.id
+      ORDER BY shop_mark DESC
+    </select>
+
+    <select id="getEntireShopDetail" resultType="com.lanke.foodie.userdto.EntireShopDetail">
+     SELECT
+      shop_intro,shop_photo1,shop_photo2,shop_photo3,shop_photo4,shop_photo5
+      from
+      shop_detail
+      where shop_id=#{shopId}
+    </select>
+    <select id="getEasyShop" resultType="com.lanke.foodie.userdto.EasyShopDto">
+     SELECT
+      shop_address,shop_phone,shop_name,shop_city,shop_type_name
+      from
+      shop
+      where id=#{shopId}
+    </select>
+    <select id="getEasyShopDetail" resultType="com.lanke.foodie.simpleEntity.EasyShopDetail">
+     SELECT
+      shop_id,shop_name,shop_notice,shop_mark,shop_sales,photo_url,money_off_ids,shop_photo1,longitude,latitude
+      from
+      shop_detail
+      where shop_id=#{shopId}
+    </select>
+
+    <select id="getShopCollect" resultType="com.lanke.foodie.userdto.ShopDetailDto">
+      SELECT
+      shop_detail.shop_id,shop_name,shop_city,shop_notice,shop_mark,shop_sales,shop_type_name,photo_url,
+      (st_distance (POINT (longitude,latitude),POINT (#{lon},#{lat}))*111195/1000 )AS distance
+      FROM
+      shop_collect,shop_detail
+      where shop_collect.shop_id = shop_detail.shop_id and  user_id =#{userId}
+      ORDER BY shop_collect.id Desc
+    </select>
+    <select id="checkShopCollect" resultType="int">
+      SELECT
+      count(*)
+      from
+      shop_collect
+      where user_id = #{userId} and shop_id = #{shopId}
+    </select>
+    <insert id="addShopCollect">
+        insert
+        into
+        shop_collect
+        (
+        user_id,
+        shop_id,
+        create_time
+        )
+        values
+        (
+        #{userId},
+        #{shopId},
+        #{createTime}
+        )
+    </insert>
+    <delete id="deleteShopCollect" >
+       delete from shop_collect
+      where user_id = #{userId} and shop_id = #{shopId}
+    </delete>
+
+    <select id="getShopPhoneById" resultType="String">
+      SELECT
+      shop_phone
+      from
+      shop
+      where id = #{shopId}
+    </select>
+</mapper>

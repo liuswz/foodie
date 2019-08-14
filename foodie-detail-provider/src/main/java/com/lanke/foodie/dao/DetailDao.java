@@ -26,9 +26,12 @@ public interface DetailDao {
 
     public Integer updateShop(Shop shop);
     public Integer updateShopDetails(ShopDetails shopDetails);
+    public Integer updateShopInDetails(ShopDetails shopDetails);
     public Integer updateDiscountDetails(ShopDetails shopDetails);
     public Integer updateShopStatus(@Param("id") Integer id);
     public Integer updateOperaterStatus(@Param("id") Integer id,@Param("value") Integer value);
+    public Integer updateOperaterStatusInShopDetail(@Param("shopId") Integer shopId,@Param("value") Integer value);
+
     public Integer getOperaterStatus(@Param("id") Integer id);
 
     public List<Shop> findShopByStatus(ShopSearchPropertyDto shopSearchPropertyDto);
@@ -66,9 +69,12 @@ public interface DetailDao {
     public String getShopPassword(@Param("username") String username);
 
     public Integer delShopTypeById(@Param("ids") String ids);
-    public Integer getIfShopByTypeId(@Param("ids") String ids);
+    public Integer getIfShopByTypeIds(@Param("ids") String ids);
     public String getShopNameById(@Param("id") Integer id);
 
     public ShopIdAndCityDto getIdAndCityByUsername(@Param("username") String username);
+
+
+
 
 }

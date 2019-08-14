@@ -14,6 +14,7 @@
         password,
         shop_name,
         shop_type_id,
+        shop_type_name,
         shop_city,
         shop_address,
         shop_email,
@@ -32,6 +33,7 @@
         #{password},
         #{shopName},
         #{shopTypeId},
+        #{shopTypeName},
         #{shopCity},
         #{shopAddress},
         #{shopEmail},
@@ -67,6 +69,10 @@
         shop_photo3,
         shop_photo4,
         shop_photo5,
+        shop_name,
+        shop_city,
+        shop_type_name,
+        photo_url,
         create_time
         )
         values
@@ -85,6 +91,10 @@
         #{shopPhoto3},
         #{shopPhoto4},
         #{shopPhoto5},
+        #{shopName},
+        #{shopCity},
+        #{shopTypeName},
+        #{photoUrl},
         #{createTime}
         )
     </insert>
@@ -128,6 +138,7 @@
         shop_name = #{shopName},
         password = #{password},
         shop_type_id = #{shopTypeId},
+        shop_type_name = #{shopTypeName},
         shop_city = #{shopCity},
         shop_address = #{shopAddress},
         shop_email = #{shopEmail},
@@ -152,6 +163,18 @@
         shop_photo4 = #{shopPhoto4},
         shop_photo5 = #{shopPhoto5},
         create_time = #{createTime}
+        where
+        shop_id = #{shopId}
+    </update>
+    <update id="updateShopInDetails">
+        update
+        shop_detail
+        set
+        shop_name = #{shopName},
+        shop_city = #{shopCity},
+        shop_type_name = #{shopTypeName},
+        photo_url = #{photoUrl},
+
         where
         shop_id = #{shopId}
     </update>
@@ -229,6 +252,9 @@
     <update id="updateOperaterStatus" >
       update shop set operate_status = #{value} where id = #{id}
     </update>
+    <update id="updateOperaterStatusInShopDetail" >
+      update shop_detail set operate_status = #{value} where shop_id = #{shopId}
+    </update>
     <select id="getOperaterStatus" resultType="int" >
         SELECT operate_status FROM shop
         where  id = #{id}
@@ -280,7 +306,7 @@
         id in
         ${ids}
     </delete>
-    <select id="getIfShopByTypeId" resultType="int">
+    <select id="getIfShopByTypeIds" resultType="int">
         select
         count(*)
         from

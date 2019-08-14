@@ -11,8 +11,8 @@ import java.util.List;
 //@AllArgsConstructor
 @Data
 @Accessors(chain=true)
-public class OrderAndItemDto {
+public class OrderAndItemDto<T> {
 
-    private Order order;
+    private T order;
     private List<OrderItem> orderItemList;
 }

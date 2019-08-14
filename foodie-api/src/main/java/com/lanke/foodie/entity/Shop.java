@@ -18,6 +18,7 @@ public class Shop implements Serializable {
     private String password;
     private String shopName;
     private String shopTypeId;
+    private String shopTypeName;
     private String shopCity;
     private String shopAddress;
     private String shopEmail;

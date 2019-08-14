@@ -7,7 +7,9 @@ import com.lanke.foodie.dto.DishesDto;
 import com.lanke.foodie.dto.PageResult;
 import com.lanke.foodie.dto.ProductDto;
 import com.lanke.foodie.entity.*;
+import com.lanke.foodie.enums.IfHotDish;
 import com.lanke.foodie.service.DishesService;
+import com.lanke.foodie.userdto.DishDto;
 import com.lanke.foodie.utils.BaseUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,9 +44,10 @@ public class DishesServiceImpl  implements DishesService {
         dish.setCreateTime(BaseUtils.getTime());
 
         if(dishesDao.checkDishes(dish.getName(),dish.getShopId()).size()==0){
-            return dishesDao.addDish(dish);
-        }else{
+            Integer f = dishesDao.addDish(dish);
+            return dish.getId();
 
+        }else{
             return 0;
         }
 
@@ -82,8 +85,13 @@ public class DishesServiceImpl  implements DishesService {
 
     public Integer delDishTypeById(String ids ) {
         ids = "("+ids.substring(0,ids.length() - 1)+")";
-        dishesDao.delDishByTypeId(ids);
-        return dishesDao.delDishTypeById(ids);
+        if( dishesDao.getIfDishByTypeId(ids)>0){
+            return 0;
+        }else{
+            return dishesDao.delDishTypeById(ids);
+        }
+
+
     }
 
 
@@ -122,16 +130,40 @@ public class DishesServiceImpl  implements DishesService {
 
     }
 
-    public Integer getIfDishByTypeId(DishesDto dishesDto) {
-        String ids = dishesDto.getIds();
-        ids = "("+ids.substring(0,ids.length() - 1)+")";
-        dishesDto.setIds(ids);
-
-        return dishesDao.getIfDishByTypeId(dishesDto);
-    }
+//    public Integer getIfDishByTypeId(DishesDto dishesDto) {
+//        String ids = dishesDto.getIds();
+//        ids = "("+ids.substring(0,ids.length() - 1)+")";
+//        dishesDto.setIds(ids);
+//
+//        return dishesDao.getIfDishByTypeId(dishesDto);
+//    }
 
     public Integer checkDishByShopId(Integer shopId) {
         return dishesDao.checkDishByShopId(shopId);
+    }
+
+    @Override
+    public Integer updateIfHotDish(Integer id, Integer value) {
+        Integer ifHotDish = dishesDao.getIfHotDish(id);
+        if(ifHotDish!=value){
+             dishesDao.updateIfHotDish(id,value);
+            return 0;
+        }else if(value== IfHotDish.IsHotDish.getIndex()){
+            return 1;
+        }else{
+            return 2;
+        }
+
+    }
+
+    @Override
+    public List<DishDto> getHotDish(Integer shopId) {
+        return dishesDao.getHotDish(shopId);
+    }
+
+    @Override
+    public List<DishDto> getDishByTypeId(Integer shopId, Integer typeId) {
+        return dishesDao.getDishByTypeId(shopId,typeId);
     }
 
 

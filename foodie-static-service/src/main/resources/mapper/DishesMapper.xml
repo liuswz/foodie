@@ -44,11 +44,42 @@
     </select>
     <select id="getShopById" resultType="com.lanke.foodie.simpleEntity.SimpleShop">
         select
-        id,username,shop_name,shop_type_id,photo_url
+        id,username,shop_name,shop_type_name,photo_url
         from
         shop
         where
         id = #{id}
     </select>
+    <select id="getShopDetailsById" resultType="com.lanke.foodie.entity.ShopDetails">
+        select
+        *
+        from
+        shop_detail
+        where
+        shop_id = #{shopId}
+    </select>
+    <select id="getDishByShopId" resultType="com.lanke.foodie.entity.Dish">
+        select
+        *
+        from
+        dish
+        where
+        shop_id = #{shopId}
+    </select>
 
+    <select id="findMoneyOffByIds" resultType="com.lanke.foodie.entity.MoneyOff" >
+        select
+        full_num,minus_num
+        from
+        money_off
+        where
+        id in
+        ${ids}
+    </select>
+    <select id="findAllShopDetails" resultType="com.lanke.foodie.searchEntity.SearchShop" >
+          SELECT  shop_id,shop_name,shop_city,shop_notice,shop_mark,shop_sales,shop_type_name,photo_url,latitude,longitude,money_off_ids,
+      GROUP_CONCAT( money_off.full_num) AS full_num,GROUP_CONCAT( money_off.minus_num ) AS minus_num
+         FROM shop_detail LEFT JOIN money_off ON  FIND_IN_SET (money_off.id,shop_detail.money_off_ids)  where operate_status=1
+         GROUP BY shop_detail.id
+    </select>
 </mapper>

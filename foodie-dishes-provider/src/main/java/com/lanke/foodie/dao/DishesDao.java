@@ -3,6 +3,7 @@ package com.lanke.foodie.dao;
 import com.lanke.foodie.dto.DishesDto;
 
 import com.lanke.foodie.entity.*;
+import com.lanke.foodie.userdto.DishDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -35,7 +36,11 @@ public interface DishesDao {
 
     public Integer updateDish(Dish dish);
 
-    public Integer getIfDishByTypeId(DishesDto dishesDto);
+    public Integer getIfDishByTypeId(@Param("ids") String ids);
+    public Integer updateIfHotDish(@Param("id") Integer id,@Param("value") Integer value);
+    public Integer getIfHotDish(@Param("id") Integer id);
 
+    public List<DishDto> getHotDish(@Param("shopId") Integer shopId);
 
+    public List<DishDto> getDishByTypeId(@Param("shopId") Integer shopId,@Param("typeId") Integer typeId);
 }

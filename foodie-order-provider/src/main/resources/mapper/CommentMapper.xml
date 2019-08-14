@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lanke.foodie.dao.CommentDao">
+
+    <insert id="addShopComment"  parameterType="com.lanke.foodie.entity.ShopComment"  >
+        insert
+        into
+        shop_comment
+        (
+        content,
+        photo_url,
+        mark,
+        like_num,
+        shop_id,
+        order_id,
+        user_id,
+        username,
+        user_photo_url,
+        create_time
+        )
+        values
+        (
+        #{content},
+        #{photoUrl},
+        #{mark},
+        #{likeNum},
+        #{shopId},
+        #{orderId},
+        #{userId},
+        #{username},
+        #{userPhotoUrl},
+        #{createTime}
+        )
+    </insert>
+
+
+
+    <insert id="addProductComment"  parameterType="com.lanke.foodie.entity.ProductComment"  >
+        insert
+        into
+        product_comment
+        (
+        content,
+        photo_url,
+        mark,
+        like_num,
+        product_id,
+        order_id,
+        user_id,
+        username,
+        user_photo_url,
+        create_time
+        )
+        values
+        (
+        #{content},
+        #{photoUrl},
+        #{mark},
+        #{likeNum},
+        #{productId},
+        #{orderId},
+        #{userId},
+        #{username},
+        #{userPhotoUrl},
+        #{createTime}
+        )
+    </insert>
+
+    <select id="getAllShopComment" resultType="com.lanke.foodie.entity.ShopComment" >
+        select
+        *
+        from
+        shop_comment
+        where
+        shop_id = #{shopId}
+        order by id desc
+    </select>
+    <select id="getAllProductComment" resultType="com.lanke.foodie.entity.ProductComment" >
+        select
+        *
+        from
+        product_comment
+        where
+        product_id = #{productId}
+        order by id desc
+    </select>
+</mapper>

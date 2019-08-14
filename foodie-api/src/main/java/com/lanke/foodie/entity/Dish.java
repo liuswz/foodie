@@ -23,6 +23,7 @@ public class Dish implements Serializable {
     private Integer dishSales;
 
     private Integer shopId;
+    private Integer ifHotDish;
     private String createTime;
 
 }

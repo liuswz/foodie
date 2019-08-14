@@ -4,6 +4,7 @@ import com.lanke.foodie.dto.DishesDto;
 import com.lanke.foodie.dto.PageResult;
 import com.lanke.foodie.entity.*;
 import com.lanke.foodie.service.DishesService;
+import com.lanke.foodie.userdto.DishDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +36,6 @@ public class DishesController {
     }
     @RequestMapping(value = "/shopdishes/getAllDishType/{shopId}",method = RequestMethod.GET)
     public List<DishType> findAllDishType( @PathVariable("shopId") Integer shopId) {
-
         return dishesService.findAllDishType(shopId);
     }
     @RequestMapping(value = "/shopdishes/checkDishByShopId/{shopId}",method = RequestMethod.GET)
@@ -78,9 +78,21 @@ public class DishesController {
         return dishesService.updateDish(dish);
     }
 
-    @RequestMapping(value = "/shopdishes/getIfDishByTypeId",method = RequestMethod.POST)
-    public Integer getIfDishByTypeId(@RequestBody DishesDto dishesDto ){
-        return dishesService.getIfDishByTypeId(dishesDto);
+//    @RequestMapping(value = "/shopdishes/getIfDishByTypeId",method = RequestMethod.POST)
+//    public Integer getIfDishByTypeId(@RequestBody DishesDto dishesDto ){
+//        return dishesService.getIfDishByTypeId(dishesDto);
+//    }
+    @RequestMapping(value = "/shopdishes/updateIfHotDish/{id}/{value}",method = RequestMethod.GET)
+    public Integer updateIfHotDish(@PathVariable("id") Integer id,@PathVariable("value") Integer value) {
+        return dishesService.updateIfHotDish(id,value);
     }
 
+    @RequestMapping(value = "/shopdishes/getHotDish/{shopId}",method = RequestMethod.GET)
+    public List<DishDto> getHotDish(@PathVariable("shopId") Integer shopId) {
+        return dishesService.getHotDish(shopId);
+    }
+    @RequestMapping(value = "/shopdishes/getDishByTypeId/{shopId}/{typeId}",method = RequestMethod.GET)
+    public List<DishDto> getDishByTypeId(@PathVariable("shopId") Integer shopId,@PathVariable("typeId") Integer typeId) {
+        return dishesService.getDishByTypeId(shopId,typeId);
+    }
 }

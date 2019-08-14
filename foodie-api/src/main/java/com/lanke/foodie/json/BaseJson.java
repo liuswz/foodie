@@ -1,4 +1,11 @@
 package com.lanke.foodie.json;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+
+import java.io.Serializable;
+
 /**
  *
  * @author lvgang
@@ -7,10 +14,11 @@ package com.lanke.foodie.json;
  * @email lvgang1@yonyou.com
  * @descrpition BasJson封装工具类
  */
-public class BaseJson {
-    protected String message="成功"; //返回信息
-    protected int code=0; //默认0为成功
-    protected Object result;
+
+public class BaseJson implements Serializable {
+    private String message="成功"; //返回信息
+    private int code=0; //默认0为成功
+    private Object result;
 
     public BaseJson(){
     }
@@ -38,4 +46,6 @@ public class BaseJson {
     public void setResult(Object result) {
         this.result = result;
     }
+
+
 }

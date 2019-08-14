@@ -6,13 +6,17 @@ import com.lanke.foodie.dto.ShopDetailsAndMoneyOffDto;
 import com.lanke.foodie.dto.ShopIdAndCityDto;
 import com.lanke.foodie.dto.ShopNameAndIdDto;
 
+import com.lanke.foodie.entity.MoneyOff;
 import com.lanke.foodie.entity.Shop;
 import com.lanke.foodie.entity.ShopDetails;
 import com.lanke.foodie.entity.ShopType;
 import com.lanke.foodie.enums.OperateStatus;
 import com.lanke.foodie.json.BaseJson;
+import com.lanke.foodie.repository.ShopRepository;
+import com.lanke.foodie.searchEntity.SearchShop;
 import com.lanke.foodie.service.DetailService;
 import com.lanke.foodie.service.DishService;
+import com.lanke.foodie.utils.ESUtils;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -48,6 +52,8 @@ public class DetailController {
     @Autowired
     private AmqpTemplate rabbitTemplate;
 
+    @Autowired
+    private ShopRepository shopRepository;
 
     @RequestMapping(value = "/shopdetail/login",method = RequestMethod.POST)
     public BaseJson login(HttpSession session,@RequestBody Shop shop){
@@ -149,9 +155,26 @@ public class DetailController {
         BaseJson baseJson = new BaseJson();
         int flag = detailService.updateShop(shop);
         if(flag == 1){
+            if(detailService.getOperaterStatus(shop.getId())==1){
+                ShopDetails shopDetails = detailService.getShopDetailsById(shop.getId());
+
+                List<MoneyOff> moneyOffs = dishService.findMoneyOffByIds(shopDetails.getMoneyOffIds());
+                String fullNum="",minusNum="";
+                for(MoneyOff m:moneyOffs){
+                    fullNum+=m.getFullNum().toString()+',';
+                    minusNum+=m.getMinusNum().toString()+',';
+                }
+                SearchShop searchShop = ESUtils.setSearchShop(shopDetails,fullNum,minusNum);
+                shopRepository.save(searchShop);
+
+                Map<String,Integer> map = new HashMap<String, Integer>();
+                map.put("id",shop.getId());
+                map.put("flag",0);
+                rabbitTemplate.convertAndSend("statics", map);
+            }
 
 
-            rabbitTemplate.convertAndSend("statics", shop.getId());
+
 
             baseJson.setCode(0);
             baseJson.setMessage("成功");
@@ -178,6 +201,26 @@ public class DetailController {
         BaseJson baseJson = new BaseJson();
         int flag = detailService.updateShopDetails(shopDetails);
         if(flag >0){
+            if(detailService.getOperaterStatus(shopDetails.getShopId())==OperateStatus.HadOperate.getIndex()){
+                ShopDetails shopDetails2 = detailService.getShopDetailsById(shopDetails.getShopId());
+                List<MoneyOff> moneyOffs = dishService.findMoneyOffByIds(shopDetails.getMoneyOffIds());
+                String fullNum="",minusNum="";
+                for(MoneyOff m:moneyOffs){
+                    fullNum+=m.getFullNum().toString()+',';
+                    minusNum+=m.getMinusNum().toString()+',';
+                }
+                SearchShop searchShop = ESUtils.setSearchShop(shopDetails2,fullNum,minusNum);
+                shopRepository.save(searchShop);
+
+                Map<String,Integer> map = new HashMap<String, Integer>();
+                map.put("id",shopDetails.getShopId());
+                map.put("flag",0);
+                rabbitTemplate.convertAndSend("statics", map);
+            }
+
+
+
+
             baseJson.setCode(0);
             baseJson.setMessage("成功");
             baseJson.setResult("修改成功");
@@ -202,7 +245,10 @@ public class DetailController {
     @RequestMapping(value = "/shopdetail/createTemplate/{id}",method = RequestMethod.GET)
     public BaseJson create_template(@PathVariable("id") Integer id){
 
-        rabbitTemplate.convertAndSend("statics", id);
+        Map<String,Integer> map = new HashMap<String, Integer>();
+        map.put("id",id);
+        map.put("flag",0);
+        rabbitTemplate.convertAndSend("statics", map);
         BaseJson baseJson = new BaseJson();
 
 
@@ -233,10 +279,14 @@ public class DetailController {
         }else {
             int num = dishService.checkDishByShopId(id);   //
             if(num>0){
-                int flag = detailService.updateOperaterStatus(id,1);
+                int flag = detailService.updateOperaterStatus(id,OperateStatus.HadOperate.getIndex());
                 if(flag >0){
 
-                    rabbitTemplate.convertAndSend("statics", id);
+                    Map<String,Integer> map = new HashMap<String, Integer>();
+                    map.put("id",id);
+                    map.put("flag",1);
+                    rabbitTemplate.convertAndSend("statics", map);
+
 
                     baseJson.setCode(0);
                     baseJson.setMessage("成功");
@@ -270,6 +320,8 @@ public class DetailController {
 
             int flag = detailService.updateOperaterStatus(id,0);
             if(flag >0){
+
+                rabbitTemplate.convertAndSend("delete_searchdata", id);
                 baseJson.setCode(0);
                 baseJson.setMessage("成功");
                 baseJson.setResult("取消运营成功");

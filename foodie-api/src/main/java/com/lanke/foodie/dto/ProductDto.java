@@ -12,8 +12,7 @@ public class ProductDto {
     private Integer id;
     private String productName;
     private String productIntro;
-    private Integer productTypeId;
-    private String typeName;
+    private String productTypeName;
     private Integer productSales;
 
     private String moneyOffIds;

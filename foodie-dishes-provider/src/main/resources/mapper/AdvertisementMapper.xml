@@ -5,51 +5,77 @@
 
 <mapper namespace="com.lanke.foodie.dao.AdvertisementDao">
 
-    <select id="findAllAdvertisement" resultType="com.lanke.foodie.entity.Advertisement">
-        SELECT * FROM advertisement
+    <!--<select id="findAllAdvertisement" resultType="com.lanke.foodie.entity.Advertisement">-->
+        <!--SELECT * FROM advertisement-->
+    <!--</select>-->
+    <select id="findAllAdvertisement" resultType="com.lanke.foodie.dto.AdvertisementsDto">
+    SELECT city,
+    GROUP_CONCAT( photo_url) AS photo_urls
+--     GROUP_CONCAT( type_id) AS type_ids,
+--     GROUP_CONCAT( redirect_id) AS redirect_ids
+    FROM advertisement GROUP BY city
     </select>
-
+    <!--<insert id="addAdvertisement" parameterType="com.lanke.foodie.entity.Advertisement">-->
+        <!--insert-->
+        <!--into-->
+        <!--advertisement-->
+        <!--(-->
+        <!--city,-->
+        <!--photo_url1,-->
+        <!--type1,-->
+        <!--redirect_id1,-->
+        <!--photo_url2,-->
+        <!--type2,-->
+        <!--redirect_id2,-->
+        <!--photo_url3,-->
+        <!--type3,-->
+        <!--redirect_id3,-->
+        <!--photo_url4,-->
+        <!--type4,-->
+        <!--redirect_id4,-->
+        <!--photo_url5,-->
+        <!--type5,-->
+        <!--redirect_id5,-->
+        <!--create_time-->
+        <!--)-->
+        <!--values-->
+        <!--(-->
+        <!--#{city},-->
+        <!--#{photoUrl1},-->
+        <!--#{type1},-->
+        <!--#{redirectId1},-->
+        <!--#{photoUrl2},-->
+        <!--#{type2},-->
+        <!--#{redirectId2},-->
+        <!--#{photoUrl3},-->
+        <!--#{type3},-->
+        <!--#{redirectId3},-->
+        <!--#{photoUrl4},-->
+        <!--#{type4},-->
+        <!--#{redirectId4},-->
+        <!--#{photoUrl5},-->
+        <!--#{type5},-->
+        <!--#{redirectId5},-->
+        <!--#{createTime}-->
+        <!--)-->
+    <!--</insert>-->
     <insert id="addAdvertisement" parameterType="com.lanke.foodie.entity.Advertisement">
         insert
         into
         advertisement
         (
         city,
-        photo_url1,
-        type1,
-        redirect_id1,
-        photo_url2,
-        type2,
-        redirect_id2,
-        photo_url3,
-        type3,
-        redirect_id3,
-        photo_url4,
-        type4,
-        redirect_id4,
-        photo_url5,
-        type5,
-        redirect_id5,
+        photo_url,
+        type_id,
+        redirect_id,
         create_time
         )
         values
         (
         #{city},
-        #{photoUrl1},
-        #{type1},
-        #{redirectId1},
-        #{photoUrl2},
-        #{type2},
-        #{redirectId2},
-        #{photoUrl3},
-        #{type3},
-        #{redirectId3},
-        #{photoUrl4},
-        #{type4},
-        #{redirectId4},
-        #{photoUrl5},
-        #{type5},
-        #{redirectId5},
+        #{photoUrl},
+        #{typeId},
+        #{redirectId},
         #{createTime}
         )
     </insert>
@@ -68,7 +94,13 @@
         where
         id = #{id}
     </delete>
-
+    <delete id="delAdvertisementByCity"  parameterType = "String">
+        delete
+        from
+        advertisement
+        where
+        city = #{city}
+    </delete>
     <select id="getAdvertisementById" resultType="Advertisement">
         select
         *
@@ -77,26 +109,21 @@
         where
         id = #{id}
     </select>
-
+    <select id="getAdvertisementByCity" resultType="Advertisement">
+        select
+        *
+        from
+        advertisement
+        where
+        city = #{city}
+    </select>
     <update id="updateAdvertisement">
         update
         advertisement
         set
-        photo_url1 = #{photoUrl1},
-        type1 = #{type1},
-        redirect_id1 = #{redirectId1},
-        photo_url2 = #{photoUrl2},
-        type2 = #{type2},
-        redirect_id2 = #{redirectId2},
-        photo_url3 = #{photoUrl3},
-        type3 = #{type3},
-        redirect_id3 = #{redirectId3},
-        photo_url4 = #{photoUrl4},
-        type4 = #{type4},
-        redirect_id4 = #{redirectId4},
-        photo_url5 = #{photoUrl5},
-        type5 = #{type5},
-        redirect_id5 = #{redirectId5},
+        photo_url = #{photoUrl},
+        type_id = #{typeId},
+        redirect_id = #{redirectId},
         create_time = #{createTime}
         where
         id = #{id}

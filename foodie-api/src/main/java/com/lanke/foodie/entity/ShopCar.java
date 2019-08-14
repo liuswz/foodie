@@ -4,10 +4,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 @NoArgsConstructor
 @Data
 @Accessors(chain=true)
-public class ShopCar {
+public class ShopCar implements Serializable {
 
     private Integer id;
     private Integer goodId;

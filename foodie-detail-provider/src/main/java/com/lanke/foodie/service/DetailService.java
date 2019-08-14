@@ -49,7 +49,7 @@ public interface DetailService {
     public String getShopPassword( String username);
 
     public Integer delShopTypeById(String ids);
-    public Integer getIfShopByTypeId(String ids);
+    public Integer getIfShopByTypeIds(String ids);
 
     public String getShopNameById(Integer id);
 

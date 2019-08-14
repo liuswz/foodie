@@ -24,7 +24,7 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-//    @RequestMapping(value = "/consumer/shoporder/addOrder",method = RequestMethod.POST)
+//    @RequestMapping(value = "/consumer/order/addOrder",method = RequestMethod.POST)
 //    public BaseJson addOrder( Order order , String orderItemList){//Order order,
 //
 //        List<OrderItem> orderItem = (List<OrderItem>)JSONArray.parseArray(orderItemList, OrderItem.class);
@@ -53,30 +53,30 @@ public class OrderController {
 //    }
 
 
-    @RequestMapping(value = "/consumer/shoporder/findAllOrder/{page}/{size}/{shopId}",method = RequestMethod.GET)
+    @RequestMapping(value = "/consumer/order/findAllOrder/{page}/{size}/{shopId}",method = RequestMethod.GET)
     public PageResult findAllOrder(@PathVariable("page") Integer page, @PathVariable("size") Integer size, @PathVariable("shopId") Integer shopId) {
 
         return orderService.findAllOrder(page,size,shopId);
     }
-    @RequestMapping(value = "/consumer/shoporder/findOrderByTime",method = RequestMethod.POST)
+    @RequestMapping(value = "/consumer/order/findOrderByTime",method = RequestMethod.POST)
     public PageResult findOrderByTime(  @RequestParam("page") Integer page,
                                         @RequestParam("size") Integer size,
                                         FindOrderParamsDto findOrderParamsDto) {
 //log.info(page+size+findOrderParamsDto.getFromTime()+findOrderParamsDto.getToTime());
         return orderService.findOrderByTime(page,size,findOrderParamsDto);
     }
-    @RequestMapping(value = "/consumer/shoporder/findOrderItem/{orderId}/{shopId}",method = RequestMethod.GET)
+    @RequestMapping(value = "/consumer/order/findOrderItem/{orderId}/{shopId}",method = RequestMethod.GET)
     public List<OrderItemDto> findOrderItem(@PathVariable("orderId") Integer orderId, @PathVariable("shopId") Integer shopId) {
 
         return orderService.findOrderItem(orderId,shopId);
     }
 
 
-    @RequestMapping(value = "/consumer/shoporder/findNotFinishOrder/{page}/{size}/{shopId}",method = RequestMethod.GET)
+    @RequestMapping(value = "/consumer/order/findNotFinishOrder/{page}/{size}/{shopId}",method = RequestMethod.GET)
     public PageResult findNotFinishOrder(@PathVariable("page") Integer page, @PathVariable("size") Integer size, @PathVariable("shopId") Integer shopId){
         return orderService.findNotFinishOrder(page,size,shopId);
     }
-    @RequestMapping(value = "/consumer/shoporder/updateOrderStatus/{orderStatus}/{id}",method = RequestMethod.GET)
+    @RequestMapping(value = "/consumer/order/updateOrderStatus/{orderStatus}/{id}",method = RequestMethod.GET)
     public BaseJson  updateOrderStatus( @PathVariable("orderStatus") Integer orderStatus,@PathVariable("id") Integer id){
 
         int flag = orderService.updateOrderStatus(orderStatus,id);
@@ -97,7 +97,7 @@ public class OrderController {
         return baseJson;
 
     }
-    @RequestMapping(value = "/consumer/shoporder/updateDishStatus/{dishStatus}/{id}",method = RequestMethod.GET)
+    @RequestMapping(value = "/consumer/order/updateDishStatus/{dishStatus}/{id}",method = RequestMethod.GET)
     public BaseJson  updateDishStatus( @PathVariable("dishStatus") Integer dishStatus,@PathVariable("id") Integer id){
 
         int flag = orderService.updateDishStatus(dishStatus,id);

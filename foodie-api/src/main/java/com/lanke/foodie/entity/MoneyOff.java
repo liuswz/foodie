@@ -4,14 +4,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 @NoArgsConstructor
 @Data
 @Accessors(chain=true)
-public class MoneyOff {
+public class MoneyOff implements Serializable {
 
     private Integer id;
-    private Double fullNum;
-    private Double minusNum;
+    private Integer fullNum;
+    private Integer minusNum;
 
     private String createTime;
 }
